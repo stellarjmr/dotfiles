@@ -33,7 +33,6 @@ vim.api.nvim_create_autocmd("BufDelete", {
     end)
   end,
 })
-
 vim.api.nvim_create_autocmd("User", {
   pattern = "BufDeletePost",
   group = vim.api.nvim_create_augroup("dashboard_delete_buffers", {}),
