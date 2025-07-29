@@ -5,7 +5,18 @@ return {
     bigfile = { enable = true },
     statuscolumn = { enable = true },
     quickfile = { enable = true },
-    image = {},
+    image = {
+      doc = {
+        enabled = true,
+        inline = true,
+        float = false,
+        max_width = 40,
+        max_height = 20,
+      },
+      convert = {
+        notify = false,
+      },
+    },
     picker = {
       sources = {
         explorer = {

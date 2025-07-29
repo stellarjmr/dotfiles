@@ -4,6 +4,7 @@ return {
   lazy = true,
   config = function()
     local iron = require("iron.core")
+    local view = require("iron.view")
 
     iron.setup({
       config = {
@@ -18,7 +19,7 @@ return {
         preferred = {
           python = "ipython",
         },
-        repl_open_cmd = "vertical botright 25 split",
+        repl_open_cmd = view.split.vertical.rightbelow("%20"),
       },
       keymaps = {
         toggle_repl = "<space>rr",
@@ -41,7 +42,7 @@ return {
         clear = "<leader>cl",
       },
       highlight = {
-        italic = true,
+        italic = false,
       },
       ignore_blank_lines = true,
     })
