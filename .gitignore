@@ -1,0 +1,14 @@
+.DS_Store
+.pmgrc.yaml
+alfred/
+espanso/
+github-copilot/
+lazyvim/
+lazygit/
+rclone/
+scripts/
+hammerspoon/
+swiftbar/
+mpv/
+iterm2/
+configstore/

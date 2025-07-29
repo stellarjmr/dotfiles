@@ -1,0 +1,29 @@
+{
+  "Plot": {
+    "prefix": "plot",
+    "body": [
+      "import numpy as np",
+      "import pandas as pd",
+      "import matplotlib as mpl",
+      "mpl.rcParams['font.family'] = 'Arial'",
+      "from cmcrameri import cm",
+      "cmap = cm.batlow",
+      "import matplotlib.pyplot as plt",
+      "import matplotlib.gridspec as gridspec",
+      "fig = plt.figure(tight_layout=True,figsize=(4,4))",
+      "gs = gridspec.GridSpec(2, 2)",
+      "ax = fig.add_subplot(gs[0:1,0:1])"
+    ],
+    "description": "Plotting template with common imports and settings"
+  },
+  "Usepackage": {
+    "prefix": "sys",
+    "body": [
+      "import os",
+      "import sys",
+      "sys.dont_write_bytecode = True",
+      "sys.path.append('/Users/zhimin/Documents/GitHub')"
+    ],
+    "description": "Common imports for Python scripts"
+  }
+}

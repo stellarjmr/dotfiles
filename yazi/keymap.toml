@@ -1,0 +1,46 @@
+[[mgr.prepend_keymap]]
+on   = "<Enter>"
+run  = "plugin smart-enter"
+desc = "Enter the child directory, or open the file"
+
+[[mgr.prepend_keymap]]
+on   = "p"
+run  = "plugin smart-paste"
+desc = "Paste into the hovered directory or CWD"
+
+[[mgr.prepend_keymap]]
+on  = "K"
+run = "plugin parent-arrow -1"
+
+[[mgr.prepend_keymap]]
+on  = "J"
+run = "plugin parent-arrow 1"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "i" ]
+run  = "plugin lazygit"
+desc = "run lazygit"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "t" ]
+run  = "cd ~/Desktop"
+desc = "go ~/Desktop"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "<S-d>" ]
+run  = "cd ~/Documents"
+desc = "go ~/Documents"
+
+[[input.prepend_keymap]]
+on   = "<Esc>"
+run  = "close"
+desc = "Cancel input"
+
+[[mgr.prepend_keymap]]
+on = [ ":" ]
+run = "plugin custom-shell zsh"
+desc = "Run zsh"
+
+[[mgr.prepend_keymap]]
+on = "<C-p>"
+run = 'shell -- qlmanage -p "$@"'
