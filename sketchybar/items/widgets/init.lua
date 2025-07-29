@@ -1,0 +1,6 @@
+require("items.widgets.volume")
+require("items.widgets.wechat")
+require("items.widgets.mail")
+require("items.widgets.wifi")
+require("items.widgets.cpu")
+require("items.widgets.mem")
