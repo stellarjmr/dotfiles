@@ -1,0 +1,107 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
+# BEGIN_KITTY_THEME
+# Catppuccin-Latte
+include current-theme.conf
+# END_KITTY_THEME
+
+# font
+font_size 14.0
+font_family      SF Mono Medium
+bold_font        SF Mono Bold
+italic_font      SF Mono Medium Italic
+bold_italic_font SF Mono Bold Italic
+
+# window
+hide_window_decorations titlebar-only
+window_padding_width 0 5
+remember_window_size yes
+initial_window_width  130
+initial_window_height 35
+
+# tab
+tab_bar_edge top
+tab_bar_style powerline
+tab_powerline_style round
+
+# key mappings
+macos_option_as_alt yes
+map cmd+c copy_to_clipboard
+map cmd+v paste_from_clipboard
+map cmd+1 goto_tab 1
+map cmd+2 goto_tab 2
+map cmd+3 goto_tab 3
+map cmd+4 goto_tab 4
+map cmd+5 goto_tab 5
+map cmd+6 goto_tab 6
+map cmd+7 goto_tab 7
+map cmd+8 goto_tab 8
+map cmd+9 goto_tab 9
+map cmd+equal change_font_size all +2.0
+map cmd+minus change_font_size all -2.0
+map cmd+0 change_font_size all 0
+
+# unmap
+map cmd+f no_op
+map cmd+enter no_op
+map cmd+r no_op
+
+# vim key mappings
+map cmd+s send_text all \e:w\r
+
+#: Text cursor customization {{{
+
+# cursor #cccccc
+
+# cursor_text_color #111111
+# cursor_shape block
+# cursor_shape_unfocused hollow
+# cursor_beam_thickness 1.5
+# cursor_underline_thickness 2.0
+# cursor_blink_interval -1
+# cursor_stop_blinking_after 15.0
+# cursor_trail 0
+# cursor_trail_decay 0.1 0.4
+# cursor_trail_start_threshold 2
+#: }}}
+
+
+# enabled_layouts *
+
+# window_border_width 0.5pt
+
+# window_logo_path none
+
+#: Path to a logo image. Must be in PNG/JPEG/WEBP/GIF/TIFF/BMP format.
+#: Relative paths are interpreted relative to the kitty config
+#: directory. The logo is displayed in a corner of every kitty window.
+#: The position is controlled by window_logo_position. Individual
+#: windows can be configured to have different logos either using the
+#: launch action or the remote control
+#: <https://sw.kovidgoyal.net/kitty/remote-control/> facility.
+
+# window_logo_position bottom-right
+
+# window_logo_alpha 0.5
+# window_logo_scale 0
+# remote_control_password
+
+#: Allow other programs to control kitty using passwords. This option
+#: can be specified multiple times to add multiple passwords. If no
+#: passwords are present kitty will ask the user for permission if a
+#: program tries to use remote control with a password. A password can
+#: also *optionally* be associated with a set of allowed remote
+#: control actions. For example::
+
+#:     remote_control_password "my passphrase" get-colors set-colors focus-window focus-tab
+
+# kitty_mod ctrl+shift
+
+#: Window management {{{
+
+#: New window
+
+# map cmd+enter       new_window
+
+# map cmd+n       new_os_window
+# map shift+cmd+d close_window

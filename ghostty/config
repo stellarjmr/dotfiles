@@ -1,0 +1,72 @@
+command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
+
+# theme
+# theme = dark:catppuccin-mocha,light:catppuccin-latte
+theme = catppuccin-mocha
+window-theme = ghostty
+
+# font
+font-size = 14.0
+font-family = SF Mono
+font-style = Semibold
+font-family-bold = SF Mono Bold
+font-family-italic= SF Mono Italic
+font-family-bold-italic = SF Mono Bold Italic
+
+font-style-bold = Semibold
+font-style-italic = Semibold Italic
+font-style-bold-italic = Bold Italic
+
+# cursor
+# cursor-style = bar
+# cursor-style-blink = true
+
+# window
+window-padding-x = 2,2
+window-padding-y = 0,0
+window-vsync = true
+window-decoration = true
+macos-titlebar-style = hidden
+window-height = 38
+window-width = 140
+focus-follows-mouse = true
+macos-icon = official
+background-opacity = 0.9
+background-blur = false
+unfocused-split-opacity = 0.8
+split-divider-color = #728B95
+
+# keybindings
+macos-option-as-alt = true
+keybind = clear
+keybind = alt+h=goto_split:left
+keybind = alt+j=goto_split:bottom
+keybind = alt+k=goto_split:top
+keybind = alt+l=goto_split:right
+
+keybind = super+a=select_all
+keybind = super+d=new_split:right
+keybind = super+shift+d=new_split:down
+keybind = super+minus=resize_split:right,10
+keybind = super+equal=resize_split:left,10
+keybind = super+shift+minus=resize_split:down,10
+keybind = super+shift+equal=resize_split:up,10
+keybind = super+enter=toggle_fullscreen
+
+keybind = super+n=new_window
+keybind = super+t=new_tab
+keybind = super+w=close_surface
+keybind = super+q=quit
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
+keybind = super+k=clear_screen
+keybind = super+shift+comma=reload_config
+
+keybind = super+physical:one=goto_tab:1
+keybind = super+physical:two=goto_tab:2
+keybind = super+physical:three=goto_tab:3
+keybind = super+physical:four=goto_tab:4
+keybind = super+physical:five=goto_tab:5
+keybind = super+physical:six=goto_tab:6
+keybind = super+physical:seven=goto_tab:7
+keybind = super+physical:eight=goto_tab:8
