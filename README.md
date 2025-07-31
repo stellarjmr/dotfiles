@@ -6,5 +6,5 @@
 ## sketchybar
 ![Image](./sample_img/sketchybar.png)
 
-## tmux status bar
+## tmux configuration without any plugins
 ![Image](./sample_img/tmux.png)
