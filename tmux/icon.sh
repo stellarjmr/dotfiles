@@ -22,6 +22,9 @@ case "$window_name" in
 "lazygit")
   icon="󰊢 "
   ;;
+"ruby")
+  icon=" "
+  ;;
 esac
 multipanes=" "
 
