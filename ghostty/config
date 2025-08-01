@@ -70,3 +70,7 @@ keybind = super+physical:five=goto_tab:5
 keybind = super+physical:six=goto_tab:6
 keybind = super+physical:seven=goto_tab:7
 keybind = super+physical:eight=goto_tab:8
+
+# quick terminal
+quick-terminal-position = center
+keybind = global:alt+enter=toggle_quick_terminal
