@@ -16,6 +16,13 @@ return {
       convert = {
         notify = false,
       },
+      math = {
+        enabled = true,
+        latex = {
+          font_size = "Large",
+          packages = { "amsmath", "amssymb", "amsfonts", "amscd", "mathtools" },
+        },
+      },
     },
     picker = {
       sources = {
