@@ -23,7 +23,7 @@ case "$window_name" in
   icon="󰊢 "
   ;;
 "ruby")
-  icon=" "
+  icon=" "
   ;;
 esac
 multipanes=" "
