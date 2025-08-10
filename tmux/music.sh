@@ -1,7 +1,6 @@
 #!/usr/bin/env osascript
 # Returns the current playing song from either Spotify or Apple Music for OSX
 
--- Function to format track info
 on formatTrackInfo(track_name, artist_name, app_icon)
 	if artist_name > 0
 		# If the track has an artist set and is therefore most likely a song rather than an advert
@@ -17,7 +16,6 @@ on formatTrackInfo(track_name, artist_name, app_icon)
 	end if
 end formatTrackInfo
 
--- Check Spotify first
 try
 	tell application "Spotify"
 		if it is running then
@@ -30,7 +28,6 @@ try
 	end tell
 end try
 
--- Check Apple Music if Spotify is not playing
 try
 	tell application "Music"
 		if it is running then
@@ -43,5 +40,4 @@ try
 	end tell
 end try
 
--- If neither is playing, return empty string
 return ""
