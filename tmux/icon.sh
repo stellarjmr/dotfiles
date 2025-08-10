@@ -3,6 +3,9 @@ window_name="$1"
 window_index="$2"
 window_panes="$3"
 
+LEFT_ROUND=""
+RIGHT_ROUND=""
+
 case "$window_name" in
 "zsh" | "bash" | "fish" | "sh")
   icon=" "
@@ -27,9 +30,8 @@ case "$window_name" in
   ;;
 esac
 multipanes=" "
-
 if [[ "$window_panes" -gt 1 ]]; then
-  echo "$window_index $multipanes"
+  echo "$LEFT_ROUND#[bold]$window_index $multipanes$RIGHT_ROUND"
 else
-  echo "$window_index $icon"
+  echo "$LEFT_ROUND#[bold]$window_index $icon$RIGHT_ROUND"
 fi
