@@ -29,6 +29,7 @@ window-decoration = true
 macos-titlebar-style = hidden
 window-height = 38
 window-width = 140
+# window-inherit-working-directory = true
 focus-follows-mouse = true
 macos-icon = official
 background-opacity = 1
@@ -73,4 +74,4 @@ keybind = super+physical:eight=goto_tab:8
 
 # quick terminal
 quick-terminal-position = center
-keybind = global:alt+enter=toggle_quick_terminal
+keybind = global:alt+q=toggle_quick_terminal
