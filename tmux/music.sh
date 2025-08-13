@@ -16,6 +16,7 @@ on formatTrackInfo(track_name, artist_name, app_icon)
 	end if
 end formatTrackInfo
 
+-- Require Spotify installed, unless comment this
 try
 	tell application "Spotify"
 		if it is running then
@@ -28,6 +29,7 @@ try
 	end tell
 end try
 
+-- Apple Music
 try
 	tell application "Music"
 		if it is running then
@@ -40,4 +42,4 @@ try
 	end tell
 end try
 
-return ""
+return " "
