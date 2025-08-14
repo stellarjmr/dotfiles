@@ -44,7 +44,7 @@ local icons = {
 			mail = "􀍖",
 			mail_unread = "􀍜",
 		},
-		wechat = "􁒙",
+		wechat = " ",
 		memory = "􀧖",
 	},
 
