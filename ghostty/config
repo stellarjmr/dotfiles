@@ -46,12 +46,14 @@ keybind = clear
 # keybind = alt+l=goto_split:right
 
 keybind = super+a=select_all
-keybind = super+d=new_split:right
-keybind = super+shift+d=new_split:down
-keybind = super+minus=resize_split:right,10
-keybind = super+equal=resize_split:left,10
-keybind = super+shift+minus=resize_split:down,10
-keybind = super+shift+equal=resize_split:up,10
+# keybind = super+d=new_split:right
+# keybind = super+shift+d=new_split:down
+# keybind = super+minus=resize_split:right,10
+# keybind = super+equal=resize_split:left,10
+keybind = super+minus=decrease_font_size:1
+keybind = super+equal=increase_font_size:1
+# keybind = super+shift+minus=resize_split:down,10
+# keybind = super+shift+equal=resize_split:up,10
 keybind = super+enter=toggle_fullscreen
 
 keybind = super+n=new_window
