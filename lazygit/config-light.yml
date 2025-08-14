@@ -1,0 +1,19 @@
+gui:
+  theme:
+    defaultFgColor:
+      - black
+    activeBorderColor:
+      - magenta
+      - bold
+    inactiveBorderColor:
+      - default
+    selectedLineBgColor:
+      - reverse 
+    selectedRangeBgColor:
+      - reverse
+    cherryPickedCommitBgColor:
+      - white
+    cherryPickedCommitFgColor:
+      - magenta
+authorColors:
+  '*': '#b4befe'
