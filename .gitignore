@@ -3,10 +3,10 @@
 espanso/
 github-copilot/
 lazyvim/
-lazygit/
+# lazygit/
 rclone/
 scripts/
-hammerspoon/
+# hammerspoon/
 swiftbar/
 mpv/
 iterm2/
