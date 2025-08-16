@@ -1,7 +1,8 @@
 --- keybindings
 local cmd_ctrl = { "cmd", "ctrl" }
+local cmd_shift = { "cmd", "shift" }
 local ctrl_alt = { "ctrl", "alt" }
-local ctrl_alt_shift = { "ctrl", "alt", "shift" }
+local ctrl_shift = { "ctrl", "shift" }
 local alt_shift = { "alt", "shift" }
 
 --- reload Hammerspoon config
@@ -186,13 +187,50 @@ hs.hotkey.bind({ "ctrl" }, "F", function()
 end)
 
 --- Toggle safari translation
-hs.hotkey.bind({ "alt" }, "A", function()
-	local safariApp = hs.application.find("Safari")
-	local translateMenuItem = safariApp:findMenuItem({ "View", "Translation", "Translate to Chinese, Simplified" })
-	if translateMenuItem and translateMenuItem.enabled then
-		safariApp:selectMenuItem({ "View", "Translation", "Translate to Chinese, Simplified" })
+-- hs.hotkey.bind({ "alt" }, "A", function()
+-- 	local safariApp = hs.application.find("Safari")
+-- 	local translateMenuItem = safariApp:findMenuItem({ "View", "Translation", "Translate to Chinese, Simplified" })
+-- 	if translateMenuItem and translateMenuItem.enabled then
+-- 		safariApp:selectMenuItem({ "View", "Translation", "Translate to Chinese, Simplified" })
+-- 	else
+-- 		safariApp:selectMenuItem({ "View", "Translation", "View Original" })
+-- 	end
+-- end)
+
+local finder_selectedItems_script = [[
+        tell application "Finder"
+            set selectedItems to selection
+            if (count of selectedItems) > 0 then
+                set selectedFile to POSIX path of (item 1 of selectedItems as alias)
+                return selectedFile
+            else
+                return ""
+            end if
+        end tell
+    ]]
+
+hs.hotkey.bind(cmd_shift, "o", function()
+	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
+	if ok and result and result ~= "" then
+		local command = string.format('open -a "Ovito" "%s"', result)
+		hs.task.new("/bin/sh", nil, { "-c", command }):start()
 	else
-		safariApp:selectMenuItem({ "View", "Translation", "View Original" })
+	end
+end)
+hs.hotkey.bind(cmd_shift, "v", function()
+	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
+	if ok and result and result ~= "" then
+		local command = string.format('open -a "VESTA" "%s"', result)
+		hs.task.new("/bin/sh", nil, { "-c", command }):start()
+	else
+	end
+end)
+hs.hotkey.bind(cmd_shift, "c", function()
+	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
+	if ok and result and result ~= "" then
+		local command = string.format('open -a "Visual Studio Code" "%s"', result)
+		hs.task.new("/bin/sh", nil, { "-c", command }):start()
+	else
 	end
 end)
 
