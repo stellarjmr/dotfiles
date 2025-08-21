@@ -3,8 +3,8 @@ return {
     "catppuccin/nvim",
     config = function()
       require("catppuccin").setup({
-        flavour = "auto", -- latte, frappe, macchiato, mocha
-        background = { -- :h background
+        flavour = "auto",
+        background = {
           light = "latte",
           dark = "mocha",
         },
@@ -15,23 +15,23 @@ return {
     end,
   },
   {
+    "uloco/bluloco.nvim",
+    lazy = false,
+    priority = 1000,
+    enabled = false,
+    dependencies = { "rktjmp/lush.nvim" },
+    config = function()
+      require("bluloco").setup({
+        style = "auto",
+        transparent = true,
+        italics = false,
+      })
+    end,
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "catppuccin",
     },
   },
-  -- {
-  --   "uloco/bluloco.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   dependencies = { "rktjmp/lush.nvim" },
-  --   config = function()
-  --     require("bluloco").setup({
-  --       style = "auto",
-  --       transparent = true,
-  --       italics = false,
-  --     })
-  --     vim.cmd([[colorscheme bluloco]])
-  --   end,
-  -- },
 }
