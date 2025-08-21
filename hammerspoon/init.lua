@@ -151,15 +151,22 @@ windowFilter:subscribe({
 }, windowMoved)
 
 --- Open new finder window
-hs.hotkey.bind({ "ctrl" }, "return", function()
-	local finderApp = hs.application.find("Finder")
-	finderApp:selectMenuItem({ "File", "New Finder Window" })
-	finderApp:setFrontmost()
-end)
+-- hs.hotkey.bind({ "ctrl" }, "return", function()
+-- 	local finderApp = hs.application.find("Finder")
+-- 	finderApp:selectMenuItem({ "File", "New Finder Window" })
+-- 	finderApp:setFrontmost()
+-- end)
 
 --- Open new safari window
+-- hs.hotkey.bind(alt_shift, "return", function()
+-- 	local safariApp = hs.application.find("Safari")
+-- 	safariApp:selectMenuItem({ "File", "New Window" })
+-- 	safariApp:setFrontmost()
+-- end)
+
+--- Open new zen window
 hs.hotkey.bind(alt_shift, "return", function()
-	local safariApp = hs.application.find("Safari")
+	local safariApp = hs.application.find("Zen")
 	safariApp:selectMenuItem({ "File", "New Window" })
 	safariApp:setFrontmost()
 end)
@@ -185,17 +192,6 @@ hs.hotkey.bind({ "ctrl" }, "F", function()
 		finder:hide()
 	end
 end)
-
---- Toggle safari translation
--- hs.hotkey.bind({ "alt" }, "A", function()
--- 	local safariApp = hs.application.find("Safari")
--- 	local translateMenuItem = safariApp:findMenuItem({ "View", "Translation", "Translate to Chinese, Simplified" })
--- 	if translateMenuItem and translateMenuItem.enabled then
--- 		safariApp:selectMenuItem({ "View", "Translation", "Translate to Chinese, Simplified" })
--- 	else
--- 		safariApp:selectMenuItem({ "View", "Translation", "View Original" })
--- 	end
--- end)
 
 local finder_selectedItems_script = [[
         tell application "Finder"
