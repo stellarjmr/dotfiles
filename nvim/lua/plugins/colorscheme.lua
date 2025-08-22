@@ -1,5 +1,15 @@
 return {
   {
+    "folke/tokyonight.nvim",
+    config = function()
+      require("tokyonight").setup({
+        style = "night",
+        transparent = true,
+        terminal_colors = true,
+      })
+    end,
+  },
+  {
     "catppuccin/nvim",
     config = function()
       require("catppuccin").setup({
@@ -11,6 +21,17 @@ return {
         transparent_background = true,
         term_colors = true,
         no_italic = true,
+        specs = {
+          {
+            "akinsho/bufferline.nvim",
+            init = function()
+              local bufline = require("catppuccin.groups.integrations.bufferline")
+              function bufline.get()
+                return bufline.get_theme()
+              end
+            end,
+          },
+        },
       })
     end,
   },
