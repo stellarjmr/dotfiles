@@ -230,6 +230,46 @@ hs.hotkey.bind(cmd_shift, "c", function()
 	end
 end)
 
+--- Auto switch input method
+-- show current input method
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "I", function()
+-- 	local currentInputMethod = hs.keycodes.currentSourceID()
+-- 	hs.alert.show("Current Input Method: " .. currentInputMethod)
+-- end)
+
+local inputEnglish = "com.apple.keylayout.ABC"
+local inputPinyin = "com.apple.inputmethod.SCIM.ITABC"
+
+-- Spotlight
+hs.hotkey.bind({ "cmd" }, "space", function()
+	hs.timer.doAfter(0.1, function()
+		hs.keycodes.currentSourceID(inputEnglish)
+	end)
+end)
+
+-- Other apps
+local englishAppFilter = hs.window.filter.new({
+	"Terminal",
+	"Mail",
+	"Keynote",
+	"Ghostty",
+	"Visual Studio Code",
+	"Microsoft Word",
+	"Microsoft Excel",
+	"Microsoft PowerPoint",
+})
+
+local pinyinAppFilter = hs.window.filter.new({
+	"WeChat",
+})
+
+englishAppFilter:subscribe(hs.window.filter.windowFocused, function()
+	hs.keycodes.currentSourceID(inputEnglish)
+end)
+pinyinAppFilter:subscribe(hs.window.filter.windowFocused, function()
+	hs.keycodes.currentSourceID(inputPinyin)
+end)
+
 --- plugins
 hs.loadSpoon("Vifari")
 spoon.Vifari:start({
