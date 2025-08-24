@@ -42,3 +42,8 @@ hash = "e6c5beeb1da3199355734273ee452a7f"
 use = "yazi-rs/flavors:catppuccin-mocha"
 rev = "d04a298"
 hash = "288a0dedd5d13b28605cf82c05326dcd"
+
+[[flavor.deps]]
+use = "Chromium-3-Oxide/everforest-medium"
+rev = "0158f0f"
+hash = "dbbbfe681e156c28303efb1f44b6cbc4"
