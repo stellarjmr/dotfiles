@@ -230,6 +230,17 @@ hs.hotkey.bind(cmd_shift, "c", function()
 	end
 end)
 
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "S", function()
+	hs.timer.doAfter(0.5, function()
+		local app = hs.application.frontmostApplication()
+		if app then
+			hs.alert.show("App ID: " .. app:name())
+		else
+			hs.alert.show("No frontmost application detected")
+		end
+	end)
+end)
+
 --- Auto switch input method
 -- show current input method
 -- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "I", function()
@@ -250,6 +261,7 @@ end)
 -- Other apps
 local englishAppFilter = hs.window.filter.new({
 	"Terminal",
+	"Shortcuts",
 	"Mail",
 	"Keynote",
 	"Ghostty",
