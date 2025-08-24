@@ -1,15 +1,5 @@
 return {
   {
-    "folke/tokyonight.nvim",
-    config = function()
-      require("tokyonight").setup({
-        style = "night",
-        transparent = true,
-        terminal_colors = true,
-      })
-    end,
-  },
-  {
     "catppuccin/nvim",
     config = function()
       require("catppuccin").setup({
@@ -22,16 +12,26 @@ return {
         term_colors = true,
         no_italic = true,
         specs = {
-          {
-            "akinsho/bufferline.nvim",
-            init = function()
-              local bufline = require("catppuccin.groups.integrations.bufferline")
-              function bufline.get()
-                return bufline.get_theme()
-              end
-            end,
-          },
+          "akinsho/bufferline.nvim",
+          init = function()
+            local bufline = require("catppuccin.groups.integrations.bufferline")
+            function bufline.get()
+              return bufline.get_theme()
+            end
+          end,
         },
+      })
+    end,
+  },
+  {
+    "neanias/everforest-nvim",
+    version = false,
+    config = function()
+      require("everforest").setup({
+        background = "hard",
+        transparent_background_level = 2,
+        italics = false,
+        disable_italic_comments = false,
       })
     end,
   },
@@ -52,7 +52,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "everforest",
     },
   },
 }
