@@ -2,7 +2,8 @@ command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
 
 # theme
 # theme = dark:catppuccin-mocha,light:catppuccin-latte
-theme = catppuccin-mocha
+# theme = dark:Everforest Dark - Hard, light:Everforest Light - Med
+theme = Everforest Dark - Hard
 window-theme = ghostty
 
 # font
