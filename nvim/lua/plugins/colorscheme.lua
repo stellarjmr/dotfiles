@@ -28,7 +28,7 @@ return {
     version = false,
     config = function()
       require("everforest").setup({
-        background = "hard",
+        background = "hard", -- "hard", "medium" or "soft"
         transparent_background_level = 2,
         italics = false,
         disable_italic_comments = false,
