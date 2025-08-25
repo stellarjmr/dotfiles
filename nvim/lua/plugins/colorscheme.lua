@@ -1,27 +1,9 @@
 return {
   {
-    "catppuccin/nvim",
-    config = function()
-      require("catppuccin").setup({
-        flavour = "auto",
-        background = {
-          light = "latte",
-          dark = "mocha",
-        },
-        transparent_background = true,
-        term_colors = true,
-        no_italic = true,
-        specs = {
-          "akinsho/bufferline.nvim",
-          init = function()
-            local bufline = require("catppuccin.groups.integrations.bufferline")
-            function bufline.get()
-              return bufline.get_theme()
-            end
-          end,
-        },
-      })
-    end,
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "everforest",
+    },
   },
   {
     "neanias/everforest-nvim",
@@ -50,9 +32,44 @@ return {
     end,
   },
   {
-    "LazyVim/LazyVim",
+    "rebelot/kanagawa.nvim",
+    enabled = false,
     opts = {
-      colorscheme = "everforest",
+      colors = {
+        theme = {
+          all = {
+            ui = {
+              bg_gutter = "none",
+            },
+          },
+        },
+      },
+      transparent = false,
+      theme = "wave",
     },
+  },
+  {
+    "catppuccin/nvim",
+    config = function()
+      require("catppuccin").setup({
+        flavour = "auto",
+        background = {
+          light = "latte",
+          dark = "mocha",
+        },
+        transparent_background = true,
+        term_colors = true,
+        no_italic = true,
+        specs = {
+          "akinsho/bufferline.nvim",
+          init = function()
+            local bufline = require("catppuccin.groups.integrations.bufferline")
+            function bufline.get()
+              return bufline.get_theme()
+            end
+          end,
+        },
+      })
+    end,
   },
 }
