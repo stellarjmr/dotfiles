@@ -7,7 +7,7 @@ theme = Everforest Dark - Hard
 window-theme = ghostty
 
 # font
-font-size = 14.0
+font-size = 15.0
 font-family = SF Mono
 font-style = Semibold
 font-family-bold = SF Mono Bold
@@ -28,8 +28,8 @@ window-padding-y = 0,0
 window-vsync = true
 window-decoration = true
 macos-titlebar-style = hidden
-window-height = 40
-window-width = 160
+window-height = 38
+window-width = 135
 window-inherit-working-directory = true
 focus-follows-mouse = true
 macos-icon = official
