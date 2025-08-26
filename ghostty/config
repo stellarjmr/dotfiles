@@ -9,7 +9,7 @@ window-theme = ghostty
 # font
 font-size = 15.0
 font-family = SF Mono
-font-style = Semibold
+font-style = Bold
 font-family-bold = SF Mono Bold
 font-family-italic= SF Mono Italic
 font-family-bold-italic = SF Mono Bold Italic
