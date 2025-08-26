@@ -212,7 +212,7 @@ local finder_selectedItems_script = [[
         end tell
     ]]
 
-hs.hotkey.bind(cmd_shift, "o", function()
+hs.hotkey.bind(cmd_shift, "x", function()
 	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
 	if ok and result and result ~= "" then
 		local command = string.format('open -a "Ovito" "%s"', result)
@@ -272,7 +272,7 @@ local englishAppFilter = hs.window.filter.new({
 	"Mail",
 	"Keynote",
 	"Ghostty",
-	"Kitty",
+	"kitty",
 	"Visual Studio Code",
 	"Microsoft Word",
 	"Microsoft Excel",
