@@ -182,7 +182,7 @@ end)
 hs.hotkey.bind({ "alt" }, "return", function()
 	local kittyApp = hs.application.find("Kitty")
 	kittyApp:selectMenuItem({ "Shell", "New OS Window" })
-	kittyApp():setFrontmost()
+	kittyApp:setFrontmost()
 end)
 
 --- Toggle Finder
@@ -272,6 +272,7 @@ local englishAppFilter = hs.window.filter.new({
 	"Mail",
 	"Keynote",
 	"Ghostty",
+	"Kitty",
 	"Visual Studio Code",
 	"Microsoft Word",
 	"Microsoft Excel",
