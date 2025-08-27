@@ -26,8 +26,9 @@ font-style-bold-italic = Bold Italic
 window-padding-x = 2,2
 window-padding-y = 0,0
 window-vsync = true
-window-decoration = true
+window-decoration = auto
 macos-titlebar-style = hidden
+macos-titlebar-proxy-icon = hidden
 window-height = 38
 window-width = 135
 window-inherit-working-directory = true
@@ -66,14 +67,14 @@ keybind = super+v=paste_from_clipboard
 keybind = super+k=clear_screen
 keybind = super+shift+comma=reload_config
 
-# keybind = super+physical:one=goto_tab:1
-# keybind = super+physical:two=goto_tab:2
-# keybind = super+physical:three=goto_tab:3
-# keybind = super+physical:four=goto_tab:4
-# keybind = super+physical:five=goto_tab:5
-# keybind = super+physical:six=goto_tab:6
-# keybind = super+physical:seven=goto_tab:7
-# keybind = super+physical:eight=goto_tab:8
+keybind = super+physical:one=goto_tab:1
+keybind = super+physical:two=goto_tab:2
+keybind = super+physical:three=goto_tab:3
+keybind = super+physical:four=goto_tab:4
+keybind = super+physical:five=goto_tab:5
+keybind = super+physical:six=goto_tab:6
+keybind = super+physical:seven=goto_tab:7
+keybind = super+physical:eight=goto_tab:8
 
 # quick terminal
 quick-terminal-position = center
