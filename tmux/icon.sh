@@ -17,7 +17,7 @@ case "$window_name" in
   icon="󰢹 "
   ;;
 "vim" | "nvim")
-  icon=" "
+  icon=" "
   ;;
 "python" | "python3" | "python3.9" | "python3.10" | "python3.11" | "python3.12")
   icon=" "
@@ -26,7 +26,10 @@ case "$window_name" in
   icon="󰊢 "
   ;;
 "ruby")
-  icon=" "
+  icon=" "
+  ;;
+"fzf")
+  icon=" "
   ;;
 esac
 multipanes=" "

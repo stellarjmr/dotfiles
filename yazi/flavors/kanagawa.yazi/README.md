@@ -3,7 +3,7 @@
 </div>
 
 <h3 align="center">
-	Example Flavor for <a href="https://github.com/sxyazi/yazi">Yazi</a>
+    Kanagawa Flavor for <a href="https://github.com/sxyazi/yazi">Yazi</a>
 </h3>
 
 ## 👀 Preview
@@ -13,29 +13,20 @@
 ## 🎨 Installation
 
 ```bash
-ya pkg add Chromium-3-Oxide/everforest-medium
-```
-
-Or:
-
-```bash
-ya pack -a Chromium-3-Oxide/everforest-medium
+ya pkg add dangooddd/kanagawa
 ```
 
 ## ⚙️ Usage
 
-Add the these lines to your `theme.toml` configuration file to use it:
+> [!Note]
+> To achieve the look like in the screenshot you also need to install
+> [full-border](https://github.com/yazi-rs/plugins/tree/main/full-border.yazi) plugin!
+
+Add these lines to your `theme.toml` configuration file to use it:
 
 ```toml
 [flavor]
-dark = "everforest-medium"
-```
-
-For Yazi versions before 0.4:
-
-```toml
-[flavor]
-use = "everforest-medium"
+dark = "kanagawa"
 ```
 
 ## 📜 License
