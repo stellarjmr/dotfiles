@@ -13,3 +13,5 @@ map(
   { noremap = true, silent = true, desc = "Paste from clipboard from within insert mode" }
 )
 map({ "n", "v" }, "d", '"_d')
+map("n", "#", "^")
+map("n", "^", "#")

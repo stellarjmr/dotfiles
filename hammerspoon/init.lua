@@ -172,18 +172,18 @@ hs.hotkey.bind(alt_shift, "return", function()
 end)
 
 --- Open new ghostty window
--- hs.hotkey.bind({ "alt" }, "return", function()
--- 	local ghosttyApp = hs.application.find("Ghostty")
--- 	ghosttyApp:selectMenuItem({ "File", "New Window" })
--- 	ghosttyApp:setFrontmost()
--- end)
+hs.hotkey.bind({ "alt" }, "return", function()
+	local ghosttyApp = hs.application.find("Ghostty")
+	ghosttyApp:selectMenuItem({ "File", "New Window" })
+	ghosttyApp:setFrontmost()
+end)
 
 --- Open new kitty window
-hs.hotkey.bind({ "alt" }, "return", function()
-	local kittyApp = hs.application.find("Kitty")
-	kittyApp:selectMenuItem({ "Shell", "New OS Window" })
-	kittyApp:setFrontmost()
-end)
+-- hs.hotkey.bind({ "alt" }, "return", function()
+-- 	local kittyApp = hs.application.find("Kitty")
+-- 	kittyApp:selectMenuItem({ "Shell", "New OS Window" })
+-- 	kittyApp:setFrontmost()
+-- end)
 
 --- Toggle Finder
 hs.hotkey.bind({ "ctrl" }, "F", function()
