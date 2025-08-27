@@ -6,12 +6,12 @@ return {
       ["_"] = { "trim_whitespace" },
       lua = { "stylua" },
       python = {
-        -- To fix auto-fixable lint errors.
-        "ruff_fix",
-        -- To run the Ruff formatter.
+        --   -- To fix auto-fixable lint errors.
+        --   "ruff_fix",
+        --   -- To run the Ruff formatter.
         "ruff_format",
-        -- To organize the imports.
-        "ruff_organize_imports",
+        --   -- To organize the imports.
+        --   "ruff_organize_imports",
       },
       sh = { "shfmt" },
       tex = { "tex-fmt" },
