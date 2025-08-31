@@ -7,6 +7,7 @@ return {
   },
   {
     "neanias/everforest-nvim",
+    enabled = true,
     version = false,
     config = function()
       require("everforest").setup({
