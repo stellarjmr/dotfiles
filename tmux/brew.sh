@@ -17,9 +17,9 @@ outdated_list=$(/opt/homebrew/bin/brew outdated 2>/dev/null)
 
 if [ -n "$outdated_list" ]; then
   count=$(echo "$outdated_list" | wc -l | tr -d ' ')
-  result="#[fg=red] $count"
+  result="#[bg=${LIGHT_GRAY},fg=${RED},bold] #[bg=${LIGHT_GRAY},fg=${RED},bold]$count"
 else
-  result="#[fg=magenta] "
+  result="#[bg=${LIGHT_GRAY},fg=${MAGENTA},bold] "
 fi
 
 echo "$result" | tee "$CACHE_FILE"
