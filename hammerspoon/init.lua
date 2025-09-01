@@ -153,36 +153,66 @@ windowFilter:subscribe({
 --- Open new finder window
 -- hs.hotkey.bind({ "ctrl" }, "return", function()
 -- 	local finderApp = hs.application.find("Finder")
--- 	finderApp:selectMenuItem({ "File", "New Finder Window" })
--- 	finderApp:setFrontmost()
+-- 	if finderApp and #finderApp:allWindows() > 0 then
+-- 		finderApp:setFrontmost()
+-- 	else
+-- 		if finderApp then
+-- 			finderApp:selectMenuItem({ "File", "New Finder Window" })
+-- 			finderApp:setFrontmost()
+-- 		end
+-- 	end
 -- end)
 
 --- Open new safari window
 -- hs.hotkey.bind(alt_shift, "return", function()
 -- 	local safariApp = hs.application.find("Safari")
--- 	safariApp:selectMenuItem({ "File", "New Window" })
--- 	safariApp:setFrontmost()
+-- 	if safariApp and #safariApp:allWindows() > 0 then
+-- 		safariApp:setFrontmost()
+-- 	else
+-- 		if safariApp then
+-- 			safariApp:selectMenuItem({ "File", "New Window" })
+-- 			safariApp:setFrontmost()
+-- 		end
+-- 	end
 -- end)
 
 --- Open new zen window
 hs.hotkey.bind(alt_shift, "return", function()
-	local safariApp = hs.application.find("Zen")
-	safariApp:selectMenuItem({ "File", "New Window" })
-	safariApp:setFrontmost()
+	local zenApp = hs.application.find("Zen")
+	if zenApp and #zenApp:allWindows() > 0 then
+		zenApp:setFrontmost()
+	else
+		if zenApp then
+			zenApp:selectMenuItem({ "File", "New Window" })
+			zenApp:setFrontmost()
+		end
+	end
 end)
 
 --- Open new ghostty window
 hs.hotkey.bind({ "alt" }, "return", function()
 	local ghosttyApp = hs.application.find("Ghostty")
-	ghosttyApp:selectMenuItem({ "File", "New Window" })
-	ghosttyApp:setFrontmost()
+	if ghosttyApp and #ghosttyApp:allWindows() > 0 then
+		ghosttyApp:setFrontmost()
+	else
+		if ghosttyApp then
+			ghosttyApp:selectMenuItem({ "File", "New Window" })
+			ghosttyApp:setFrontmost()
+		end
+	end
 end)
 
 --- Open new kitty window
 -- hs.hotkey.bind({ "alt" }, "return", function()
 -- 	local kittyApp = hs.application.find("Kitty")
--- 	kittyApp:selectMenuItem({ "Shell", "New OS Window" })
--- 	kittyApp:setFrontmost()
+-- 	if kittyApp and #kittyApp:allWindows() > 0 then
+-- 		kittyApp:setFrontmost()
+-- 	else
+-- 		if kittyApp then
+-- 			kittyApp:selectMenuItem({ "Shell", "New OS Window" })
+-- 			kittyApp:setFrontmost()
+-- 		end
+-- 	end
 -- end)
 
 --- Toggle Finder

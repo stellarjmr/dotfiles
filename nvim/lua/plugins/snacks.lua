@@ -108,7 +108,7 @@ return {
         { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1, gap = 0, pane = 2 },
         { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1, gap = 0, pane = 2 },
         {
-          icon = "󰚸 ",
+          icon = " ",
           title = "Recent Notes",
           section = "recent_files",
           padding = 1,
