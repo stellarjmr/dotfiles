@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 window_name="$1"
 window_index="$2"
 window_panes="$3"
@@ -31,7 +31,7 @@ case "$window_name" in
 esac
 multipanes=" "
 if [[ "$window_panes" -gt 1 ]]; then
-  echo "#[fg=gray,bold]$window_index #[fg=gray,bold]$multipanes"
+  echo "#[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]$window_index #[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]$multipanes"
 else
-  echo "#[fg=gray,bold]$window_index #[fg=gray,bold]$icon"
+  echo "#[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]$window_index #[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]$icon"
 fi
