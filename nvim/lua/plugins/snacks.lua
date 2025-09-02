@@ -65,10 +65,16 @@ return {
         -- When using a function, the `items` argument are the default keymaps.
         ---@type snacks.dashboard.Item[]
         keys = {
+          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+          {
+            icon = " ",
+            key = "o",
+            desc = "Notes",
+            action = ":lua Snacks.dashboard.pick('files', {cwd = '~/Documents/Notes'})",
+          },
           {
             icon = " ",
             key = "c",
