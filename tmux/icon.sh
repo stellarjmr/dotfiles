@@ -28,6 +28,9 @@ case "$window_name" in
 "fzf")
   icon=" "
   ;;
+*)
+  icon="󰊠 "
+  ;;
 esac
 multipanes=" "
 if [[ "$window_panes" -gt 1 ]]; then
