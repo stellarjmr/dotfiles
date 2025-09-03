@@ -298,6 +298,7 @@ end)
 -- Other apps
 local englishAppFilter = hs.window.filter.new({
 	"Terminal",
+	"Safari",
 	"Shortcuts",
 	"Mail",
 	"Keynote",
