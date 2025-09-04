@@ -1,7 +1,8 @@
 return {
   "mikavilpas/yazi.nvim",
   enabled = true, -- set to true to enable this plugin
-  lazy = true,
+  -- lazy = true,
+  event = "VeryLazy",
   dependencies = {
     -- check the installation instructions at
     -- https://github.com/folke/snacks.nvim
@@ -10,13 +11,13 @@ return {
   keys = {
     -- 👇 in this section, choose your own keymappings!
     {
-      "<leader>y",
+      "<leader>e",
       "<cmd>Yazi<cr>",
       desc = "Open yazi at the current file",
     },
     {
 
-      "<leader>Y",
+      "<leader>E",
       "<cmd>Yazi cwd<cr>",
       desc = "Open the file manager in nvim's working directory",
     },
@@ -32,6 +33,8 @@ return {
   opts = {
     -- if you want to open yazi instead of netrw, see below for more info
     open_for_directories = true,
+    floating_window_scaling_factor = 0.8,
+    yazi_floating_window_winblend = 0,
     keymaps = {
       show_help = "<f1>",
     },

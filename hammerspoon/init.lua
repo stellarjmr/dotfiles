@@ -153,7 +153,7 @@ windowFilter:subscribe({
 --- Open new finder window
 -- hs.hotkey.bind({ "ctrl" }, "return", function()
 -- 	local finderApp = hs.application.find("Finder")
--- 	if finderApp and #finderApp:allWindows() > 0 then
+-- 	if finderApp and #finderApp:allWindows() > 1 then
 -- 		finderApp:setFrontmost()
 -- 	else
 -- 		if finderApp then
@@ -333,6 +333,7 @@ spoon.Vifari:start({
 })
 
 --- Menu Bar
+require("safari")
 -- require("mail-menubar")
 -- require("reminder-menubar")
 -- require("brew-menubar")
