@@ -27,6 +27,7 @@ return {
     picker = {
       sources = {
         explorer = {
+          enable = false,
           --- float explorer
           -- layout = {
           --   { preview = true },
