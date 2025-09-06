@@ -57,7 +57,7 @@ local function autoEscAfterSearch()
 			pendingTimer = hs.timer.doAfter(1, function()
 				local frontApp = hs.application.frontmostApplication()
 				if frontApp and frontApp:name() == "Safari" then
-					hs.eventtap.keyStroke({}, "escape")
+					hs.eventtap.keyStroke({}, "tab")
 				end
 				pendingTimer = nil
 			end)
