@@ -333,7 +333,7 @@ spoon.Vifari:start({
 })
 
 --- Menu Bar
-require("safari")
+-- require("safari")
 -- require("mail-menubar")
 -- require("reminder-menubar")
 -- require("brew-menubar")
