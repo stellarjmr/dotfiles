@@ -3,8 +3,8 @@ return {
   opts = {
     highlight = {
       enable = true,
-      disable = { "latex" },
+      -- disable = { "latex" },
     },
-    ensure_installed = "latex",
+    -- ensure_installed = "latex",
   },
 }
