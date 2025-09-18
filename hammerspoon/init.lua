@@ -40,6 +40,13 @@ hs.hotkey.bind(cmd_ctrl, "up", function()
 	win:setFrame(f)
 end)
 
+--- center window
+hs.hotkey.bind(ctrl_alt, "C", function()
+	local win = hs.window.focusedWindow()
+	if win then
+		win:centerOnScreen()
+	end
+end)
 --- resize window
 
 --- enlarge window
@@ -287,13 +294,6 @@ end)
 
 local inputEnglish = "com.apple.keylayout.ABC"
 local inputPinyin = "com.apple.inputmethod.SCIM.ITABC"
-
--- Spotlight
-hs.hotkey.bind({ "cmd" }, "space", function()
-	hs.timer.doAfter(0.1, function()
-		hs.keycodes.currentSourceID(inputEnglish)
-	end)
-end)
 
 -- Other apps
 local englishAppFilter = hs.window.filter.new({

@@ -7,7 +7,7 @@ recentrepos:
     - /Users/administrator/Documents/PDRA/NU/Application/MSCA/msca_latex
 startuppopupversion: 5
 didshowhunkstaginghint: true
-lastversion: 0.55.0
+lastversion: 0.55.1
 customcommandshistory:
     - q
     - git commit -m "init"
