@@ -321,17 +321,6 @@ pinyinAppFilter:subscribe(hs.window.filter.windowFocused, function()
 	hs.keycodes.currentSourceID(inputPinyin)
 end)
 
---- plugins
-hs.loadSpoon("Vifari")
-spoon.Vifari:start({
-	-- example your local config here
-	scrollStep = 150, -- Change scroll step
-	mapping = {
-		["n"] = { "cmd", "n" }, -- Add new mapping
-		-- ["x"] = false, -- Disable a mapping
-	},
-})
-
 --- Menu Bar
 -- require("safari")
 -- require("mail-menubar")
