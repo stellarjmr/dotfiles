@@ -1,9 +1,8 @@
-# command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
+command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
 
 # theme
-# theme = dark:catppuccin-mocha,light:catppuccin-latte
 # theme = dark:Everforest Dark - Hard, light:Everforest Light - Med
-theme = EverforestDarkHard
+theme = Bluloco Light
 window-theme = ghostty
 
 # font
@@ -20,36 +19,36 @@ window-padding-x = 2,2
 window-padding-y = 0,0
 window-vsync = true
 window-decoration = auto
-macos-titlebar-style = tabs
+macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = visible
 window-title-font-family = 0xProto Nerd Font
 window-height = 38
 window-width = 135
-window-inherit-working-directory = true
 focus-follows-mouse = true
 macos-icon = official
 background-opacity = 1
 background-blur = false
 unfocused-split-opacity = 0.8
 split-divider-color = #728B95
+window-inherit-working-directory = true
 
 # keybindings
 macos-option-as-alt = true
 keybind = clear
-# keybind = super+minus=decrease_font_size:1
-# keybind = super+equal=increase_font_size:1
-keybind = alt+h=goto_split:left
-keybind = alt+j=goto_split:bottom
-keybind = alt+k=goto_split:top
-keybind = alt+l=goto_split:right
-
+keybind = super+minus=decrease_font_size:1
+keybind = super+equal=increase_font_size:1
+# keybind = alt+h=goto_split:left
+# keybind = alt+j=goto_split:bottom
+# keybind = alt+k=goto_split:top
+# keybind = alt+l=goto_split:right
+#
 keybind = super+a=select_all
-keybind = super+d=new_split:right
-keybind = super+shift+d=new_split:down
-keybind = super+minus=resize_split:right,10
-keybind = super+equal=resize_split:left,10
-keybind = super+shift+minus=resize_split:down,10
-keybind = super+shift+equal=resize_split:up,10
+# keybind = super+d=new_split:right
+# keybind = super+shift+d=new_split:down
+# keybind = super+minus=resize_split:right,10
+# keybind = super+equal=resize_split:left,10
+# keybind = super+shift+minus=resize_split:down,10
+# keybind = super+shift+equal=resize_split:up,10
 keybind = super+enter=toggle_fullscreen
 
 keybind = super+n=new_window

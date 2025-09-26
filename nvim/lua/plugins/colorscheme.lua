@@ -2,12 +2,12 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "everforest",
+      colorscheme = "bluloco",
     },
   },
   {
     "neanias/everforest-nvim",
-    enabled = true,
+    enabled = false,
     version = false,
     config = function()
       require("everforest").setup({
@@ -22,7 +22,7 @@ return {
     "uloco/bluloco.nvim",
     lazy = false,
     priority = 1000,
-    enabled = false,
+    enabled = true,
     dependencies = { "rktjmp/lush.nvim" },
     config = function()
       require("bluloco").setup({
