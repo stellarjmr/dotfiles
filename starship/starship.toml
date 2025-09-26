@@ -7,7 +7,7 @@ $git_status\
 $character"""
 
 add_newline = false
-palette = "everforest"
+palette = "bluloco_dark"
 
 [os]
 disabled = false
@@ -121,3 +121,25 @@ grey2 = "#9da9a0"
 statusline1 = "#1A7247"
 statusline2 = "#8f9aae"
 statusline3 = "#FF839B"
+
+[palettes.bluloco_dark]
+bg = "#282c34"
+fg = "#abb2bf"
+red = "#ff6480"
+orange = "#ff936a"
+yellow = "#f9c859"
+green = "#3fc56b"
+blue = "#10b1fe"
+purple = "#ff78f8"
+grey2 = "#636d83"
+
+[palettes.bluloco_light]
+bg = "#f9f9f9"
+fg = "#383a42"
+red = "#d52753"
+orange = "#df631c"
+yellow = "#c5a332"
+green = "#23974a"
+blue = "#0098dd"
+purple = "#ce33c0"
+grey2 = "#a0a1a7"
