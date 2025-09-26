@@ -228,12 +228,18 @@ hs.hotkey.bind({ "ctrl" }, "F", function()
 	local finderWindows = finder:allWindows()
 	if #finderWindows == 1 then
 		finder:selectMenuItem({ "File", "New Finder Window" })
-	elseif finder:isHidden() then
-		finder:activate()
-		finder:unhide()
-		finder:setFrontmost()
-	elseif finder:isFrontmost() then
-		finder:hide()
+	end
+	if #finderWindows > 1 then
+		if finder:isHidden() then
+			finder:activate()
+			finder:unhide()
+			finder:setFrontmost()
+		elseif not finder:isFrontmost() then
+			finder:activate()
+			finder:setFrontmost()
+		elseif finder:isFrontmost() then
+			finder:hide()
+		end
 	end
 end)
 
