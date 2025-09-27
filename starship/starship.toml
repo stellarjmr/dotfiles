@@ -7,7 +7,7 @@ $git_status\
 $character"""
 
 add_newline = false
-palette = "bluloco_dark"
+palette = "bluloco_light"
 
 [os]
 disabled = false
