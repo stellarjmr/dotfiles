@@ -1,13 +1,6 @@
 lastupdatecheck: 0
 recentrepos:
-    - /Users/administrator/.config
-    - /Users/administrator/Documents/GitHub/software/Pockee
-    - /Users/administrator/Documents/GitHub/homebrew/homebrew-brew
-    - /Users/administrator/Documents/GitHub/homebrew/homebrew-tool
-    - /Users/administrator/Documents/Notes
-    - /Users/administrator/Documents/PDRA/NU/NaZrSOClBr/script
-    - /Users/administrator/Documents/PDRA/NU/SiGe/script
-    - /Users/administrator/Documents/PDRA/NU/Application/MSCA/msca_latex
+    - /Users/zhimin/.config
 startuppopupversion: 5
 didshowhunkstaginghint: true
 lastversion: 0.55.1
