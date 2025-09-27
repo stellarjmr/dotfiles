@@ -2,74 +2,34 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "bluloco",
+      colorscheme = "everforest",
     },
   },
   {
-    "neanias/everforest-nvim",
-    enabled = false,
-    version = false,
+    "sainnhe/everforest",
+    enabled = true,
+    lazy = false,
+    priority = 1000,
     config = function()
-      require("everforest").setup({
-        background = "hard", -- "hard", "medium" or "soft"
-        transparent_background_level = 2,
-        italics = false,
-        disable_italic_comments = false,
-      })
+      vim.opt.background = "light"
+      vim.g.everforest_background = "soft"
+      vim.g.everforest_transparent_background = 2
+      vim.g.everforest_current_word = "bold"
+      vim.g.everforest_enable_italic = 1
+      vim.cmd.colorscheme("everforest")
     end,
   },
   {
     "uloco/bluloco.nvim",
     lazy = false,
     priority = 1000,
-    enabled = true,
+    enabled = false,
     dependencies = { "rktjmp/lush.nvim" },
     config = function()
       require("bluloco").setup({
         style = "auto",
         transparent = true,
         italics = false,
-      })
-    end,
-  },
-  {
-    "rebelot/kanagawa.nvim",
-    enabled = false,
-    opts = {
-      colors = {
-        theme = {
-          all = {
-            ui = {
-              bg_gutter = "none",
-            },
-          },
-        },
-      },
-      transparent = false,
-      theme = "wave",
-    },
-  },
-  {
-    "catppuccin/nvim",
-    config = function()
-      require("catppuccin").setup({
-        flavour = "auto",
-        background = {
-          light = "latte",
-          dark = "mocha",
-        },
-        transparent_background = true,
-        term_colors = true,
-        no_italic = true,
-        specs = {
-          "akinsho/bufferline.nvim",
-          init = function()
-            local bufline = require("catppuccin.groups.integrations.bufferline")
-            function bufline.get()
-              return bufline.get_theme()
-            end
-          end,
-        },
       })
     end,
   },
