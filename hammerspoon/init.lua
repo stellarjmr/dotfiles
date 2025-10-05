@@ -171,30 +171,30 @@ windowFilter:subscribe({
 -- end)
 
 --- Open new safari window
--- hs.hotkey.bind(alt_shift, "return", function()
--- 	local safariApp = hs.application.find("Safari")
--- 	if safariApp and #safariApp:allWindows() > 0 then
--- 		safariApp:setFrontmost()
--- 	else
--- 		if safariApp then
--- 			safariApp:selectMenuItem({ "File", "New Window" })
--- 			safariApp:setFrontmost()
--- 		end
--- 	end
--- end)
-
---- Open new zen window
 hs.hotkey.bind(alt_shift, "return", function()
-	local zenApp = hs.application.find("Zen")
-	if zenApp and #zenApp:allWindows() > 0 then
-		zenApp:setFrontmost()
+	local safariApp = hs.application.find("Safari")
+	if safariApp and #safariApp:allWindows() > 0 then
+		safariApp:setFrontmost()
 	else
-		if zenApp then
-			zenApp:selectMenuItem({ "File", "New Window" })
-			zenApp:setFrontmost()
+		if safariApp then
+			safariApp:selectMenuItem({ "File", "New Window" })
+			safariApp:setFrontmost()
 		end
 	end
 end)
+
+--- Open new zen window
+-- hs.hotkey.bind(alt_shift, "return", function()
+-- 	local zenApp = hs.application.find("Zen")
+-- 	if zenApp and #zenApp:allWindows() > 0 then
+-- 		zenApp:setFrontmost()
+-- 	else
+-- 		if zenApp then
+-- 			zenApp:selectMenuItem({ "File", "New Window" })
+-- 			zenApp:setFrontmost()
+-- 		end
+-- 	end
+-- end)
 
 --- Open new ghostty window
 hs.hotkey.bind({ "alt" }, "return", function()
