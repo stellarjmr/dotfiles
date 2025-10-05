@@ -38,17 +38,17 @@ RedHatEnterprise = "󱄛"
 [username]
 show_always = true
 style_root = 'fg:red'
-style_user = 'fg:blue'
+style_user = 'fg:orange'
 format = '[$user]($style)'
 
 [hostname]
 ssh_only = false
-style = 'fg:blue'
+style = 'fg:orange'
 format = '[@$hostname]($style) '
 
 [directory]
-style = "fg:orange"
-read_only_style = "fg:orange"
+style = "fg:blue"
+read_only_style = "fg:blue"
 truncation_length = 3
 truncation_symbol = "…/"
 format = "[ $path]($style)[$read_only]($read_only_style) "
@@ -91,25 +91,3 @@ grey2 = "#9da9a0"
 statusline1 = "#a7c080"
 statusline2 = "#d3c6aa"
 statusline3 = "#e67e80"
-
-[palettes.bluloco_dark]
-bg = "#282c34"
-fg = "#abb2bf"
-red = "#ff6480"
-orange = "#ff936a"
-yellow = "#f9c859"
-green = "#3fc56b"
-blue = "#10b1fe"
-purple = "#ff78f8"
-grey2 = "#636d83"
-
-[palettes.bluloco_light]
-bg = "#f9f9f9"
-fg = "#383a42"
-red = "#d52753"
-orange = "#df631c"
-yellow = "#c5a332"
-green = "#23974a"
-blue = "#0099e1"
-purple = "#ce33c0"
-grey2 = "#a0a1a7"
