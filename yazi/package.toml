@@ -29,21 +29,6 @@ rev = "901e7a4"
 hash = "fd314a7aa9d7f25162c6c757c1956ca8"
 
 [[flavor.deps]]
-use = "yazi-rs/flavors:catppuccin-latte"
-rev = "d04a298"
-hash = "a4d508772dc7b20d739a2f9a1d2d396f"
-
-[[flavor.deps]]
-use = "dangooddd/kanagawa"
-rev = "a0b1d9d"
-hash = "abfb0b2371259b2c8adfc7b617c3d7e5"
-
-[[flavor.deps]]
 use = "Chromium-3-Oxide/everforest-medium"
 rev = "0158f0f"
 hash = "dbbbfe681e156c28303efb1f44b6cbc4"
-
-[[flavor.deps]]
-use = "muratoffalex/kanagawa-lotus"
-rev = "4275a1a"
-hash = "e3c47ba547279aff64b6e46eefcf4479"

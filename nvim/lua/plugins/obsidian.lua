@@ -11,12 +11,6 @@ return {
   --   "BufReadPre path/to/my-vault/*.md",
   --   "BufNewFile path/to/my-vault/*.md",
   -- },
-  dependencies = {
-    -- Required.
-    "nvim-lua/plenary.nvim",
-
-    -- see above for full list of optional dependencies ☝️
-  },
   ---@module 'obsidian'
   ---@type obsidian.config
   opts = {
