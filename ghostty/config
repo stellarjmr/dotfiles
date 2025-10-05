@@ -1,16 +1,16 @@
 command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
 
 # theme
-# theme = dark:Everforest Dark - Hard, light:Everforest Light - Med
-theme = Bluloco Light
+theme = EverforestLightMed
 window-theme = ghostty
 
 # font
 font-size = 15.0
 font-family = 0xProto Nerd Font
+font-family-bold = 0xProto Nerd Font Bold
 font-style = Bold
 
-font-style-bold = Semibold
+font-style-bold = Bold
 font-style-italic = Semibold Italic
 font-style-bold-italic = Bold Italic
 
@@ -22,8 +22,8 @@ window-decoration = auto
 macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = visible
 window-title-font-family = 0xProto Nerd Font
-window-height = 38
-window-width = 145
+window-height = 40
+window-width = 150
 focus-follows-mouse = true
 macos-icon = official
 background-opacity = 1

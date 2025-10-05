@@ -3,7 +3,7 @@
 </div>
 
 <h3 align="center">
-	Catppuccin Mocha Flavor for <a href="https://github.com/sxyazi/yazi">Yazi</a>
+	Example Flavor for <a href="https://github.com/sxyazi/yazi">Yazi</a>
 </h3>
 
 ## 👀 Preview
@@ -12,22 +12,31 @@
 
 ## 🎨 Installation
 
-```sh
-ya pkg add yazi-rs/flavors:catppuccin-mocha
+```bash
+ya pkg add Chromium-3-Oxide/everforest-medium
+```
+
+Or:
+
+```bash
+ya pack -a Chromium-3-Oxide/everforest-medium
 ```
 
 ## ⚙️ Usage
 
-Set the content of your `theme.toml` to enable it as your _dark_ flavor:
+Add the these lines to your `theme.toml` configuration file to use it:
 
 ```toml
 [flavor]
-dark = "catppuccin-mocha"
+dark = "everforest-medium"
 ```
 
-Make sure your `theme.toml` doesn't contain anything other than `[flavor]`, unless you want to override certain styles of this flavor.
+For Yazi versions before 0.4:
 
-See the [Yazi flavor documentation](https://yazi-rs.github.io/docs/flavors/overview) for more details.
+```toml
+[flavor]
+use = "everforest-medium"
+```
 
 ## 📜 License
 
