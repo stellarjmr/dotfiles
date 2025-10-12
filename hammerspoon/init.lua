@@ -333,3 +333,7 @@ end)
 -- require("reminder-menubar")
 -- require("brew-menubar")
 -- require("music-menubar")
+
+--- Safari Scholar Google auto-handler
+local scholarHandler = require("safari-scholar-google")
+scholarHandler.start()
