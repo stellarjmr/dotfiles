@@ -255,6 +255,14 @@ local finder_selectedItems_script = [[
         end tell
     ]]
 
+hs.hotkey.bind(cmd_shift, "z", function()
+	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
+	if ok and result and result ~= "" then
+		local command = string.format('open -a "Zed" "%s"', result)
+		hs.task.new("/bin/sh", nil, { "-c", command }):start()
+	else
+	end
+end)
 hs.hotkey.bind(cmd_shift, "x", function()
 	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
 	if ok and result and result ~= "" then
