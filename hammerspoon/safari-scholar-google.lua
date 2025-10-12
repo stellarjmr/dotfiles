@@ -39,12 +39,12 @@ local triggerReloadAndShowIPScript = [[
 local clickContinueScript = [[
     tell application "System Events"
         tell process "Safari"
-            repeat with i from 1 to 20
+            repeat with i from 1 to 30
                 if exists button "Continue" of front window then
                     click button "Continue" of front window
                     return "clicked"
                 end if
-                delay 0.1
+                delay 0.05
             end repeat
             return "not found"
         end tell
@@ -84,25 +84,22 @@ local function handleScholarGoogle()
 		-- Mark this tab as processed
 		processedTabs[tabId] = os.time()
 
-		-- Wait a moment to ensure page is loaded
-		hs.timer.doAfter(0.5, function()
-			-- Trigger the menu action
-			local menuOk, menuResult = hs.osascript.applescript(triggerReloadAndShowIPScript)
+		-- Trigger the menu action immediately
+		local menuOk, menuResult = hs.osascript.applescript(triggerReloadAndShowIPScript)
 
-			if menuOk and menuResult == "success" then
-				-- Wait for dialog to appear and click Continue
-				hs.timer.doAfter(0.1, function()
-					local btnOk, btnResult = hs.osascript.applescript(clickContinueScript)
+		if menuOk and menuResult == "success" then
+			-- Click Continue button immediately (AppleScript will poll for it)
+			hs.timer.doAfter(0.05, function()
+				local btnOk, btnResult = hs.osascript.applescript(clickContinueScript)
 
-					if btnOk and btnResult == "clicked" then
-						-- hs.alert.show("Scholar access enabled!")
-					else
-						-- Fallback: try pressing Return key (often works for default button)
-						hs.eventtap.keyStroke({}, "return")
-					end
-				end)
-			end
-		end)
+				if btnOk and btnResult == "clicked" then
+					-- hs.alert.show("Scholar access enabled!")
+				else
+					-- Fallback: try pressing Return key (often works for default button)
+					hs.eventtap.keyStroke({}, "return")
+				end
+			end)
+		end
 	end
 end
 
@@ -115,12 +112,12 @@ function module.start()
 		hs.window.filter.windowFocused,
 		hs.window.filter.windowCreated,
 	}, function(window, appName, event)
-		-- Small delay to ensure URL is available
-		hs.timer.doAfter(0.3, handleScholarGoogle)
+		-- Minimal delay to ensure URL is available
+		hs.timer.doAfter(0.05, handleScholarGoogle)
 	end)
 
-	-- Also check periodically when Safari is frontmost (in case of navigation within tabs)
-	module.timer = hs.timer.new(2, function()
+	-- Also check more frequently when Safari is frontmost (in case of navigation within tabs)
+	module.timer = hs.timer.new(0.5, function()
 		local safari = hs.application.find("Safari")
 		if safari and safari:isFrontmost() then
 			handleScholarGoogle()
