@@ -19,18 +19,4 @@ return {
       vim.cmd.colorscheme("everforest")
     end,
   },
-  {
-    "uloco/bluloco.nvim",
-    lazy = false,
-    priority = 1000,
-    enabled = false,
-    dependencies = { "rktjmp/lush.nvim" },
-    config = function()
-      require("bluloco").setup({
-        style = "auto",
-        transparent = true,
-        italics = false,
-      })
-    end,
-  },
 }
