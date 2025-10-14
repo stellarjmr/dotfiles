@@ -157,19 +157,6 @@ windowFilter:subscribe({
 	hs.window.filter.windowMoved,
 }, windowMoved)
 
---- Open new finder window
--- hs.hotkey.bind({ "ctrl" }, "return", function()
--- 	local finderApp = hs.application.find("Finder")
--- 	if finderApp and #finderApp:allWindows() > 1 then
--- 		finderApp:setFrontmost()
--- 	else
--- 		if finderApp then
--- 			finderApp:selectMenuItem({ "File", "New Finder Window" })
--- 			finderApp:setFrontmost()
--- 		end
--- 	end
--- end)
-
 --- Open new safari window
 -- hs.hotkey.bind(alt_shift, "return", function()
 -- 	local safariApp = hs.application.find("Safari")
@@ -209,17 +196,22 @@ hs.hotkey.bind({ "alt" }, "return", function()
 	end
 end)
 
---- Open new kitty window
--- hs.hotkey.bind({ "alt" }, "return", function()
--- 	local kittyApp = hs.application.find("Kitty")
--- 	if kittyApp and #kittyApp:allWindows() > 0 then
--- 		kittyApp:setFrontmost()
--- 	else
--- 		if kittyApp then
--- 			kittyApp:selectMenuItem({ "Shell", "New OS Window" })
--- 			kittyApp:setFrontmost()
--- 		end
--- 	end
+--- Open new vscode window
+hs.hotkey.bind(cmd_ctrl, "return", function()
+	local codeApp = hs.application.find("Code")
+	if codeApp and #codeApp:allWindows() > 0 then
+		codeApp:setFrontmost()
+	else
+		if codeApp then
+			codeApp:selectMenuItem({ "File", "New Window" })
+			codeApp:setFrontmost()
+		end
+	end
+end)
+
+--- Open Apps.app
+-- hs.hotkey.bind({ "cmd" }, "space", function()
+-- 	hs.application.launchOrFocus("Apps.app")
 -- end)
 
 --- Toggle Finder

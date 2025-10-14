@@ -1,7 +1,17 @@
 return {
   "folke/snacks.nvim",
   ---@type snacks.Config
-  opts = {
+  opts = function()
+    -- Define your project folders here
+    local project_folders = {
+      "~/Projects/project1",
+      "~/Projects/project2",
+      "~/Documents/work",
+      "~/.config/nvim",
+      "~/Documents/Notes",
+    }
+
+    return {
     bigfile = { enable = true },
     statuscolumn = { enable = true },
     quickfile = { enable = true },
@@ -49,7 +59,7 @@ return {
           --- normal explorer
           layout = {
             layout = {
-              position = "right",
+              position = "left",
               width = 25,
             },
           },
@@ -127,5 +137,6 @@ return {
         { section = "startup" },
       },
     },
-  },
+    }
+  end,
 }

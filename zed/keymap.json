@@ -61,7 +61,7 @@
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-b": "workspace::ToggleLeftDock",
+      "space e": "workspace::ToggleLeftDock",
       "cmd-k cmd-w": "pane::CloseAllItems"
     }
   },
