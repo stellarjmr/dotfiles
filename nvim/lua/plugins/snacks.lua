@@ -91,7 +91,7 @@ return {
                   if choice then
                     local expanded_path = vim.fn.expand(choice)
                     vim.cmd("cd " .. vim.fn.fnameescape(expanded_path))
-                    vim.cmd(":lua Snacks.dashboard.pick('files', {cwd = '" .. expanded_path .. "'})")
+                    Snacks.dashboard.pick("files", { cwd = expanded_path })
                   end
                 end)
               end,
