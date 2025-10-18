@@ -63,7 +63,15 @@ return {
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { "lsp", "path", "snippets", "buffer" },
+      default = { "snippets", "copilot", "lsp", "path", "buffer" },
+    },
+    providers = {
+      snippets = {
+        score_offset = 200,
+      },
+      copilot = {
+        score_offset = 100,
+      },
     },
   },
   opts_extend = { "sources.default" },
