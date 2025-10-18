@@ -35,6 +35,13 @@ return {
         },
       },
       picker = {
+        win = {
+          input = {
+            keys = {
+              ["<Esc>"] = { "close", mode = { "n", "i" } },
+            },
+          },
+        },
         sources = {
           explorer = {
             enable = false,
