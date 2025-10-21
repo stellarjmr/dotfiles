@@ -65,14 +65,6 @@ return {
     sources = {
       default = { "snippets", "copilot", "lsp", "path", "buffer" },
     },
-    providers = {
-      snippets = {
-        score_offset = 200,
-      },
-      copilot = {
-        score_offset = 100,
-      },
-    },
   },
   opts_extend = { "sources.default" },
 }
