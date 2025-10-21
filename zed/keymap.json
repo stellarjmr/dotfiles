@@ -51,7 +51,7 @@
       "cmd-g": "search::SelectNextMatch",
       "cmd-shift-g": "search::SelectPreviousMatch",
       "cmd-shift-o": "outline::Toggle",
-      "alt-t": "workspace::NewTerminal",
+      "alt-d": "workspace::NewTerminal",
       "cmd-l": "go_to_line::Toggle",
       "escape": "workspace::CloseAllDocks"
     }
@@ -61,8 +61,7 @@
   {
     "context": "Workspace",
     "bindings": {
-      "space e": "workspace::ToggleLeftDock",
-      "cmd-k cmd-w": "pane::CloseAllItems"
+      "alt-e": "workspace::ToggleLeftDock",
     }
   },
 
