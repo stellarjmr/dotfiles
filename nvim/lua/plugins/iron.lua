@@ -48,5 +48,26 @@ return {
     })
     vim.keymap.set("n", "<space>rf", "<cmd>IronFocus<cr>")
     vim.keymap.set("n", "<space>rh", "<cmd>IronHide<cr>")
+
+    -- Auto-close iron REPL when quitting
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+      callback = function(args)
+        local bufname = vim.api.nvim_buf_get_name(args.buf)
+        if bufname:match("iron://") then
+          -- Set buffer options to auto-close
+          vim.bo[args.buf].buftype = "nofile"
+          vim.bo[args.buf].bufhidden = "hide"
+          vim.bo[args.buf].buflisted = false
+          vim.bo[args.buf].swapfile = false
+        end
+      end,
+    })
+
+    -- Auto-hide REPL before quitting
+    vim.api.nvim_create_autocmd("QuitPre", {
+      callback = function()
+        vim.cmd("silent! IronHide")
+      end,
+    })
   end,
 }
