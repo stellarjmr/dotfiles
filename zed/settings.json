@@ -38,7 +38,7 @@
   "cursor_blink": false,
   "restore_on_startup": "none",
   "session": {
-    "restore_unsaved_buffers": false
+    "restore": false
   },
   "auto_install_extensions": {
     "html": false,
@@ -78,5 +78,7 @@
         "enabled": false
       }
     }
-  }
+  },
+  "git_status": true,
+
 }
