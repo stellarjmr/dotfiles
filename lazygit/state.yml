@@ -1,11 +1,16 @@
 lastupdatecheck: 0
 recentrepos:
     - /Users/zhimin/.config
-    - /Users/zhimin/Documents/PDRA/NU/SiAlx/script
+    - /Users/zhimin/Documents/PDRA/NU/Tutorials/paper_template_journal
     - /Users/zhimin/Documents/PDRA/NU/SiGe/scripts
+    - /Users/zhimin/Documents/PDRA/NU/KTaNbCl/scripts
+    - /Users/zhimin/Documents/GitHub/software/neovim/bluloco.nvim
+    - /Users/zhimin/Documents/GitHub/homebrew/homebrew-brew
+    - /Users/zhimin/Documents/PDRA/NU/NaZrSOClBr/scripts
+    - /Users/zhimin/Documents/PDRA/NU/Oxide/scripts
+    - /Users/zhimin/Documents/PDRA/NU/SiAlx/script
     - /Users/zhimin/Documents/GitHub/software/amperfy
     - /Users/zhimin/Documents/GitHub/software/Pockee
-    - /Users/zhimin/Documents/PDRA/NU/Oxide/scripts
 startuppopupversion: 5
 didshowhunkstaginghint: true
 lastversion: 0.55.1
