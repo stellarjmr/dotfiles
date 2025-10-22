@@ -15,3 +15,7 @@ map(
 map({ "n", "v" }, "d", '"_d')
 map("n", "#", "^")
 map("n", "^", "#")
+map("n", "<leader>h", function()
+  local word = vim.fn.expand("<cword>")
+  vim.cmd("help " .. word)
+end, { desc = "Help for word under cursor" })
