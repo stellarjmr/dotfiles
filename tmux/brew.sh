@@ -2,6 +2,7 @@
 
 CACHE_FILE="/tmp/tmux_brew_cache"
 CACHE_DURATION=300
+BREW_BIN="/opt/homebrew/bin/brew"
 BREW_LOCK="/opt/homebrew/var/homebrew/locks/update"
 
 # If brew update is running, use cache to avoid inconsistent results
@@ -21,16 +22,43 @@ if [ -f "$CACHE_FILE" ]; then
 fi
 
 # Only check formulae (packages), not casks which auto-update
-outdated_list=$(/opt/homebrew/bin/brew outdated --formula 2>/dev/null)
+count=$("$BREW_BIN" outdated --formula --json=v2 2>/dev/null | python3 - <<'PY' 2>/dev/null
+import json
+import sys
 
-# Filter out empty lines and count properly
-if [ -n "$outdated_list" ]; then
-  count=$(echo "$outdated_list" | grep -c '^[^[:space:]]')
-  if [ "$count" -gt 0 ]; then
-    result="#[bg=${LIGHT_GRAY},fg=${RED},bold]􀐛 #[bg=${LIGHT_GRAY},fg=${RED},bold]$count"
-  else
-    result="#[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]􀐛 "
-  fi
+raw = sys.stdin.read()
+if not raw.strip():
+    print(0)
+    sys.exit(0)
+
+start = raw.find("{")
+if start == -1:
+    print(0)
+    sys.exit(0)
+
+end = raw.rfind("}")
+if end != -1:
+    raw = raw[start:end + 1]
+else:
+    raw = raw[start:]
+
+try:
+    data = json.loads(raw)
+except json.JSONDecodeError:
+    print(0)
+    sys.exit(0)
+
+formulae = data.get("formulae", [])
+print(len(formulae))
+PY
+)
+
+if ! [[ "$count" =~ ^[0-9]+$ ]]; then
+  count=0
+fi
+
+if [ -n "$count" ] && [ "$count" -gt 0 ]; then
+  result="#[bg=${LIGHT_GRAY},fg=${RED},bold]􀐛 #[bg=${LIGHT_GRAY},fg=${RED},bold]$count"
 else
   result="#[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]􀐛 "
 fi
