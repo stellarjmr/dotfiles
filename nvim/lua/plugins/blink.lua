@@ -1,8 +1,3 @@
--- return {
---   "saghen/blink.cmp",
---   enabled = false,
--- }
-
 return {
   "saghen/blink.cmp",
   -- optional: provides snippets for the snippet source
