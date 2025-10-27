@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
-SESSION="dev"
 WINDOW_NAME="${1:-workspace}"
+
+DEFAULT_SESSION="dev"
+
+if [ -n "$TMUX" ]; then
+  SESSION=$(tmux display-message -p '#S')
+else
+  SESSION="$DEFAULT_SESSION"
+fi
 
 attach_or_switch() {
   local target="$1"
