@@ -1,5 +1,37 @@
 return {
   "folke/snacks.nvim",
+  keys = {
+    {
+      "<leader>p",
+      function()
+        -- Define your project folders here (same as in opts)
+        local project_folders = {
+          "~/Documents/PDRA/NU/Oxide/scripts",
+          "~/Documents/PDRA/NU/KTaNbCl/scripts",
+          "~/Documents/PDRA/NU/NaZrSOClBr/scripts",
+          "~/Documents/PDRA/NU/Na3PS4/scripts",
+          "~/Documents/PDRA/NU/SiGe/scripts",
+        }
+        vim.ui.select(project_folders, {
+          prompt = "Select Project:",
+        }, function(choice)
+          if choice then
+            local expanded_path = vim.fn.expand(choice)
+            vim.cmd("cd " .. vim.fn.fnameescape(expanded_path))
+            vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path })")
+          end
+        end)
+      end,
+      desc = "Open Project Manager",
+    },
+    {
+      "<leader>o",
+      function()
+        require("snacks").picker.pick("files", { cwd = "~/Documents/Notes" })
+      end,
+      desc = "Open Notes",
+    },
+  },
   ---@type snacks.Config
   opts = function()
     -- Define your project folders here
