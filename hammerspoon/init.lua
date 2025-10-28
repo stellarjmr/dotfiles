@@ -78,7 +78,64 @@ for key, focusFn in pairs(directionalFocusHandlers) do
 		focusFn(win)
 	end)
 end
---- resize window
+--- resize Zen windows on creation/focus
+local zenWindowSizeRatio = { width = 0.7, height = 0.95 }
+local zenWindowUnitRect = hs.geometry.rect(
+	(1 - zenWindowSizeRatio.width) / 2,
+	(1 - zenWindowSizeRatio.height) / 2,
+	zenWindowSizeRatio.width,
+	zenWindowSizeRatio.height
+)
+local zenResizeMaxAttempts = 6
+
+local function resizeZenWindow(win, attempt)
+	attempt = attempt or 1
+	if not win or attempt > zenResizeMaxAttempts then
+		return
+	end
+
+	local screen = win:screen()
+	if not screen then
+		hs.timer.doAfter(0.3, function()
+			resizeZenWindow(win, attempt + 1)
+		end)
+		return
+	end
+
+	if not win:isStandard() then
+		hs.timer.doAfter(0.3, function()
+			resizeZenWindow(win, attempt + 1)
+		end)
+		return
+	end
+
+	win:moveToUnit(zenWindowUnitRect, screen)
+
+	hs.timer.doAfter(0.15, function()
+		local frame = win:frame()
+		local screenFrame = screen:frame()
+		local targetW = screenFrame.w * zenWindowSizeRatio.width
+		local targetH = screenFrame.h * zenWindowSizeRatio.height
+
+		if math.abs(frame.w - targetW) > 1 or math.abs(frame.h - targetH) > 1 then
+			resizeZenWindow(win, attempt + 1)
+		end
+	end)
+end
+
+local zenWindowFilter = hs.window.filter.new("Zen")
+zenWindowFilter:subscribe({
+	hs.window.filter.windowCreated,
+	-- hs.window.filter.windowFocused,
+}, function(win)
+	if not win then
+		return
+	end
+
+	hs.timer.doAfter(0.1, function()
+		resizeZenWindow(win)
+	end)
+end)
 
 --- enlarge window
 hs.hotkey.bind(ctrl_alt, "=", function()
