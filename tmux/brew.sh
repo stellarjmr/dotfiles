@@ -2,8 +2,31 @@
 
 CACHE_FILE="/tmp/tmux_brew_cache"
 CACHE_DURATION=300
-BREW_BIN="/opt/homebrew/bin/brew"
-BREW_LOCK="/opt/homebrew/var/homebrew/locks/update"
+
+# Try to locate Homebrew dynamically to support varying installations.
+if command -v brew >/dev/null 2>&1; then
+  BREW_BIN="$(command -v brew)"
+else
+  for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$candidate" ]; then
+      BREW_BIN="$candidate"
+      break
+    fi
+  done
+fi
+
+if [ -z "$BREW_BIN" ]; then
+  result="#[bg=${LIGHT_GRAY},fg=${MAGENTA},bold]􀐛 "
+  echo "$result" | tee "$CACHE_FILE"
+  exit 0
+fi
+
+BREW_PREFIX="$("$BREW_BIN" --prefix 2>/dev/null)"
+if [ -n "$BREW_PREFIX" ]; then
+  BREW_LOCK="$BREW_PREFIX/var/homebrew/locks/update"
+else
+  BREW_LOCK=""
+fi
 
 # If brew update is running, use cache to avoid inconsistent results
 if [ -f "$BREW_LOCK" ] && [ -f "$CACHE_FILE" ]; then
