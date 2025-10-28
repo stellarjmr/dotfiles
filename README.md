@@ -5,11 +5,6 @@
 ## hammerspoon
 
 ```bash
-# Hammerspoon official website
-[url](https://www.hammerspoon.org/)
-
-# If you want use XDG_CONFIG_HOME environment variable
-```bash
 defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
 ```
 
