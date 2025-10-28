@@ -44,37 +44,19 @@ if [ -f "$CACHE_FILE" ]; then
   fi
 fi
 
-# Only check formulae (packages), not casks which auto-update
-count=$("$BREW_BIN" outdated --formula --json=v2 2>/dev/null | python3 - <<'PY' 2>/dev/null
-import json
-import sys
+# Count both formulae and casks without needing Python (works even if CLT isn't installed)
+formula_count=$("$BREW_BIN" outdated --formula --quiet 2>/dev/null | awk 'NF{count++} END{print count+0}' 2>/dev/null)
+cask_count=$("$BREW_BIN" outdated --cask --quiet 2>/dev/null | awk 'NF{count++} END{print count+0}' 2>/dev/null)
 
-raw = sys.stdin.read()
-if not raw.strip():
-    print(0)
-    sys.exit(0)
+# awk might not print anything if the command fails, so default to zero
+if ! [[ "$formula_count" =~ ^[0-9]+$ ]]; then
+  formula_count=0
+fi
+if ! [[ "$cask_count" =~ ^[0-9]+$ ]]; then
+  cask_count=0
+fi
 
-start = raw.find("{")
-if start == -1:
-    print(0)
-    sys.exit(0)
-
-end = raw.rfind("}")
-if end != -1:
-    raw = raw[start:end + 1]
-else:
-    raw = raw[start:]
-
-try:
-    data = json.loads(raw)
-except json.JSONDecodeError:
-    print(0)
-    sys.exit(0)
-
-formulae = data.get("formulae", [])
-print(len(formulae))
-PY
-)
+count=$((formula_count + cask_count))
 
 if ! [[ "$count" =~ ^[0-9]+$ ]]; then
   count=0
