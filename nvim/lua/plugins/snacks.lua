@@ -176,7 +176,7 @@ return {
         sections = {
           { section = "header", indent = 0 },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1, gap = 0 },
-          { indent = 2, pane = 2, padding = 3 },
+          { indent = 2, pane = 2, padding = 3, enabled = function() return vim.o.columns > 120 end },
           {
             icon = " ",
             title = "Recent Files",
@@ -185,8 +185,9 @@ return {
             padding = 1,
             gap = 0,
             pane = 2,
+            enabled = function() return vim.o.columns > 120 end,
           },
-          { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1, gap = 0, pane = 2 },
+          { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1, gap = 0, pane = 2, enabled = function() return vim.o.columns > 120 end },
           {
             icon = " ",
             title = "Recent Notes",
@@ -196,6 +197,7 @@ return {
             gap = 0,
             pane = 2,
             cwd = "~/Documents/Notes",
+            enabled = function() return vim.o.columns > 120 end,
           },
           { section = "startup" },
         },
