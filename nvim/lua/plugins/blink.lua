@@ -35,8 +35,8 @@ return {
       },
       ["<S-Tab>"] = { "snippet_backward", "fallback" },
 
-      ["<C-k>"] = { "select_prev", "fallback" },
-      ["<C-j>"] = { "select_next", "fallback" },
+      ["<S-k>"] = { "select_prev", "fallback" },
+      ["<S-j>"] = { "select_next", "fallback" },
       ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
       ["<C-n>"] = { "select_next", "fallback_to_mappings" },
 
