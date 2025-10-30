@@ -2,6 +2,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     version = "*",
+    event = "BufReadPre",
     config = function()
       require("toggleterm").setup({
         size = 20,
@@ -103,12 +104,6 @@ return {
       )
       -- Quick return from terminal mode to normal mode
       vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true, desc = "Terminal normal mode" })
-
-      -- Window switching within the terminal (optional)
-      vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], { silent = true })
-      vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], { silent = true })
-      vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], { silent = true })
-      vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], { silent = true })
     end,
   },
 }
