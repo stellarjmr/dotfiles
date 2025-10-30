@@ -7,6 +7,33 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "when_closing_with_no_tabs": "platform_default",
+  "audio": {
+    "experimental.auto_speaker_volume": true
+  },
+  "terminal": {
+    "option_as_meta": false,
+    "max_scroll_history_lines": 10000,
+    "default_height": 200.0
+  },
+  "tabs": {
+    "git_status": false,
+    "file_icons": true
+  },
+  "tab_bar": {
+    "show": true
+  },
+  "title_bar": {
+    "show_branch_name": true,
+    "show_onboarding_banner": true,
+    "show_menus": false,
+    "show_sign_in": false,
+    "show_user_picture": false,
+    "show_branch_icon": false
+  },
+  "project_panel": {
+    "default_width": 200.0
+  },
   "disable_ai": true,
   "buffer_font_features": {
     "calt": 0
@@ -36,8 +63,9 @@
     "dark": "Everforest Dark Hard"
   },
   "cursor_blink": false,
-  "restore_on_startup": "none",
+  "restore_on_startup": "last_session",
   "session": {
+    "restore_unsaved_buffers": false,
     "restore": false
   },
   "auto_install_extensions": {
@@ -55,6 +83,7 @@
     }
   },
   "diagnostics": {
+    "button": true,
     "include_warnings": false,
     "enabled": false
   },
