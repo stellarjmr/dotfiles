@@ -4,6 +4,7 @@ espanso/
 github-copilot/
 lazyvim/
 # lazygit/
+lazygit/state.yml
 rclone/
 scripts/
 # hammerspoon/
