@@ -48,6 +48,7 @@ hs.hotkey.bind(ctrl_alt, "C", function()
 		win:centerOnScreen()
 	end
 end)
+
 --- focus adjacent windows with ctrl+h/j/k/l
 local directionalFocusHandlers = {
 	h = function(win)
