@@ -15,3 +15,4 @@ configstore/
 nvim/lazy-lock.json
 StardewValley/
 .zshrc
+zed/prompts/
