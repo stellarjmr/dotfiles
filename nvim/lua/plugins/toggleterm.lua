@@ -99,7 +99,7 @@ return {
       vim.keymap.set(
         "n",
         "<leader>tv",
-        "<cmd>ToggleTerm size=40 direction=vertical<CR>",
+        "<cmd>ToggleTerm size=44 direction=vertical<CR>",
         { desc = "Toggle vertical terminal" }
       )
       -- Quick return from terminal mode to normal mode
