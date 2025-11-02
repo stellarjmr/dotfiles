@@ -23,6 +23,12 @@ return {
   },
   keys = {
     {
+      "<Esc>",
+      "<C-\\><C-n>",
+      mode = "t",
+      desc = "Exit terminal mode",
+    },
+    {
       "<leader>aa",
       function()
         require("sidekick.cli").select({ filter = { installed = true } })
