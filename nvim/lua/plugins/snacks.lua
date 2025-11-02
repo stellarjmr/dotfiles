@@ -43,6 +43,19 @@ return {
       "~/path/to/project5",
     }
 
+    -- Detect whether the dashboard window still has room for a second pane.
+    local function dashboard_has_pane_space()
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_is_valid(win) then
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].filetype == "snacks_dashboard" then
+            return vim.api.nvim_win_get_width(win) > 120
+          end
+        end
+      end
+      return vim.o.columns > 120
+    end
+
     return {
       bigfile = { enable = true },
       statuscolumn = { enable = true },
@@ -181,7 +194,7 @@ return {
             pane = 2,
             padding = 3,
             enabled = function()
-              return vim.o.columns > 120
+              return dashboard_has_pane_space()
             end,
           },
           {
@@ -193,7 +206,7 @@ return {
             gap = 0,
             pane = 2,
             enabled = function()
-              return vim.o.columns > 120
+              return dashboard_has_pane_space()
             end,
           },
           {
@@ -205,7 +218,7 @@ return {
             gap = 0,
             pane = 2,
             enabled = function()
-              return vim.o.columns > 120
+              return dashboard_has_pane_space()
             end,
           },
           {
@@ -218,7 +231,7 @@ return {
             pane = 2,
             cwd = "~/Documents/Notes",
             enabled = function()
-              return vim.o.columns > 120
+              return dashboard_has_pane_space()
             end,
           },
           { section = "startup" },
