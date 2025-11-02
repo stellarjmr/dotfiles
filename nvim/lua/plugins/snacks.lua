@@ -27,9 +27,16 @@ return {
     {
       "<leader>o",
       function()
-        require("snacks").picker.pick("files", { cwd = "~/Documents/Notes" })
+        Snacks.picker.pick("files", { cwd = "~/Documents/Notes" })
       end,
       desc = "Open Notes",
+    },
+    {
+      "<leader>fC",
+      function()
+        Snacks.picker.pick("files", { cwd = "~/.config" })
+      end,
+      desc = "Find XDG Config File",
     },
   },
   ---@type snacks.Config
