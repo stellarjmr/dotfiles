@@ -1,7 +1,7 @@
 command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
 
 # theme
-theme = EverforestLightMed
+theme = EverforestDarkHard
 
 # font
 font-size = 15.0
@@ -23,8 +23,8 @@ macos-titlebar-style = hidden
 #shell-integration-features = no-title
 macos-titlebar-proxy-icon = visible
 window-title-font-family = 0xProto Nerd Font Bold
-window-height = 40
-window-width = 150
+window-height = 42
+window-width = 155
 focus-follows-mouse = true
 macos-icon = official
 background-opacity = 1
