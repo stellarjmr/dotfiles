@@ -48,3 +48,21 @@ vim.api.nvim_create_autocmd("User", {
     end
   end,
 })
+
+-- Tmux navigation
+vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
+  callback = function()
+    local dir = vim.fn.expand("%:p:h")
+    if dir == "" then
+      dir = vim.fn.getcwd()
+    end
+    vim.fn.writefile({ dir }, "/tmp/nvim_cwd")
+  end,
+})
+
+-- Clean up temp file when neovim exits
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    vim.fn.delete("/tmp/nvim_cwd")
+  end,
+})
