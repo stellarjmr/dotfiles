@@ -26,7 +26,7 @@ create_layout() {
 
   tmux split-window -v -p 25 -t "$first_pane" 'zsh'
   tmux select-pane -t "$first_pane"
-  tmux split-window -h -p 30 -t "$first_pane" 'btop'
+  tmux split-window -h -p 30 -t "$first_pane" 'zsh'
   tmux select-pane -t "$first_pane"
 }
 
