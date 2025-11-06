@@ -426,3 +426,6 @@ end)
 --- Safari Scholar Google auto-handler
 local scholarHandler = require("safari-scholar-google")
 scholarHandler.start()
+
+--- App Icons Menubar
+require("app_icons_menubar")
