@@ -1,21 +1,17 @@
 return {
   "nvim-lualine/lualine.nvim",
   opts = function(_, opts)
-    opts.sections = opts.sections or {}
-    opts.sections.lualine_c = opts.sections.lualine_c or {}
+    opts.options = opts.options or {}
+    opts.options.component_separators = { left = "", right = "" }
+    opts.options.section_separators = { left = "\u{e0b4}", right = "\u{e0b6}" }
 
-    -- CLI session status
-    table.insert(opts.sections.lualine_x, 2, {
-      function()
-        local status = require("sidekick.status").cli()
-        return " " .. (#status > 1 and #status or "")
-      end,
-      cond = function()
-        return #require("sidekick.status").cli() > 0
-      end,
-      color = function()
-        return "Special"
-      end,
-    })
+    -- Add rounded separators to section a (mode) and z (location)
+    opts.sections = opts.sections or {}
+    opts.sections.lualine_a = {
+      { "mode", separator = { left = "\u{e0b6}", right = "\u{e0b4}" }, padding = 1 }
+    }
+    opts.sections.lualine_z = {
+      { "location", separator = { left = "\u{e0b6}", right = "\u{e0b4}" }, padding = 1 }
+    }
   end,
 }
