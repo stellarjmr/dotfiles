@@ -35,37 +35,71 @@ end
 -- Function to update menubar with app icons
 local function updateMenubar()
     local apps = getVisibleApps()
-    local icons = {}
+    local focusedApp = hs.application.frontmostApplication()
+    local focusedAppName = focusedApp and focusedApp:name() or nil
 
-    -- Get icon for each app
-    for _, appName in ipairs(apps) do
-        local icon = icon_map[appName] or ":default:"
-        table.insert(icons, icon)
-    end
+    if menubar and #apps > 0 then
+        -- Build styled text with different colors for focused/unfocused apps
+        local styledText = nil
 
-    -- Join icons with minimal spacing
-    local iconString = table.concat(icons, " ")
+        for i, appName in ipairs(apps) do
+            local icon = icon_map[appName] or ":default:"
+            local isFocused = (appName == focusedAppName)
 
-    if menubar then
-        -- Create styled text with custom font and baseline offset
-        local styledText = hs.styledtext.new(iconString, {
-            font = { name = "sketchybar-app-font", size = 15 },
-            baselineOffset = -5.0,
-            kerning = -1.0  -- Reduce space between characters
-        })
+            -- Create styled segment for this icon with more noticeable color difference
+            local segment = hs.styledtext.new(icon, {
+                font = { name = "sketchybar-app-font", size = 15 },
+                baselineOffset = -5.0,
+                color = isFocused and { white = 1.0 } or { white = 0.75 }  -- Bright white for focused, dimmed for others
+            })
+
+            if styledText == nil then
+                styledText = segment
+            else
+                styledText = styledText .. segment
+            end
+
+            -- Add spacing between icons (except after the last one)
+            if i < #apps then
+                local spacer = hs.styledtext.new(" ", {
+                    font = { name = "sketchybar-app-font", size = 15 },
+                    baselineOffset = -5.0,
+                    kerning = -1.0
+                })
+                styledText = styledText .. spacer
+            end
+        end
+
         menubar:setTitle(styledText)
+    elseif menubar then
+        menubar:setTitle("")
     end
 end
 
 -- Initial update
 updateMenubar()
 
+-- Track last focused app to avoid unnecessary updates
+local lastFocusedApp = nil
+
+-- Fast polling timer for focus changes (0.1 second)
+local focusTimer = hs.timer.doEvery(0.1, function()
+    local currentFocused = hs.application.frontmostApplication()
+    local currentName = currentFocused and currentFocused:name() or nil
+
+    if currentName ~= lastFocusedApp then
+        lastFocusedApp = currentName
+        updateMenubar()
+    end
+end)
+
 -- Watch for application events
 local appWatcher = hs.application.watcher.new(function(appName, eventType, app)
     if eventType == hs.application.watcher.launched or
        eventType == hs.application.watcher.terminated or
        eventType == hs.application.watcher.hidden or
-       eventType == hs.application.watcher.unhidden then
+       eventType == hs.application.watcher.unhidden or
+       eventType == hs.application.watcher.activated then  -- Update on focus change
         updateMenubar()
     end
 end)
@@ -79,7 +113,8 @@ windowFilter:subscribe({
     hs.window.filter.windowVisible,
     hs.window.filter.windowHidden,
     hs.window.filter.windowMinimized,
-    hs.window.filter.windowUnminimized
+    hs.window.filter.windowUnminimized,
+    hs.window.filter.windowFocused  -- Add focus event for faster response
 }, function()
     updateMenubar()
 end)
