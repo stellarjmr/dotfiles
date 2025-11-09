@@ -59,6 +59,14 @@ return {
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
       default = { "snippets", "copilot", "lsp", "path", "buffer" },
+      providers = {
+        snippets = {
+          opts = {
+            friendly_snippets = true,
+            search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+          },
+        },
+      },
     },
   },
   opts_extend = { "sources.default" },
