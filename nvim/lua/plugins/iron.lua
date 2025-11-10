@@ -1,5 +1,6 @@
 return {
   "hkupty/iron.nvim",
+  enabled = false,
   ft = "python",
   lazy = true,
   config = function()
