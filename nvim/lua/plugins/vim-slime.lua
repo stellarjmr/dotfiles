@@ -1,5 +1,6 @@
 return {
   "jpalardy/vim-slime",
+  enabled = false,
   keys = {
     { "<leader>sc", function()
       -- Ensure tmux pane with iPython is running

@@ -80,7 +80,7 @@ for key, focusFn in pairs(directionalFocusHandlers) do
 	end)
 end
 --- resize Zen windows on creation/focus
-local zenWindowSizeRatio = { width = 0.7, height = 0.95 }
+local zenWindowSizeRatio = { width = 0.6, height = 0.85 }
 local zenWindowUnitRect = hs.geometry.rect(
 	(1 - zenWindowSizeRatio.width) / 2,
 	(1 - zenWindowSizeRatio.height) / 2,
