@@ -48,7 +48,7 @@ local function updateMenubar()
 
             -- Create styled segment for this icon with more noticeable color difference
             local segment = hs.styledtext.new(icon, {
-                font = { name = "sketchybar-app-font", size = 15 },
+                font = { name = "sketchybar-app-font", size = 16 },
                 baselineOffset = -5.0,
                 color = isFocused and { white = 1.0 } or { white = 0.75 }  -- Bright white for focused, dimmed for others
             })
