@@ -1,0 +1,94 @@
+{
+  "env": {
+    "prefix": "begin",
+    "body": ["\\begin{${1:env}}", "\t$0", "\\end{${1}}"],
+    "description": "Create an environment"
+  },
+  "article": {
+    "prefix": "article",
+    "body": ["\\documentclass{article}", "\\usepackage{graphicx}", "\\usepackage[utf8]{inputenc}", "\\usepackage[backend=biber,style=authoryear]{biblatex}", "\\addbibresource{Library.bib}", "\\begin{document}", "\t$0", "\\printbibliography", "\\end{document}"],
+    "description": "Start a new article"
+  },
+  "title": {
+    "prefix": "title",
+    "body": [
+      "\\title{$1}",
+      "\\author{${2:Author}}",
+      "\\affiliatin{${3:Affiliation}}",
+      "\\begin{abstract}","\t${4:abstract}", "\\end{${abstract}}",
+      "\\maketitle",
+      "$0"
+    ],
+    "description": "Add a title, author, affiliation, and date"
+  },
+  "figure": {
+    "prefix": "figure",
+    "body": [
+      "\\begin{figure}[htbp]",
+      "\t\\centering",
+      "\t\\includegraphics[width=0.8\\textwidth]{${1:figure.png}}",
+      "\t\\caption{${2:Caption for the figure}}",
+      "\t\\label{fig:${3:figure_label}}",
+      "\\end{figure}",
+      "$0"
+    ],
+    "description": "Add a figure"
+  },
+  "Table": {
+    "prefix": "table",
+    "body": [
+      "\\begin{table}",
+      "\t\\caption{$1}\\label{tab:$2}",
+      "\t\\begin{center}",
+      "\t\t\\begin{tabular}[c]{l|l}",
+      "\t\t\t\\hline",
+      "\t\t\t\\multicolumn{1}{c|}{\\textbf{$3}} & ",
+      "\t\t\t\\multicolumn{1}{c}{\\textbf{$4}} \\\\\\\\",
+      "\t\t\t\\hline",
+      "\t\t\ta & b \\\\\\\\",
+      "\t\t\tc & d \\\\\\\\",
+      "\t\t\t$5",
+      "\t\t\t\\hline",
+      "\t\t\\end{tabular}",
+      "\t\\end{center}",
+      "\\end{table}",
+      "$0"
+    ],
+    "description": "Add a table"
+  },
+  "math": {
+    "prefix": "math",
+    "body": ["\\begin{math}", "\t$1", "\\end{math}", "$0"],
+    "description": "Add a Math"
+  },
+  "DisplayMath": {
+    "prefix": "displaymath",
+    "body": ["\\begin{displaymath}", "\t$1", "\\end{displaymath}", "$0"],
+    "description": "Display Math"
+  },
+  "Equation": {
+    "prefix": "equation",
+    "body": [
+      "\\begin{equation}",
+      "\t$0",
+      "\t\\label{eq:$1}",
+      "\\end{equation}"
+    ],
+    "description": "Add a Equation"
+  },
+  "Figure:Ref": {
+    "prefix": "reffig",
+    "body": ["${1:Fig.}~\\ref{fig:$2}$0"],
+    "description": "Ref for Figure"
+  },
+  "Table:Ref": {
+    "prefix": "reftable",
+    "body": ["${1:Table}~\\ref{tab:$2}$0"],
+    "description": "Table Reference"
+  },
+  "Cite": {
+    "prefix": "cite",
+    "body": ["\\cite{$1}$0"],
+    "description": "Add a cite"
+  }
+}
