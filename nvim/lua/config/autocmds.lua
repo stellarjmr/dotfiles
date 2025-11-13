@@ -66,3 +66,27 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
     vim.fn.delete("/tmp/nvim_cwd")
   end,
 })
+
+-- Function to toggle markdown checkbox
+local function toggle_checkbox()
+  local line = vim.api.nvim_get_current_line()
+  local new_line
+
+  if line:match("%- %[ %]") then
+    new_line = line:gsub("%- %[ %]", "- [x]", 1)
+  elseif line:match("%- %[x%]") or line:match("%- %[X%]") then
+    new_line = line:gsub("%- %[[xX]%]", "- [ ]", 1)
+  else
+    return
+  end
+
+  vim.api.nvim_set_current_line(new_line)
+end
+
+-- Set up keymap for markdown files only
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown" },
+  callback = function()
+    vim.keymap.set("n", "<leader><CR>", toggle_checkbox, { buffer = true, desc = "Toggle checkbox" })
+  end,
+})
