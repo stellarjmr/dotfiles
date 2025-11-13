@@ -1,0 +1,9 @@
+{
+  "Import cmcrameri colormap": {
+    "prefix": "cm",
+    "body": [
+      "from cmcrameri import cm\ncmap=cm.batlow"
+    ],
+    "description": "Import cmcrameri colormap module"
+  }
+}
