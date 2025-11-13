@@ -4,29 +4,38 @@ window_index="$2"
 window_panes="$3"
 
 case "$window_name" in
-"zsh" | "bash" | "fish" | "sh")
+zsh | bash | fish | sh)
   icon=" "
   ;;
-"yazi")
+yazi)
   icon="󰇥 "
   ;;
-"ssh")
+ssh)
   icon="󰢹 "
   ;;
-"vim" | "nvim")
+vim | nvim)
   icon=" "
   ;;
-"python" | "python3" | "python3.9" | "python3.10" | "python3.11" | "python3.12")
+python | python3 | python3.9 | python3.10 | python3.11 | python3.12)
   icon=" "
   ;;
-"lazygit")
+lazygit)
   icon="󰊢 "
   ;;
-"ruby")
+ruby)
   icon=" "
   ;;
-"fzf")
+fzf)
   icon=" "
+  ;;
+node)
+  icon="󰫢 "
+  ;;
+codex | *codex*)
+  icon="󰧑 "
+  ;;
+claude)
+  icon=" "
   ;;
 *)
   icon="󰊠 "
