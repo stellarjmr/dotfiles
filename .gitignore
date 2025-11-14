@@ -1,5 +1,6 @@
 .DS_Store
 .pmgrc.yaml
+.claude/
 espanso/
 github-copilot/
 lazyvim/

@@ -21,7 +21,7 @@ return {
     cell_marker = " Cell", --  is Python nerd font icon
 
     -- Cell width configuration
-    cell_width_percentage = 90, -- Use 80% of window width
+    cell_width_percentage = 80, -- Use 80% of window width
     min_cell_width = 40,
     max_cell_width = 150,
   },
