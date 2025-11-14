@@ -345,9 +345,9 @@ return {
             title = "My Todos",
             limit = 8,
             indent = 2,
-            -- enabled = function()
-            --   return dashboard_has_pane_space()
-            -- end,
+            enabled = function()
+              return dashboard_has_pane_space()
+            end,
           }),
           {
             icon = " ",
