@@ -72,7 +72,5 @@ keybind = super+physical:seven=goto_tab:7
 keybind = super+physical:eight=goto_tab:8
 
 # quick terminal
-initial-window = false
 quick-terminal-position = center
-quick-terminal-size = 950px,560px
 keybind = global:alt+q=toggle_quick_terminal
