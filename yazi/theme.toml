@@ -1,5 +1,3 @@
 [flavor]
-# dark = "bluloco-dark"
-# light = "bluloco-light"
-dark = "everforest-medium"
-light = "everforest-medium"
+dark = "everforest-dark"
+light = "everforest-light"
