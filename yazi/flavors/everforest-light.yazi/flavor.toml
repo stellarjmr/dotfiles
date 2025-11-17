@@ -1,0 +1,219 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "#3a94c5" }
+
+# Hovered
+hovered         = { reversed = true }
+preview_hovered = { underline = true }
+
+# Find
+find_keyword  = { fg = "#dfa000", bold = true, italic = true, underline = true }
+find_position = { fg = "#df69ba", bg = "reset", bold = true, italic = true }
+
+# Symlink
+symlink_target = { italic = true }
+
+# Marker
+marker_copied   = { fg = "#8da101", bg = "#8da101" }
+marker_cut      = { fg = "#f85552", bg = "#f85552" }
+marker_marked   = { fg = "#3a94c5", bg = "#3a94c5" }
+marker_selected = { fg = "#dfa000", bg = "#dfa000" }
+
+# Count
+count_copied   = { fg = "#f4f0d9", bg = "#8da101" }
+count_cut      = { fg = "#f4f0d9", bg = "#f85552" }
+count_selected = { fg = "#f4f0d9", bg = "#dfa000" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#e0dcc7" }
+
+# Highlighting
+syntect_theme = ""
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { fg = "#e0dcc7", bg = "#3a94c5", bold = true }
+inactive = { fg = "#3a94c5", bg = "#e0dcc7" }
+
+# Separator
+separator_open = ""
+separator_close = ""
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+normal_main = { fg = "#e6e2cc", bg = "#8da101", bold = true }
+normal_alt  = { fg = "#3a94c5", bg = "#e0dcc7", bold = true }
+
+# Select mode
+select_main = { fg = "#e6e2cc", bg = "#f85552", bold = true }
+select_alt  = { fg = "#3a94c5", bg = "#e0dcc7", bold = true }
+
+# Unset mode
+unset_main = { fg = "#e6e2cc", bg = "#3a94c5", bold = true }
+unset_alt  = { fg = "#3a94c5", bg = "#e0dcc7", bold = true }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+overall   = {}
+sep_left  = { open = "", close = "" }
+sep_right  = { open = "", close = "" }
+
+# Permissions
+permissions_s = { fg = "#fdf6e3" }
+permissions_t = { fg = "#8da101" }
+permissions_r = { fg = "#dfa000" }
+permissions_w = { fg = "#f85552" }
+permissions_x = { fg = "#3a94c5" }
+
+# Progress
+progress_label  = { bold = true }
+progress_normal = { fg = "#3a94c5", bg = "#efebd4" }
+progress_error  = { fg = "#f85552", bg = "#efebd4" }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+cols            = 3
+mask            = { bg = "#fdf6e3" }
+cand            = { fg = "#3a94c5" }
+rest            = { fg = "#fdf6e3" }
+desc            = { fg = "#df69ba" }
+separator       = "  "
+separator_style = { fg = "#fdf6e3" }
+
+# : }}}
+
+
+# : Confirmation {{{
+
+[confirm]
+border     = { fg = "#3a94c5" }
+title      = { fg = "#3a94c5" }
+body       = {}
+list       = {}
+btn_yes    = { reversed = true }
+btn_no     = {}
+btn_labels = [ "  [Y]es  ", "  (N)o  " ]
+
+# : }}}
+
+
+# : Spotter {{{
+
+[spot]
+border = { fg = "#3a94c5" }
+title  = { fg = "#3a94c5" }
+
+# Table
+tbl_col  = { fg = "#3a94c5" }
+tbl_cell = { fg = "#dfa000", reversed = true }
+
+# : }}}
+
+
+# : Notification {{{
+
+[notify]
+title_info  = { fg = "#8da101" }
+title_warn  = { fg = "#dfa000" }
+title_error = { fg = "#f85552" }
+
+# : }}}
+
+
+# : Picker {{{
+
+[pick]
+border   = { fg = "#3a94c5" }
+active   = { fg = "#df69ba", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#3a94c5" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border   = { fg = "#3a94c5" }
+active   = { reversed = true }
+inactive = {}
+
+# : }}}
+
+
+# : Task manager {{{
+
+[tasks]
+border  = { fg = "#3a94c5" }
+title   = {}
+hovered = { fg = "#df69ba", underline = true }
+
+# : }}}
+
+
+# : Help menu {{{
+
+[help]
+on      = { fg = "#3a94c5" }
+run     = { fg = "#df69ba" }
+desc    = {}
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#fdf6e3", bg = "#5c6a72" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+	# Images
+	{ mime = "image/*", fg = "#3a94c5" },
+
+	# Media
+	{ mime = "{audio,video}/*", fg = "#df69ba" },
+
+	# Archives
+	{ mime = "application/*zip", fg = "#f85552" },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#f85552" },
+
+	# Documents
+	{ mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#3a94c5" },
+
+	# Fallback
+	{ name = "*", fg = "#35a77c" },
+	{ name = "*/", fg = "#8da101" }
+]
+
+# : }}}
