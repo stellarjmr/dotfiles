@@ -42,18 +42,8 @@ return {
 
       -- lazygit
       local lazygit = Terminal:new({
-        -- cmd = "lazygit",
-        -- hidden terms need high ids otherwise clash with count toggle
+        cmd = "lazygit",
         id = 100,
-        cmd = [[
-          THEME=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark || echo light)
-          # THEME=dark
-          # THEME=light
-          XDG_CONFIG_DIR=~/.config
-          CONFIG_BASE=${XDG_CONFIG_DIR}/lazygit/config.yml
-          CONFIG_THEME=${XDG_CONFIG_DIR}/lazygit/config-${THEME}.yml
-          lazygit --use-config-file=${CONFIG_BASE},${CONFIG_THEME}
-          ]],
         hidden = true,
         direction = "float",
         float_opts = {
