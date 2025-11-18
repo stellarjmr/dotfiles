@@ -230,25 +230,6 @@ return {
         sources = {
           explorer = {
             enable = false,
-            --- float explorer
-            -- layout = {
-            --   { preview = true },
-            --   layout = {
-            --     box = "horizontal",
-            --     width = 0.8,
-            --     height = 0.8,
-            --     {
-            --       box = "vertical",
-            --       border = "rounded",
-            --       title = "{source} {live} {flags}",
-            --       title_pos = "center",
-            --       { win = "input", height = 1, border = "bottom" },
-            --       { win = "list", border = "none" },
-            --     },
-            --     { win = "preview", border = "rounded", width = 0.7, title = "{preview}" },
-            --   },
-            -- },
-            --- normal explorer
             layout = {
               layout = {
                 position = "left",
@@ -329,15 +310,6 @@ return {
         sections = {
           { section = "header", indent = 0 },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1, gap = 0 },
-          --- empty for better visual separation
-          -- {
-          --   indent = 2,
-          --   pane = 2,
-          --   padding = 3,
-          --   enabled = function()
-          --     return dashboard_has_pane_space()
-          --   end,
-          -- },
           todo_section({
             file = vim.fn.expand("~/Documents/Notes/todo.md"),
             pane = 2,
@@ -373,20 +345,6 @@ return {
               return dashboard_has_pane_space()
             end,
           },
-          --- recent notes from ~/Documents/Notes
-          -- {
-          --   icon = " ",
-          --   title = "Recent Notes",
-          --   section = "recent_files",
-          --   padding = 1,
-          --   indent = 2,
-          --   gap = 0,
-          --   pane = 2,
-          --   cwd = "~/Documents/Notes",
-          --   enabled = function()
-          --     return dashboard_has_pane_space()
-          --   end,
-          -- },
           { section = "startup" },
         },
       },
