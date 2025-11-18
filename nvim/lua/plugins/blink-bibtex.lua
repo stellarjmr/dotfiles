@@ -6,7 +6,6 @@
 
 return {
   "saghen/blink.cmp",
-  optional = true,
   opts = function(_, opts)
     local uv = vim.uv or vim.loop
 

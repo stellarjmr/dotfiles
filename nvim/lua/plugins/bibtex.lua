@@ -4,7 +4,6 @@
 
 return {
   "folke/snacks.nvim",
-  optional = true,
   opts = function(_, opts)
     -- Inline the bibtex module code
     local M = {}

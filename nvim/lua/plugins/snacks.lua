@@ -307,12 +307,6 @@ return {
               desc = "Mason",
               action = ":Mason",
             },
-            {
-              icon = " ",
-              key = "x",
-              desc = "Extras",
-              action = ":LazyExtras",
-            },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
           header = [[
