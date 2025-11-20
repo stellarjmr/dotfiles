@@ -1,12 +1,9 @@
 return {
   "mikavilpas/yazi.nvim",
-  enabled = true, -- set to true to enable this plugin
-  -- lazy = true,
+  version = "*", -- use the latest stable version
   event = "VeryLazy",
   dependencies = {
-    -- check the installation instructions at
-    -- https://github.com/folke/snacks.nvim
-    "folke/snacks.nvim",
+    { "nvim-lua/plenary.nvim", lazy = true },
   },
   keys = {
     -- 👇 in this section, choose your own keymappings!
@@ -16,15 +13,7 @@ return {
       desc = "Open yazi at the current file",
     },
     {
-
       "<leader>E",
-      "<cmd>Yazi cwd<cr>",
-      desc = "Open the file manager in nvim's working directory",
-    },
-    {
-      -- NOTE: this requires a version of yazi that includes
-      -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
-      "<c-up>",
       "<cmd>Yazi toggle<cr>",
       desc = "Resume the last yazi session",
     },
