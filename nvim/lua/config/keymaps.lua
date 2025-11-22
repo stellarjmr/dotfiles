@@ -122,3 +122,47 @@ map("n", "<leader>h", function()
   local word = vim.fn.expand("<cword>")
   vim.cmd("help " .. word)
 end, { desc = "Help for word under cursor" })
+
+-- replace word under cursor
+map("n", "sw", function()
+  local word = vim.fn.expand("<cword>")
+  if word == "" then
+    vim.notify("No word under cursor", vim.log.levels.WARN)
+    return
+  end
+
+  local replace = vim.fn.input("Replace '" .. word .. "' with: ")
+  if replace == "" then
+    return
+  end
+
+  -- Escape special characters properly
+  local search = vim.fn.escape(word, '/\\')
+  local escaped_replace = vim.fn.escape(replace, '/\\&')
+
+  -- Execute with word boundaries and case-sensitive (I flag)
+  vim.cmd(string.format("%%s/\\<%s\\>/%s/gI", search, escaped_replace))
+end, { desc = "Replace word under cursor globally" })
+-- Search and replace word
+map("n", "sa", function()
+  local input = vim.fn.input("Search and replace: ")
+  if input == "" then
+    return
+  end
+
+  -- Split on first space only (so replacement can contain spaces)
+  local search, replace = input:match("^(%S+)%s+(.*)$")
+  if not search or not replace then
+    vim.notify("Usage: search_term replacement_term", vim.log.levels.WARN)
+    return
+  end
+
+  -- Escape special characters properly
+  -- For very magic mode, we need to escape special regex chars in search
+  search = vim.fn.escape(search, '/\\')
+  replace = vim.fn.escape(replace, '/\\&')
+
+  -- Execute with word boundaries (\< \>) and case-sensitive (I flag)
+  -- Use \< \> for word boundaries (they work without \v)
+  vim.cmd(string.format("%%s/\\<%s\\>/%s/gI", search, replace))
+end, { desc = "Search and replace globally (whole word)" })
