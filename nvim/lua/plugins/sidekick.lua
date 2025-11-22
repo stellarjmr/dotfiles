@@ -22,6 +22,11 @@ return {
       gemini = { cmd = { "gemini" } },
     },
   },
+  config = function(_, opts)
+    require("sidekick").setup(opts)
+    -- Fix sidekick terminal background - link SidekickChat to Normal
+    vim.api.nvim_set_hl(0, "SidekickChat", { link = "Normal" })
+  end,
   keys = {
     {
       "<Esc>",
