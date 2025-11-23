@@ -21,6 +21,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Disable autoformat for python files
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "python" },
+  callback = function()
+    vim.b.autoformat = false
+  end,
+})
+
 -- Automatically returns to the dashboard when the buffer is empty
 vim.api.nvim_create_autocmd("BufDelete", {
   group = vim.api.nvim_create_augroup("bufdelpost_autocmd", {}),

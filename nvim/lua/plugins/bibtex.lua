@@ -573,7 +573,7 @@ return {
       })
 
       -- Add keybinding
-      vim.keymap.set("n", "<leader>fb", "<cmd>Bibtex<cr>", { desc = "Find BibTeX citation" })
+      vim.keymap.set("n", "<leader>fz", "<cmd>Bibtex<cr>", { desc = "Find BibTeX citation" })
     end)
 
     return opts

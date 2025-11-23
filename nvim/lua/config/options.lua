@@ -4,7 +4,7 @@
 vim.diagnostic.enable(false)
 
 -- Disable auto-formatting on save (LazyVim's format system)
-vim.g.autoformat = false
+-- vim.g.autoformat = false
 
 -- Add personal notes directory so gf/:find can jump there quickly
 local notes_dir = vim.fn.expand("~/Documents/Notes")
