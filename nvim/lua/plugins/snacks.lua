@@ -61,7 +61,6 @@ local function todo_section(opts)
     local key_num = 1
     for i, todo in ipairs(todos) do
       if i <= (opts.limit or 10) then
-
         -- color by priority
         local priority_hl = "Normal"
         if todo.priority == "high" then
@@ -73,7 +72,7 @@ local function todo_section(opts)
         end
 
         local icon = todo.done and "✓ " or "○ "
-        local icon_hl = todo.done and 'DiagnosticOk' or priority_hl
+        local icon_hl = todo.done and "DiagnosticOk" or priority_hl
 
         local text_parts = {
           { icon, hl = icon_hl },
@@ -171,6 +170,18 @@ return {
       end,
       desc = "Find XDG Config File",
     },
+    {
+      "<leader>fd",
+      function()
+        Snacks.picker.pick("files", {
+          cwd = "~/Documents",
+          hidden = false,
+          -- Add folders to exclude here
+          exclude = { "Master", "PhD/Documents", "PDRA/Documents", "GitHub/Shortcuts", "GitHub/alfred" },
+        })
+      end,
+      desc = "Find Documents File",
+    },
   },
   ---@type snacks.Config
   opts = function()
@@ -253,6 +264,15 @@ return {
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
             { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            {
+              icon = " ",
+              key = "b",
+              desc = "Browser",
+              action = function()
+                vim.fn.system("open -a 'Zen' 'https://github.com/stellarjmr'")
+              end,
+              hidden = true,
+            },
             {
               icon = " ",
               key = "p",
