@@ -105,6 +105,27 @@ for _, entry in ipairs(resize_keys) do
   end
 end
 
+-- quick "cd" shortcuts; update the list below to your frequently used directories
+local cd_targets = {
+  "~/Documents/PDRA/NU", -- 1
+  "~/Downloads", -- 2
+  "~/Desktop", -- 3
+  "~/.config", -- 4
+  -- add more entries as needed
+}
+
+for idx, path in ipairs(cd_targets) do
+  map("n", "<leader>cd" .. idx, function()
+    local expanded = vim.fn.expand(path)
+    if vim.fn.isdirectory(expanded) == 0 then
+      vim.notify("Directory not found: " .. expanded, vim.log.levels.ERROR)
+      return
+    end
+    vim.cmd("cd " .. vim.fn.fnameescape(expanded))
+    vim.notify("cwd: " .. expanded)
+  end, { silent = true, desc = "cd -> " .. path })
+end
+
 -- redo
 map("n", "<S-r>", "<C-r>", { desc = "Redo", remap = true })
 -- copy, paste, and delete
@@ -137,8 +158,8 @@ map("n", "sw", function()
   end
 
   -- Escape special characters properly
-  local search = vim.fn.escape(word, '/\\')
-  local escaped_replace = vim.fn.escape(replace, '/\\&')
+  local search = vim.fn.escape(word, "/\\")
+  local escaped_replace = vim.fn.escape(replace, "/\\&")
 
   -- Execute with word boundaries and case-sensitive (I flag)
   vim.cmd(string.format("%%s/\\<%s\\>/%s/gI", search, escaped_replace))
@@ -159,8 +180,8 @@ map("n", "sa", function()
 
   -- Escape special characters properly
   -- For very magic mode, we need to escape special regex chars in search
-  search = vim.fn.escape(search, '/\\')
-  replace = vim.fn.escape(replace, '/\\&')
+  search = vim.fn.escape(search, "/\\")
+  replace = vim.fn.escape(replace, "/\\&")
 
   -- Execute with word boundaries (\< \>) and case-sensitive (I flag)
   -- Use \< \> for word boundaries (they work without \v)
