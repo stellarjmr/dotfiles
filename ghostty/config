@@ -59,7 +59,7 @@ keybind = super+w=close_surface
 keybind = super+q=quit
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
-keybind = super+k=clear_screen
+keybind = super+k=text:\x0c
 keybind = super+shift+comma=reload_config
 
 keybind = super+physical:one=goto_tab:1

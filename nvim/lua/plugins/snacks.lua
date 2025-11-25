@@ -134,6 +134,14 @@ return {
   "folke/snacks.nvim",
   keys = {
     {
+      "<leader>bg",
+      function()
+        vim.fn.system("open -a 'Zen' 'https://github.com/stellarjmr'")
+      end,
+      desc = "Open GitHub in browser",
+      mode = "n",
+    },
+    {
       "<leader>p",
       function()
         -- Define your project folders here (same as in opts)
@@ -171,6 +179,18 @@ return {
       desc = "Find XDG Config File",
     },
     {
+      "<leader>fB",
+      function()
+        local buf = vim.api.nvim_buf_get_name(0)
+        if buf == "" then
+          vim.notify("No file name for current buffer", vim.log.levels.WARN)
+          return
+        end
+        Snacks.picker.grep({ dirs = { buf } })
+      end,
+      desc = "Grep Current Buffer",
+    },
+    {
       "<leader>fd",
       function()
         Snacks.picker.pick("files", {
@@ -181,6 +201,32 @@ return {
         })
       end,
       desc = "Find Documents File",
+    },
+    {
+      "<leader>tt",
+      function()
+        Snacks.terminal.toggle(nil, {
+          win = {
+            position = "bottom",
+            height = 0.3,
+          },
+        })
+      end,
+      desc = "Toggle Terminal (horizontal split)",
+    },
+    {
+      "<leader>tb",
+      function()
+        Snacks.terminal.toggle("btop", {
+          win = {
+            position = "float",
+            width = 0.7,
+            height = 0.71,
+            title = " btop ",
+          },
+        })
+      end,
+      desc = "Toggle btop (vertical split)",
     },
   },
   ---@type snacks.Config
@@ -211,6 +257,13 @@ return {
       bigfile = { enable = true },
       statuscolumn = { enable = true },
       quickfile = { enable = true },
+      terminal = {
+        win = {
+          keys = {
+            term_normal = { "<esc>", "<C-\\><C-n>", mode = "t", desc = "Exit terminal mode" },
+          },
+        },
+      },
       image = {
         doc = {
           enabled = true,
@@ -317,15 +370,13 @@ return {
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
           header = [[
-
  ██████╗███████╗███╗   ███╗   ██╗   ██╗     ██████╗
 ██╔════╝╚══███╔╝████╗ ████║   ██║   ██║     ██╔══██╗
 ██║       ███╔╝ ██╔████╔██║████████╗██║     ██████╔╝
 ██║      ███╔╝  ██║╚██╔╝██║██╔═██╔═╝██║     ██╔══██╗
 ╚██████╗███████╗██║ ╚═╝ ██║██████║  ███████╗██║  ██║
  ╚═════╝╚══════╝╚═╝     ╚═╝╚═════╝  ╚══════╝╚═╝  ╚═╝
-
-              ]],
+]],
         },
         sections = {
           { section = "header", indent = 0 },
@@ -369,5 +420,20 @@ return {
         },
       },
     }
+  end,
+  config = function(_, opts)
+    local function set_snacks_hl()
+      -- Keep Snacks windows (e.g. lazygit terminal) using the normal background
+      vim.api.nvim_set_hl(0, "SnacksNormal", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "SnacksNormalNC", { link = "Normal" })
+    end
+
+    require("snacks").setup(opts)
+
+    set_snacks_hl()
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      group = vim.api.nvim_create_augroup("snacks_hl_fix", { clear = true }),
+      callback = set_snacks_hl,
+    })
   end,
 }
