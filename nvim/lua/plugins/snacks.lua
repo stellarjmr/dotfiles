@@ -1,5 +1,5 @@
 -- Load local configuration
-local ok, local_config = pcall(require, "plugins.local_config")
+local ok, local_config = pcall(require, "config.local_config")
 if not ok then
   vim.notify("local_config.lua not found. Copy local_config.example.lua to local_config.lua", vim.log.levels.WARN)
   local_config = { project_folders = {} }
