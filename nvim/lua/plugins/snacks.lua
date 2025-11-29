@@ -2,232 +2,19 @@
 local ok, local_config = pcall(require, "config.local_config")
 if not ok then
   vim.notify("local_config.lua not found. Copy local_config.example.lua to local_config.lua", vim.log.levels.WARN)
-  local_config = { project_folders = {} }
-end
-
--- Todo list section completion
-local function todo_section(opts)
-  opts = opts or {}
-  local todo_file = opts.file or vim.fn.expand("~/todo.md")
-
-  return function(self)
-    local items = {}
-
-    -- head
-    table.insert(items, {
-      title = opts.title or "Todo List",
-      pane = opts.pane or 2,
-      icon = opts.icon or " ",
-      indent = -2,
-      padding = { 0, 1 },
-      enabled = opts.enabled,
-    })
-
-    -- read todo file
-    local file = io.open(todo_file, "r")
-    if not file then
-      table.insert(items, {
-        text = {
-          { "  No todo file found", hl = "Comment" },
-          { "  Create: " .. todo_file, hl = "Comment" },
-        },
-        pane = opts.pane or 2,
-        indent = 2,
-      })
-      return items
-    end
-
-    local content = file:read("*all")
-    file:close()
-
-    -- parse todo items
-    local todos = {}
-    for line in content:gmatch("[^\r\n]+") do
-      -- : - [ ] or - [x] or - [X]
-      local checked, text = line:match("^%s*%- %[([%sx])%]%s*(.+)$")
-      if text then
-        local is_done = checked:lower() == "x"
-
-        -- try read date (@2024-01-15 or due:2024-01-15)
-        local date = text:match("@(%d%d%d%d%-%d%d%-%d%d)") or text:match("due:(%d%d%d%d%-%d%d%-%d%d)")
-
-        -- priority (!high, !medium, !low)
-        local priority = text:match("!(%w+)")
-
-        table.insert(todos, {
-          text = text,
-          done = is_done,
-          date = date,
-          priority = priority,
-          enabled = opts.enabled,
-        })
+  local_config = {
+    project_folders = {},
+    todo_section = function()
+      return function()
+        return {}
       end
-    end
-
-    -- display todo items
-    local key_num = 1
-    for i, todo in ipairs(todos) do
-      if i <= (opts.limit or 10) then
-        -- color by priority
-        local priority_hl = "Normal"
-        if todo.priority == "high" then
-          priority_hl = "DiagnosticError"
-        elseif todo.priority == "medium" then
-          priority_hl = "DiagnosticWarn"
-        elseif todo.priority == "low" then
-          priority_hl = "DiagnosticInfo"
-        end
-
-        local icon = todo.done and "✓ " or "○ "
-        local icon_hl = todo.done and "DiagnosticOk" or priority_hl
-
-        local text_parts = {
-          { icon, hl = icon_hl },
-          {
-            todo.text
-              :gsub("@%d%d%d%d%-%d%d%-%d%d", "")
-              :gsub("due:%d%d%d%d%-%d%d%-%d%d", "")
-              :gsub("!%w+", "")
-              :gsub("%s+", " "),
-            hl = priority_hl,
-          },
-        }
-
-        -- add date if exists
-        if todo.date then
-          table.insert(text_parts, { " " .. todo.date, hl = "Comment" })
-        end
-
-        table.insert(items, {
-          text = text_parts,
-          key = not todo.done and "t" or nil,
-          pane = opts.pane or 2,
-          indent = opts.indent or 2,
-          enabled = opts.enabled,
-          action = function()
-            -- open todo file
-            vim.cmd("edit " .. todo_file)
-          end,
-        })
-      end
-    end
-
-    -- statistics info
-    local total = #todos
-    local done = 0
-    for _, todo in ipairs(todos) do
-      if todo.done then
-        done = done + 1
-      end
-    end
-
-    table.insert(items, {
-      text = {
-        { "  ", hl = "Comment" },
-        { string.format("Progress: %d/%d completed", done, total), hl = "Comment" },
-      },
-      pane = opts.pane or 2,
-      indent = opts.indent or 2,
-      padding = { 1, 0 },
-      enabled = opts.enabled,
-    })
-
-    return items
-  end
+    end,
+  }
 end
 
 -- Main configuration
 return {
   "folke/snacks.nvim",
-  keys = {
-    {
-      "<leader>bg",
-      function()
-        vim.fn.system("open -a 'Zen' 'https://github.com/stellarjmr'")
-      end,
-      desc = "Open GitHub in browser",
-      mode = "n",
-    },
-    {
-      "<leader>p",
-      function()
-        vim.ui.select(local_config.project_folders, {
-          prompt = "Select Project:",
-        }, function(choice)
-          if choice then
-            local expanded_path = vim.fn.expand(choice)
-            vim.cmd("cd " .. vim.fn.fnameescape(expanded_path))
-            vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path })")
-          end
-        end)
-      end,
-      desc = "Open Project Manager",
-    },
-    {
-      "<leader>o",
-      function()
-        Snacks.picker.pick("files", { cwd = "~/Documents/Notes" })
-      end,
-      desc = "Open Notes",
-    },
-    {
-      "<leader>fC",
-      function()
-        Snacks.picker.pick("files", { cwd = "~/.config" })
-      end,
-      desc = "Find XDG Config File",
-    },
-    {
-      "<leader>fB",
-      function()
-        local buf = vim.api.nvim_buf_get_name(0)
-        if buf == "" then
-          vim.notify("No file name for current buffer", vim.log.levels.WARN)
-          return
-        end
-        Snacks.picker.grep({ dirs = { buf } })
-      end,
-      desc = "Grep Current Buffer",
-    },
-    {
-      "<leader>fd",
-      function()
-        Snacks.picker.pick("files", {
-          cwd = "~/Documents",
-          hidden = false,
-          -- Add folders to exclude here
-          exclude = { "Master", "PhD/Documents", "PDRA/Documents", "GitHub/Shortcuts", "GitHub/alfred" },
-        })
-      end,
-      desc = "Find Documents File",
-    },
-    {
-      "<leader>tt",
-      function()
-        Snacks.terminal.toggle(nil, {
-          win = {
-            position = "bottom",
-            height = 0.3,
-          },
-        })
-      end,
-      desc = "Toggle Terminal (horizontal split)",
-    },
-    {
-      "<leader>tb",
-      function()
-        Snacks.terminal.toggle("btop", {
-          win = {
-            position = "float",
-            width = 0.7,
-            height = 0.71,
-            title = " btop ",
-          },
-        })
-      end,
-      desc = "Toggle btop (vertical split)",
-    },
-  },
   ---@type snacks.Config
   opts = function()
     -- Detect whether the dashboard window still has room for a second pane.
@@ -371,12 +158,12 @@ return {
         sections = {
           { section = "header", indent = 0 },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1, gap = 0 },
-          todo_section({
+          local_config.todo_section({
             file = vim.fn.expand("~/Documents/Notes/todo.md"),
             pane = 2,
             icon = " ",
             title = "My Todos",
-            limit = 8,
+            limit = 5,
             indent = 2,
             enabled = function()
               return dashboard_has_pane_space()
@@ -411,6 +198,95 @@ return {
       },
     }
   end,
+  keys = {
+    {
+      "<leader>bg",
+      function()
+        vim.fn.system("open -a 'Zen' 'https://github.com/stellarjmr'")
+      end,
+      desc = "Open GitHub in browser",
+      mode = "n",
+    },
+    {
+      "<leader>p",
+      function()
+        vim.ui.select(local_config.project_folders, {
+          prompt = "Select Project:",
+        }, function(choice)
+          if choice then
+            local expanded_path = vim.fn.expand(choice)
+            vim.cmd("cd " .. vim.fn.fnameescape(expanded_path))
+            vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path })")
+          end
+        end)
+      end,
+      desc = "Open Project Manager",
+    },
+    {
+      "<leader>o",
+      function()
+        Snacks.picker.pick("files", { cwd = "~/Documents/Notes" })
+      end,
+      desc = "Open Notes",
+    },
+    {
+      "<leader>fC",
+      function()
+        Snacks.picker.pick("files", { cwd = "~/.config" })
+      end,
+      desc = "Find XDG Config File",
+    },
+    {
+      "<leader>fB",
+      function()
+        local buf = vim.api.nvim_buf_get_name(0)
+        if buf == "" then
+          vim.notify("No file name for current buffer", vim.log.levels.WARN)
+          return
+        end
+        Snacks.picker.grep({ dirs = { buf } })
+      end,
+      desc = "Grep Current Buffer",
+    },
+    {
+      "<leader>fd",
+      function()
+        Snacks.picker.pick("files", {
+          cwd = "~/Documents",
+          hidden = false,
+          -- Add folders to exclude here
+          exclude = { "Master", "PhD/Documents", "PDRA/Documents", "GitHub", "Notes" },
+        })
+      end,
+      desc = "Find Documents File",
+    },
+    {
+      "<leader>tt",
+      function()
+        Snacks.terminal.toggle(nil, {
+          win = {
+            position = "bottom",
+            height = 0.3,
+          },
+        })
+      end,
+      desc = "Toggle Terminal (horizontal split)",
+    },
+    {
+      "<leader>tb",
+      function()
+        Snacks.terminal.toggle("btop", {
+          win = {
+            position = "float",
+            width = 0.7,
+            height = 0.71,
+            title = " btop ",
+          },
+        })
+      end,
+      desc = "Toggle btop (vertical split)",
+    },
+  },
   config = function(_, opts)
     local function set_snacks_hl()
       -- Keep Snacks windows (e.g. lazygit terminal) using the normal background
