@@ -1,3 +1,10 @@
+-- Load local configuration
+local ok, local_config = pcall(require, "plugins.local_config")
+if not ok then
+  vim.notify("local_config.lua not found. Copy local_config.example.lua to local_config.lua", vim.log.levels.WARN)
+  local_config = { project_folders = {} }
+end
+
 -- Todo list section completion
 local function todo_section(opts)
   opts = opts or {}
@@ -144,15 +151,7 @@ return {
     {
       "<leader>p",
       function()
-        -- Define your project folders here (same as in opts)
-        local project_folders = {
-          "~/path/to/project1",
-          "~/path/to/project2",
-          "~/path/to/project3",
-          "~/path/to/project4",
-          "~/path/to/project5",
-        }
-        vim.ui.select(project_folders, {
+        vim.ui.select(local_config.project_folders, {
           prompt = "Select Project:",
         }, function(choice)
           if choice then
@@ -231,15 +230,6 @@ return {
   },
   ---@type snacks.Config
   opts = function()
-    -- Define your project folders here
-    local project_folders = {
-      "~/path/to/project1",
-      "~/path/to/project2",
-      "~/path/to/project3",
-      "~/path/to/project4",
-      "~/path/to/project5",
-    }
-
     -- Detect whether the dashboard window still has room for a second pane.
     local function dashboard_has_pane_space()
       for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -331,7 +321,7 @@ return {
               key = "p",
               desc = "Projects",
               action = function()
-                vim.ui.select(project_folders, {
+                vim.ui.select(local_config.project_folders, {
                   prompt = "Select Project:",
                 }, function(choice)
                   if choice then
