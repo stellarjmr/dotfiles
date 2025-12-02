@@ -418,7 +418,8 @@ end)
 
 --- Menu Bar
 -- require("safari")
--- require("mail-menubar")
+require("mail-menubar")
+require("wechat-menubar")
 -- require("reminder-menubar")
 -- require("brew-menubar")
 -- require("music-menubar")
