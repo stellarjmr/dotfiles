@@ -45,6 +45,7 @@ local function updateMenubar()
 	local styledTitle = hs.styledtext.new(title, {
 		font = { name = "SF Pro Display", size = 14 },
 		color = { white = 1.0 },
+		baselineOffset = -2.0,
 	})
 
 	mailMenubar:setTitle(styledTitle)
