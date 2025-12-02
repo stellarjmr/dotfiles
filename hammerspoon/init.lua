@@ -336,37 +336,54 @@ local finder_selectedItems_script = [[
         end tell
     ]]
 
-hs.hotkey.bind(cmd_shift, "z", function()
+local function openSelectedInApp(appName)
 	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
-	if ok and result and result ~= "" then
-		local command = string.format('open -a "Zed" "%s"', result)
-		hs.task.new("/bin/sh", nil, { "-c", command }):start()
-	else
+	if not (ok and result and result ~= "") then
+		return
 	end
+
+	-- AppleScript may return a path with trailing newline; trim it to keep open happy
+	result = string.gsub(result, "%s+$", "")
+
+	if appName == "Visual Studio Code" then
+		local escaped = result:gsub('"', '\\"')
+		local osa = string.format(
+			[[
+tell application "Visual Studio Code"
+	activate
+	open POSIX file "%s"
+end tell
+]],
+			escaped
+		)
+
+		local okExec, err = hs.osascript.applescript(osa)
+		if not okExec then
+			hs.console.printStyledtext(string.format("[openSelectedInApp] AppleScript error: %s\n", err or "unknown"))
+		end
+		return
+	end
+
+	local cmd = string.format("/usr/bin/open -a %q %q", appName, result)
+	local _, ok, _, rc = hs.execute(cmd)
+	if not ok then
+		hs.console.printStyledtext(
+			string.format("openSelectedInApp(%s) failed rc=%s cmd=%s\n", appName, tostring(rc), cmd)
+		)
+	end
+end
+
+hs.hotkey.bind(cmd_shift, "z", function()
+	openSelectedInApp("Zed")
 end)
 hs.hotkey.bind(cmd_shift, "x", function()
-	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
-	if ok and result and result ~= "" then
-		local command = string.format('open -a "Ovito" "%s"', result)
-		hs.task.new("/bin/sh", nil, { "-c", command }):start()
-	else
-	end
+	openSelectedInApp("Ovito")
 end)
 hs.hotkey.bind(cmd_shift, "v", function()
-	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
-	if ok and result and result ~= "" then
-		local command = string.format('open -a "VESTA" "%s"', result)
-		hs.task.new("/bin/sh", nil, { "-c", command }):start()
-	else
-	end
+	openSelectedInApp("VESTA")
 end)
 hs.hotkey.bind(cmd_shift, "c", function()
-	local ok, result = hs.osascript.applescript(finder_selectedItems_script)
-	if ok and result and result ~= "" then
-		local command = string.format('open -a "Visual Studio Code" "%s"', result)
-		hs.task.new("/bin/sh", nil, { "-c", command }):start()
-	else
-	end
+	openSelectedInApp("Visual Studio Code")
 end)
 
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "S", function()
@@ -381,12 +398,6 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "S", function()
 end)
 
 --- Auto switch input method
--- show current input method
--- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "I", function()
--- 	local currentInputMethod = hs.keycodes.currentSourceID()
--- 	hs.alert.show("Current Input Method: " .. currentInputMethod)
--- end)
-
 local inputEnglish = "com.apple.keylayout.ABC"
 local inputPinyin = "com.apple.inputmethod.SCIM.ITABC"
 
@@ -418,8 +429,7 @@ end)
 
 --- Menu Bar
 -- require("safari")
-require("mail-menubar")
-require("wechat-menubar")
+require("message")
 -- require("reminder-menubar")
 -- require("brew-menubar")
 -- require("music-menubar")
