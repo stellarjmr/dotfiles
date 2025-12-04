@@ -36,10 +36,10 @@ try
 			if player state is playing then
 				set track_name to name of current track
 				set artist_name to artist of current track
-				return my formatTrackInfo(track_name, artist_name, "􀑪 ")
+				return my formatTrackInfo(track_name, artist_name, " ")
 			end if
 		end if
 	end tell
 end try
 
-return "􂙩 "
+return " "
