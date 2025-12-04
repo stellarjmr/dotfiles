@@ -1,6 +1,6 @@
 return {
   "jpalardy/vim-slime",
-  enabled = false,
+  ft = { "python" },
   keys = {
     {
       "<leader>sc",

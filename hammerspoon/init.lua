@@ -272,14 +272,15 @@ hs.hotkey.bind(alt_shift, "return", function()
 	end
 end)
 
---- Open new ghostty window
+--- Open new terminal window
 hs.hotkey.bind({ "alt" }, "return", function()
-	local ghosttyApp = hs.application.find("Ghostty")
+	local ghosttyApp = hs.application.find("kitty")
 	if ghosttyApp and #ghosttyApp:allWindows() > 0 then
 		ghosttyApp:setFrontmost()
 	else
 		if ghosttyApp then
-			ghosttyApp:selectMenuItem({ "File", "New Window" })
+			-- ghosttyApp:selectMenuItem({ "File", "New Window" })
+			ghosttyApp:selectMenuItem({ "Shell", "New OS Window" })
 			ghosttyApp:setFrontmost()
 		end
 	end

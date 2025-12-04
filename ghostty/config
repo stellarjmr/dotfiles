@@ -32,6 +32,9 @@ background-blur = false
 unfocused-split-opacity = 0.8
 split-divider-color = #728B95
 window-inherit-working-directory = true
+background-image = ~/wallpaper/linus.jpg
+background-image-opacity = 0.2
+background-image-fit = cover
 
 # keybindings
 macos-option-as-alt = true
