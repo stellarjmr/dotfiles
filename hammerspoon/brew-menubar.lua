@@ -11,7 +11,7 @@ local colors = {
 	GREEN = { red = 0.0, green = 1.0, blue = 0.0 },
 }
 
-local CHECK_ICON = "􀐚" -- checkmark
+local CHECK_ICON = "􀐛" -- checkmark
 
 local function getOutdatedCount()
 	local task = hs.task.new("/opt/homebrew/bin/brew", function(exitCode, stdOut, stdErr)

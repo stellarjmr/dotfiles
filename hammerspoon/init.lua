@@ -309,13 +309,13 @@ end)
 
 --- Open new terminal window
 hs.hotkey.bind({ "alt" }, "return", function()
-	local ghosttyApp = hs.application.find("kitty")
+	local ghosttyApp = hs.application.find("Ghostty")
 	if ghosttyApp and #ghosttyApp:allWindows() > 0 then
 		ghosttyApp:setFrontmost()
 	else
 		if ghosttyApp then
-			-- ghosttyApp:selectMenuItem({ "File", "New Window" })
-			ghosttyApp:selectMenuItem({ "Shell", "New OS Window" })
+			ghosttyApp:selectMenuItem({ "File", "New Window" })
+			-- ghosttyApp:selectMenuItem({ "Shell", "New OS Window" })
 			ghosttyApp:setFrontmost()
 		end
 	end
@@ -465,9 +465,9 @@ end)
 
 --- Menu Bar
 -- require("safari")
-require("message")
+-- require("message")
 -- require("reminder-menubar")
--- require("brew-menubar")
--- require("music-menubar")
+require("brew-menubar")
+require("music-menubar")
 require("app_icons_menubar")
 require("safari-scholar-google").start()

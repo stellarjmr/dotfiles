@@ -12,6 +12,7 @@ font-style = Bold
 font-style-bold = Bold
 font-style-italic = Semibold Italic
 font-style-bold-italic = Bold Italic
+font-codepoint-map = U+4E00-U+9FFF, U+3400-U+4DBF=Maple Mono NF CN
 
 # window
 window-padding-x = 2,2
@@ -33,7 +34,7 @@ unfocused-split-opacity = 0.8
 split-divider-color = #728B95
 window-inherit-working-directory = true
 background-image = ~/wallpaper/linus.jpg
-background-image-opacity = 0.2
+background-image-opacity = 0.1
 background-image-fit = cover
 
 # keybindings
@@ -53,17 +54,20 @@ keybind = super+equal=increase_font_size:1
 # keybind = super+shift+minus=resize_split:down,10
 # keybind = super+shift+equal=resize_split:up,10
 # keybind = super+f=toggle_split_zoom
-keybind = super+a=select_all
-keybind = super+enter=toggle_fullscreen
 
 keybind = super+n=new_window
 keybind = super+t=new_tab
 keybind = super+w=close_surface
+keybind = super+a=select_all
+keybind = super+enter=toggle_fullscreen
 keybind = super+q=quit
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
 keybind = super+k=text:\x0c
-keybind = super+shift+comma=reload_config
+keybind = super+r=reload_config
+keybind = super+s=text:\x1b:w\n
+keybind = super+p=text:\x1b:lua Snacks.picker.smart()\n
+# keybind = alt+w=text:\x1b:wq\n
 
 keybind = super+physical:one=goto_tab:1
 keybind = super+physical:two=goto_tab:2

@@ -13,7 +13,7 @@ return {
       vim.g.everforest_background = "medium"
       vim.g.everforest_transparent_background = 2
       vim.g.everforest_current_word = "bold"
-      vim.g.everforest_enable_italic = 1
+      vim.g.everforest_enable_italic = 0
       vim.cmd.colorscheme("everforest")
     end,
   },
