@@ -1,20 +1,37 @@
 #  theme
 include current-theme.conf
 
+# general
+allow_remote_control yes
+listen_on unix:/tmp/kitty
+shell_integration enabled
+copy_on_select yes
+
 # font
 font_size 18.0
-font_family      SF Mono Semibold
-bold_font        SF Mono Bold
-italic_font      SF Mono Semibold Italic
-bold_italic_font SF Mono Bold Italic
+font_family 0xProto Nerd Font Mono Bold
+bold_font 0xProto Nerd Font Mono Bold
+italic_font Maple Mono SemiBoldItalic
+bold_italic_font Maple Mono BoldItalic
+symbol_map U+4E00-U+9FFF,U+3400-U+4DBF Maple Mono NF CN
+symbol_map U+E000-U+F8FF,U+F0000-U+FFFFF,U+100000-U+10ffff 0xProto Nerd Font Propo
+disable_ligatures cursor
+
+# cursor
+cursor_trail 2
+cursor none
 
 # window
 hide_window_decorations titlebar-only
+window_margin_width 0
 window_padding_width 0 0
 remember_window_size no
 initial_window_width 125c
 initial_window_height 35c
 background_opacity 1
+background_image ~/wallpaper/linus.jpg
+background_image_layout scaled
+background_tint 0.9
 
 # tab
 tab_bar_edge top
@@ -23,28 +40,25 @@ tab_title_template "{index} {title}"
 tab_powerline_style round
 scrollback_pager_history_size 10
 
-# ssh
-allow_remote_control yes
-listen_on unix:/tmp/kitty
-shell_integration enabled
-
-
 # key mappings
 clear_all_shortcuts yes
 macos_option_as_alt yes
-map cmd+shift+, load_config_file
+map cmd+r load_config_file
 map cmd+k clear_terminal scroll active
 map cmd+t new_tab
 map cmd+n new_os_window
 map cmd+q quit
 map cmd+c copy_and_clear_or_interrupt
 map cmd+v paste_from_clipboard
+map cmd+l next_tab
+map cmd+h previous_tab
 enabled_layouts splits,stack
 map cmd+, layout_action bias 25
 map cmd+d launch --location=vsplit --cwd=current
 map cmd+shift+d launch --location=hsplit --cwd=current
 map cmd+w close_window
-map alt+f toggle_layout stack
+map cmd+f toggle_layout stack
+map cmd+enter toggle_fullscreen
 map alt+h neighboring_window left
 map alt+l neighboring_window right
 map alt+k neighboring_window up
@@ -66,13 +80,14 @@ map cmd+6 goto_tab 6
 map cmd+7 goto_tab 7
 map cmd+8 goto_tab 8
 map cmd+9 goto_tab 9
-map cmd+p goto_tab -1
 map cmd+equal change_font_size all +1.0
 map cmd+minus change_font_size all -1.0
 map cmd+0 change_font_size all 0
 map cmd+s send_text all \e:w\r
+map cmd+p send_text all :lua Snacks.picker.smart()\r
+map alt+w send_text all \e:wq\r
 
 # kitty-scrollback.nvim
 action_alias kitty_scrollback_nvim kitten ~/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
-map cmd+f kitty_scrollback_nvim
-map cmd+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
+map alt+f kitty_scrollback_nvim
+map alt+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output

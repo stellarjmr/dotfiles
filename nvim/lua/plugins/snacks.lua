@@ -156,6 +156,13 @@ return {
 ]],
         },
         sections = {
+          -- {
+          --   section = "terminal",
+          --   cmd = "chafa ~/wallpaper/snoopy1.jpg --format symbols --size 25x25; sleep .1",
+          --   align = "center",
+          --   indent = 13,
+          --   height = 10,
+          -- },
           { section = "header", indent = 0 },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1, gap = 0 },
           local_config.todo_section({
