@@ -75,9 +75,7 @@ local function update_slime_config(window_id, listen_on)
 end
 
 local function ensure_ipython_window()
-  local listen_on = (vim.g.slime_default_config or {}).listen_on
-    or vim.env.KITTY_LISTEN_ON
-    or "unix:/tmp/mykitty"
+  local listen_on = (vim.g.slime_default_config or {}).listen_on or vim.env.KITTY_LISTEN_ON or "unix:/tmp/mykitty"
 
   local window_id = (vim.g.slime_default_config or {}).window_id
   if kitty_window_info(window_id, listen_on) ~= nil then
@@ -148,25 +146,23 @@ local function ensure_ipython_window()
   end
 
   if current_columns ~= nil and ipy_window.columns ~= nil then
-    local target_cols = math.floor(current_columns * 0.3)
+    local target_cols = math.floor(current_columns * 0.25)
     local delta = target_cols - ipy_window.columns
     if delta ~= 0 then
-      vim.fn.system(string.format(
-        "%s resize-window --match id:%s --axis=horizontal --increment=%d",
-        kitty_prefix(listen_on),
-        chosen_window_id,
-        delta
-      ))
+      vim.fn.system(
+        string.format(
+          "%s resize-window --match id:%s --axis=horizontal --increment=%d",
+          kitty_prefix(listen_on),
+          chosen_window_id,
+          delta
+        )
+      )
     end
   end
 
   -- Return focus to the original window after spawning the REPL
   if current_window_id ~= nil then
-    vim.fn.system(string.format(
-      "%s focus-window --match id:%s",
-      kitty_prefix(listen_on),
-      current_window_id
-    ))
+    vim.fn.system(string.format("%s focus-window --match id:%s", kitty_prefix(listen_on), current_window_id))
   end
 
   update_slime_config(chosen_window_id, listen_on)
@@ -175,7 +171,8 @@ end
 
 local function kitty_send_text(window_id, listen_on, text)
   local prefix = kitty_prefix(listen_on)
-  local cmd = string.format("printf %s | %s send-text --match id:%s --stdin", vim.fn.shellescape(text), prefix, window_id)
+  local cmd =
+    string.format("printf %s | %s send-text --match id:%s --stdin", vim.fn.shellescape(text), prefix, window_id)
   vim.fn.system(cmd)
 end
 

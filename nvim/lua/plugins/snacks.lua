@@ -114,7 +114,7 @@ return {
                   if choice then
                     local expanded_path = vim.fn.expand(choice)
                     vim.cmd("cd " .. vim.fn.fnameescape(expanded_path))
-                    vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path })")
+                    vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path, focus = 'list' })")
                   end
                 end)
               end,
@@ -223,7 +223,7 @@ return {
           if choice then
             local expanded_path = vim.fn.expand(choice)
             vim.cmd("cd " .. vim.fn.fnameescape(expanded_path))
-            vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path })")
+            vim.cmd(":lua Snacks.dashboard.pick('files', { cwd = expanded_path, focus = 'list' })")
           end
         end)
       end,
@@ -237,9 +237,16 @@ return {
       desc = "Open Notes",
     },
     {
+      "<leader>fc",
+      function()
+        Snacks.picker.pick("files", { cwd = "~/.config/nvim", focus = "list" })
+      end,
+      desc = "Find Config File",
+    },
+    {
       "<leader>fC",
       function()
-        Snacks.picker.pick("files", { cwd = "~/.config" })
+        Snacks.picker.pick("files", { cwd = "~/.config", focus = "list" })
       end,
       desc = "Find XDG Config File",
     },

@@ -105,6 +105,38 @@ for _, entry in ipairs(resize_keys) do
   end
 end
 
+local function goto_buffer_by_index(idx)
+  if vim.fn.exists(":BufferLineGoToBuffer") > 0 then
+    vim.cmd("BufferLineGoToBuffer " .. idx)
+    return
+  end
+
+  local bufs = vim.t.bufs or vim.api.nvim_list_bufs()
+  local listed = {}
+  for _, buf in ipairs(bufs) do
+    if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+      listed[#listed + 1] = buf
+    end
+  end
+
+  local target = listed[idx]
+  if target then
+    vim.cmd("buffer " .. target)
+  else
+    vim.notify("No buffer at position " .. idx, vim.log.levels.WARN)
+  end
+end
+
+for i = 1, 9 do
+  local desc = "Go to buffer " .. i
+  for _, prefix in ipairs({ "<A-", "<M-" }) do
+    local key = prefix .. i .. ">"
+    map("n", key, function()
+      goto_buffer_by_index(i)
+    end, { silent = true, desc = desc })
+  end
+end
+
 -- quick "cd" shortcuts; update the list below to your frequently used directories
 local cd_targets = {
   "~/Documents/PDRA/NU", -- 1
