@@ -5,6 +5,39 @@ local remindersMenubar = hs.menubar.new()
 local REMINDERS_ICON = "􀷾" -- checklist
 local INBOX_ICON = "􀐚" -- tray
 local TODO_ICON = "􀀀" -- circle icon
+local REFRESH_ICON = "􂣼" -- arrow.triangle.2.circlepath
+local OPEN_ICON = "􀷾" -- reuse checklist for consistency
+local TODO_MAX_CHARS = 10
+local ICON_STYLE = {
+	font = { name = "SF Pro Display", size = 14 }, -- SF Symbols-friendly for menubar
+	baselineOffset = -2.0, -- nudge to align with other SF Symbol menubar icons
+}
+local MENU_FONT_DEFAULT = { name = "SF Pro Display", size = 14 }
+local MENU_FONT_SMALL = { name = "SF Pro Display", size = 13 }
+
+local function styledMenuText(text, opts)
+	local o = opts or {}
+	local style = {
+		font = o.font or MENU_FONT_DEFAULT,
+		color = o.color or { red = 0.0, green = 0.0, blue = 0.0 },
+		baselineOffset = ICON_STYLE.baselineOffset,
+	}
+	return hs.styledtext.new(text, style)
+end
+
+local function truncateText(str, maxChars)
+	if not str then
+		return ""
+	end
+	local maxc = maxChars or TODO_MAX_CHARS
+	if utf8.len(str) and utf8.len(str) > maxc then
+		local cut = utf8.offset(str, maxc + 1)
+		if cut then
+			return string.sub(str, 1, cut - 1) .. "…"
+		end
+	end
+	return str
+end
 
 local function getReminders()
 	local script = [[
@@ -66,10 +99,7 @@ local function updateMenubar()
 		return
 	end
 
-	local styledTitle = hs.styledtext.new(REMINDERS_ICON, {
-		font = { name = "SF Pro Display", size = 14 },
-		color = { white = 1.0 },
-	})
+	local styledTitle = hs.styledtext.new(REMINDERS_ICON, ICON_STYLE)
 
 	remindersMenubar:setTitle(styledTitle)
 
@@ -77,27 +107,25 @@ local function updateMenubar()
 	local menuItems = {}
 
 	table.insert(menuItems, {
-		title = hs.styledtext.new(INBOX_ICON .. " Inbox", {
-			font = { name = "SF Pro Display", size = 13, style = "bold" },
-			color = { red = 0.37, green = 0.56, blue = 0.35 },
+		title = styledMenuText(INBOX_ICON .. " Inbox", {
+			font = { name = "SF Pro Display", size = 14, style = "bold" },
 		}),
-		disabled = true,
 	})
 
 	table.insert(menuItems, { title = "-" })
 
 	if reminderList == "No Todos!" or reminderList == "Error accessing Reminders" then
 		table.insert(menuItems, {
-			title = "  No Todos!",
+			title = styledMenuText("􀷾  No Todos!", { font = MENU_FONT_SMALL }),
 			disabled = true,
 		})
 	else
 		for line in reminderList:gmatch("[^\r\n]+") do
 			if line and line:len() > 0 then
+				local displayText = truncateText(line, TODO_MAX_CHARS)
 				table.insert(menuItems, {
-					title = hs.styledtext.new(TODO_ICON .. "  " .. line, {
-						font = { name = "SF Pro Display", size = 12 },
-						color = { red = 0.37, green = 0.56, blue = 0.35 },
+					title = styledMenuText(TODO_ICON .. "  " .. displayText, {
+						font = MENU_FONT_SMALL,
 					}),
 					fn = function()
 						markReminderDone(line)
@@ -110,12 +138,12 @@ local function updateMenubar()
 	table.insert(menuItems, { title = "-" })
 
 	table.insert(menuItems, {
-		title = "Open Reminders",
+		title = styledMenuText(OPEN_ICON .. " Open Reminders"),
 		fn = openReminders,
 	})
 
 	table.insert(menuItems, {
-		title = "Refresh",
+		title = styledMenuText(REFRESH_ICON .. " Refresh"),
 		fn = function()
 			updateMenubar()
 		end,

@@ -12,6 +12,9 @@ local colors = {
 }
 
 local CHECK_ICON = "􀐛" -- checkmark
+local REFRESH_ICON = "􂣼" -- arrow.triangle.2.circlepath
+local UPDATE_ALL_ICON = "􀅉" -- arrow.clockwise.circle.fill
+local WEBSITE_ICON = "􀎪" -- globe
 
 local function getOutdatedCount()
 	local task = hs.task.new("/opt/homebrew/bin/brew", function(exitCode, stdOut, stdErr)
@@ -139,7 +142,7 @@ local function updateMenubarDisplay(count, packages)
 		table.insert(menuItems, { title = "-" })
 
 		table.insert(menuItems, {
-			title = "🔄 Update All",
+			title = UPDATE_ALL_ICON .. " Update All",
 			fn = function()
 				hs.pasteboard.setContents("brew upgrade")
 				hs.alert.show("Copied: brew upgrade", 2)
@@ -147,7 +150,7 @@ local function updateMenubarDisplay(count, packages)
 		})
 	else
 		table.insert(menuItems, {
-			title = "✅ All packages up to date",
+			title = CHECK_ICON .. " All packages up to date",
 			disabled = true,
 		})
 	end
@@ -155,7 +158,7 @@ local function updateMenubarDisplay(count, packages)
 	table.insert(menuItems, { title = "-" })
 
 	table.insert(menuItems, {
-		title = "🔍 Check for Updates",
+		title = REFRESH_ICON .. " Check for Updates",
 		fn = function()
 			hs.alert.show("Checking for updates...", 1)
 			getOutdatedCount()
@@ -163,7 +166,7 @@ local function updateMenubarDisplay(count, packages)
 	})
 
 	table.insert(menuItems, {
-		title = "🍺 Open Homebrew Website",
+		title = WEBSITE_ICON .. " Open Homebrew Website",
 		fn = function()
 			hs.urlevent.openURL("https://brew.sh")
 		end,
