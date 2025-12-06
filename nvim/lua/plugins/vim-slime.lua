@@ -1,3 +1,8 @@
+-- Skip this spec when running inside Ghostty; the tmux-specific spec handles that case.
+if vim.env.TERM == "xterm-ghostty" then
+  return {}
+end
+
 local function kitty_prefix(listen_on)
   if listen_on ~= nil and listen_on ~= "" then
     return string.format("kitty @ --to %s", vim.fn.shellescape(listen_on))
@@ -176,6 +181,7 @@ end
 
 return {
   "jpalardy/vim-slime",
+  enabled = true,
   ft = { "python" },
   keys = {
     {
