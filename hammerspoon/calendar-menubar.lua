@@ -9,7 +9,25 @@ local MENU_FONT_DEFAULT = { name = "SF Pro Display", size = 14 }
 local MENU_FONT_SMALL = { name = "SF Pro Display", size = 12 }
 local GRID_FONT = { name = "SF Mono", size = 12 }
 local TEXT_COLOR = { red = 0.0, green = 0.0, blue = 0.0 }
-local TODAY_COLOR = { red = 0.15, green = 0.35, blue = 0.85 }
+local TODAY_COLOR = { red = 0.85, green = 0.15, blue = 0.15 }
+local cachedEvents = {}
+local fetching = false
+local EVENT_MAX_CHARS = 20
+local refreshTimer = nil
+
+local function truncateText(str, maxChars)
+	if not str then
+		return ""
+	end
+	local maxc = maxChars or EVENT_MAX_CHARS
+	if utf8.len(str) and utf8.len(str) > maxc then
+		local truncated = utf8.offset(str, maxc + 1)
+		if truncated then
+			return string.sub(str, 1, truncated - 1) .. "…"
+		end
+	end
+	return str
+end
 
 local function styledMenuText(text, opts)
 	local o = opts or {}
@@ -77,8 +95,20 @@ local function buildCalendarRows()
 	return rows, monthTitle
 end
 
-local function getTodayEvents()
+local function fetchTodayEvents(callback)
 	local script = [[
+        on formatTime(d)
+            set h to hours of d
+            set m to minutes of d
+            set suffix to "am"
+            if h ≥ 12 then set suffix to "pm"
+            set h12 to h mod 12
+            if h12 = 0 then set h12 to 12
+            set mText to text -2 thru -1 of ("0" & m)
+            set hText to text -2 thru -1 of ("0" & h12)
+            return hText & ":" & mText & suffix
+        end formatTime
+
         tell application "Calendar"
             try
                 set todayStart to current date
@@ -87,15 +117,22 @@ local function getTodayEvents()
 
                 set gathered to {}
                 repeat with cal in calendars
-                    set evts to every event of cal whose (start date < todayEnd) and (end date > todayStart)
-                    repeat with ev in evts
-                        set isAllDay to allday event of ev
-                        if isAllDay then
-                            set end of gathered to "All-day  " & (summary of ev)
-                        else
-                            set end of gathered to (time string of (start date of ev)) & "  " & (summary of ev)
-                        end if
-                    end repeat
+                    try
+                        set evts to every event of cal whose (start date < todayEnd) and (end date > todayStart)
+                        repeat with ev in evts
+                            try
+                                set isAllDay to allday event of ev
+                                set evTitle to summary of ev
+                                set evStart to start date of ev
+                                set evEnd to end date of ev
+                                if isAllDay then
+                                    set end of gathered to "All-day  " & evTitle
+                                else
+                                    set end of gathered to my formatTime(evStart) & " - " & my formatTime(evEnd) & "  " & evTitle
+                                end if
+                            end try
+                        end repeat
+                    end try
                 end repeat
 
                 set AppleScript's text item delimiters to linefeed
@@ -110,26 +147,23 @@ local function getTodayEvents()
         end tell
     ]]
 
-	local ok, result = hs.osascript.applescript(script)
-	if not ok then
-		return { "Calendar access needed" }
-	end
-	if not result or result == "" then
-		return {}
-	end
-
-	local events = {}
-	for line in tostring(result):gmatch("[^\r\n]+") do
-		if line:match("%S") then
-			table.insert(events, line)
+	hs.timer.doAfter(0, function()
+		local events = {}
+		local ok, result = hs.osascript.applescript(script)
+		if ok and result and result ~= "" then
+			for line in tostring(result):gmatch("[^\r\n]+") do
+				if line:match("%S") then
+					table.insert(events, line)
+				end
+			end
 		end
-	end
-	return events
+		callback(events)
+	end)
 end
 
-local function buildMenu()
+local function buildMenu(events)
 	local rows, monthTitle = buildCalendarRows()
-	local events = getTodayEvents()
+	local evts = events or {}
 
 	local menu = {
 		{ title = styledMenuText(CAL_ICON .. "  " .. monthTitle, { font = TITLE_FONT }) },
@@ -143,29 +177,60 @@ local function buildMenu()
 	table.insert(menu, { title = "-" })
 	table.insert(menu, { title = styledMenuText("Today", { font = TITLE_FONT }) })
 
-	if #events == 0 then
+	if #evts == 0 then
 		table.insert(menu, { title = styledMenuText("No events", { font = MENU_FONT_SMALL }) })
 	else
-		for idx, evt in ipairs(events) do
+		for idx, evt in ipairs(evts) do
 			if idx > 8 then
 				table.insert(menu, { title = styledMenuText("…", { font = MENU_FONT_SMALL }) })
 				break
 			end
-			table.insert(menu, { title = styledMenuText(evt, { font = MENU_FONT_SMALL }) })
+			table.insert(menu, { title = styledMenuText(truncateText(evt, EVENT_MAX_CHARS), { font = MENU_FONT_SMALL }) })
 		end
 	end
 
 	return menu
 end
 
+local function applyMenu(events)
+	if calendarMenubar then
+		calendarMenubar:setMenu(buildMenu(events))
+	end
+end
+
 local function start()
 	if calendarMenubar then
 		calendarMenubar:setTitle(hs.styledtext.new(CAL_ICON, ICON_STYLE))
-		calendarMenubar:setMenu(buildMenu)
+		applyMenu(cachedEvents)
+		if not fetching then
+			fetching = true
+			fetchTodayEvents(function(events)
+				cachedEvents = events or {}
+				applyMenu(cachedEvents)
+				fetching = false
+			end)
+		end
+		if not refreshTimer then
+			refreshTimer = hs.timer.doEvery(300, function()
+				if fetching then
+					return
+				end
+				fetching = true
+				fetchTodayEvents(function(events)
+					cachedEvents = events or {}
+					applyMenu(cachedEvents)
+					fetching = false
+				end)
+			end)
+		end
 	end
 end
 
 local function stop()
+	if refreshTimer then
+		refreshTimer:stop()
+		refreshTimer = nil
+	end
 	if calendarMenubar then
 		calendarMenubar:delete()
 		calendarMenubar = nil
