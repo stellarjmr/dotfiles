@@ -61,6 +61,11 @@ return {
         },
       },
       picker = {
+        layout = {
+          layout = {
+            min_width = 80,
+          },
+        },
         win = {
           input = {
             keys = {
