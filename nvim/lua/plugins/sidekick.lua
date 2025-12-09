@@ -1,6 +1,5 @@
 return {
   "folke/sidekick.nvim",
-  enabled = true,
   opts = {
     nes = { enabled = false },
     cli = {

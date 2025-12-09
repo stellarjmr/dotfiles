@@ -244,14 +244,14 @@ return {
     {
       "<leader>fc",
       function()
-        Snacks.picker.pick("files", { cwd = "~/.config/nvim", focus = "list" })
+        Snacks.picker.pick("files", { cwd = "~/.config/nvim" })
       end,
       desc = "Find Config File",
     },
     {
       "<leader>fC",
       function()
-        Snacks.picker.pick("files", { cwd = "~/.config", focus = "list" })
+        Snacks.picker.pick("files", { cwd = "~/.config" })
       end,
       desc = "Find XDG Config File",
     },
