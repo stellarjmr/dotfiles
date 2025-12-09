@@ -20,5 +20,6 @@ zed/prompts/
 .copilot/
 swiftpm/
 amp/
+opencode/
 ipython/
 zoxide/
