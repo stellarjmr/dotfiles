@@ -282,17 +282,17 @@ windowFilter:subscribe({
 }, windowMoved)
 
 --- Open new safari window
--- hs.hotkey.bind(alt_shift, "return", function()
--- 	local safariApp = hs.application.find("Safari")
--- 	if safariApp and #safariApp:allWindows() > 0 then
--- 		safariApp:setFrontmost()
--- 	else
--- 		if safariApp then
--- 			safariApp:selectMenuItem({ "File", "New Window" })
--- 			safariApp:setFrontmost()
--- 		end
--- 	end
--- end)
+hs.hotkey.bind({ "ctrl" }, "return", function()
+	local safariApp = hs.application.find("Safari")
+	if safariApp and #safariApp:allWindows() > 0 then
+		safariApp:setFrontmost()
+	else
+		if safariApp then
+			safariApp:selectMenuItem({ "File", "New Window" })
+			safariApp:setFrontmost()
+		end
+	end
+end)
 
 --- Open new zen window
 hs.hotkey.bind(alt_shift, "return", function()
