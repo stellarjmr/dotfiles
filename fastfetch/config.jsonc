@@ -1,22 +1,128 @@
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-  "modules": [
-    "title",
-    "separator",
-    "os",
-    "host",
-    "kernel",
-    "uptime",
-    "packages",
-    "shell",
-    "theme",
-    "icons",
-    "terminal",
-    "cpu",
-    "gpu",
-    "memory",
-    "swap",
-    "disk",
-    "colors"
-  ]
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "~/.config/fastfetch/images/twilight_princess.png",
+        "type": "kitty",
+        "height": 22,
+        "width": 22,
+        "padding": {
+            "left": 3
+        }
+    },
+    "modules": [
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[33m┌──────────────────────Hardware──────────────────────┐"
+        },
+        {
+            "type": "host",
+            "key": " PC",
+            "keyColor": "red",
+            "format": "MacBook Pro (14-inch, 2024)"
+        },
+        {
+            "type": "cpu",
+            "key": "│ ├",
+            "showPeCoreCount": true,
+            "keyColor": "red"
+        },
+        {
+            "type": "gpu",
+            "key": "│ ├󰢮",
+            "keyColor": "red"
+        },
+        {
+            "type": "memory",
+            "key": "│ ├",
+            "keyColor": "red"
+        },
+        {
+            "type": "disk",
+            "key": "│ └",
+            "keyColor": "red",
+	    "format": "{1} / {2} ({3}) - {9}"
+	},
+        {
+            "type": "custom",
+            "format": "\u001b[33m└────────────────────────────────────────────────────┘"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[33m┌──────────────────────Software──────────────────────┐"
+        },
+        {
+            "type": "os",
+            "key": "󰀵 OS",
+            "keyColor": "green"
+        },
+        {
+            "type": "kernel",
+            "key": "│ ├",
+            "keyColor": "green"
+        },
+        {
+            "type": "packages",
+            "key": "│ ├󰏖",
+            "keyColor": "green"
+        },
+	{
+	    "type": "terminal",
+            "key": "│ ├",
+            "keyColor": "green"
+        },
+	{
+            "type": "shell",
+            "key": "│ └",
+            "keyColor": "green"
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[33m└────────────────────────────────────────────────────┘"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[33m┌───────────────────Miscellaneous────────────────────┐"
+        },
+        {
+            "type": "uptime",
+            "key": "  Uptime",
+            "keyColor": "magenta"
+        },
+	{
+	    "type": "command",
+	    "text": "battery",
+	    "shell": "/opt/homebrew/bin/fish",
+	    "key": "  Battery",
+	    "keyColor": "magenta"
+	},
+	{
+	    "type": "media",
+	    "key": "  Music",
+	    "keyColor": "magenta",
+	    "format": "{1} - {4}"
+	},
+	{
+	    "type": "datetime",
+	    "key": "  Date and Time",
+	    "keyColor": "magenta",
+	    "format": "{3}/{11}/{1} - {14}:{18} {22}"
+	},
+	{
+	    "type": "custom",
+	    "format": "  A star can only truly be seen in the darkness...",
+	    "outputColor": "cyan"
+	},
+        {
+            "type": "custom",
+            "format": "\u001b[33m└────────────────────────────────────────────────────┘"
+        },
+        {"type": "colors",
+        "paddingLeft": 20,
+        "symbol": "star"
+        },
+        "break"
+    ]
 }
