@@ -8,7 +8,7 @@ return {
         backend = "tmux",
       },
       win = {
-        layout = "right", ---@type "float"|"left"|"bottom"|"top"|"right"
+        layout = "bottom", ---@type "float"|"left"|"bottom"|"top"|"right"
         split = {
           width = 44,
           height = 10,
