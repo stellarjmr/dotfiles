@@ -98,3 +98,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader><CR>", toggle_checkbox, { buffer = true, desc = "Toggle checkbox" })
   end,
 })
+
+-- Show diagnostics in a floating window on cursor hold
+vim.o.updatetime = 500
+local aug = vim.api.nvim_create_augroup("DiagFloatOnHold", { clear = true })
+vim.api.nvim_create_autocmd("CursorHold", {
+  group = aug,
+  callback = function()
+    vim.diagnostic.open_float(nil, {
+      focusable = false,
+      scope = "line",
+      close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre", "WinLeave" },
+    })
+  end,
+})

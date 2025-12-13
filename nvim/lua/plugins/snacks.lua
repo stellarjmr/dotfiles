@@ -256,6 +256,13 @@ return {
       desc = "Find XDG Config File",
     },
     {
+      "<leader>fk",
+      function()
+        Snacks.picker.keymaps({ layout = "dropdown" })
+      end,
+      "Find keymap",
+    },
+    {
       "<leader>fB",
       function()
         local buf = vim.api.nvim_buf_get_name(0)
