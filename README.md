@@ -1,3 +1,9 @@
+---
+title: Untitled
+author: zhimin
+date: 2025-12-15
+---
+
 # dotfiles for main configurations
 
 ## ghostty
