@@ -1,5 +1,8 @@
 command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
 
+# custom-shader
+custom-shader = shaders/cursor_tail.glsl
+
 # theme
 theme = EverforestDarkHard
 
@@ -12,7 +15,7 @@ font-style = Bold
 font-style-bold = Bold
 font-style-italic = Semibold Italic
 font-style-bold-italic = Bold Italic
-font-codepoint-map = U+4E00-U+9FFF, U+3400-U+4DBF=Maple Mono NF CN
+# font-codepoint-map = U+4E00-U+9FFF, U+3400-U+4DBF=Maple Mono NF CN
 
 # window
 window-padding-x = 2,2
@@ -49,26 +52,20 @@ keybind = super+equal=increase_font_size:1
 # keybind = alt+l=goto_split:right
 # keybind = super+d=new_split:right
 # keybind = super+shift+d=new_split:down
-# keybind = super+minus=resize_split:right,10
-# keybind = super+equal=resize_split:left,10
-# keybind = super+shift+minus=resize_split:down,10
-# keybind = super+shift+equal=resize_split:up,10
+# keybind = alt+minus=resize_split:right,10
+# keybind = alt+equal=resize_split:left,10
+# keybind = alt+shift+minus=resize_split:down,10
+# keybind = alt+shift+equal=resize_split:up,10
 # keybind = super+f=toggle_split_zoom
 
 keybind = super+n=new_window
 keybind = super+t=new_tab
 keybind = super+w=close_surface
-keybind = super+a=select_all
 keybind = super+enter=toggle_fullscreen
 keybind = super+q=quit
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
-keybind = super+k=text:\x0c
 keybind = super+r=reload_config
-keybind = super+s=text:\x1b:w\n
-keybind = super+p=text:\x1b:lua Snacks.picker.smart()\n
-# keybind = alt+w=text:\x1b:wq\n
-
 keybind = super+physical:one=goto_tab:1
 keybind = super+physical:two=goto_tab:2
 keybind = super+physical:three=goto_tab:3
@@ -77,7 +74,15 @@ keybind = super+physical:five=goto_tab:5
 keybind = super+physical:six=goto_tab:6
 keybind = super+physical:seven=goto_tab:7
 keybind = super+physical:eight=goto_tab:8
+# vim
+keybind = super+a=text:\x1bgg0vG
+keybind = super+k=text:\x0c
+keybind = super+s=text:\x1b:w\n
+keybind = super+z=text:\e:undo\r
+keybind = super+w=text:\x1b:bd\n
+keybind = alt+q=text:\x1b:q\n
+keybind = super+p=text:\x1b:lua Snacks.picker.smart()\n
 
 # quick terminal
 quick-terminal-position = center
-keybind = global:alt+q=toggle_quick_terminal
+keybind = global:alt+shift+q=toggle_quick_terminal

@@ -42,4 +42,4 @@ try
 	end tell
 end try
 
-return " "
+return "􂙩 "

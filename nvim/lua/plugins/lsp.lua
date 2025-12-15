@@ -11,6 +11,16 @@ return {
         source = "if_many",
         border = "rounded",
       })
+      opts.servers = opts.servers or {}
+      opts.servers.ruff = {
+        init_options = {
+          settings = {
+            lint = {
+              ignore = { "E402" },
+            },
+          },
+        },
+      }
       return opts
     end,
   },
