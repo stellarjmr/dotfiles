@@ -31,6 +31,16 @@ on   = [ "g", "<S-d>" ]
 run  = "cd ~/Documents"
 desc = "go ~/Documents"
 
+[[mgr.prepend_keymap]]
+on   = [ "g", "m" ]
+run  = "cd ~/Mount"
+desc = "go mount folder"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "v" ]
+run  = "cd /Volumes/Mac/"
+desc = "go Volumes"
+
 [[input.prepend_keymap]]
 on   = "<Esc>"
 run  = "close"
