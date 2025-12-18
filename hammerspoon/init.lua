@@ -49,37 +49,6 @@ hs.hotkey.bind(ctrl_alt, "C", function()
 	end
 end)
 
---- focus adjacent windows with ctrl+h/j/k/l
-local directionalFocusHandlers = {
-	h = function(win)
-		return win:focusWindowWest()
-	end,
-	j = function(win)
-		return win:focusWindowSouth()
-	end,
-	k = function(win)
-		return win:focusWindowNorth()
-	end,
-	l = function(win)
-		return win:focusWindowEast()
-	end,
-}
-
-for key, focusFn in pairs(directionalFocusHandlers) do
-	hs.hotkey.bind(ctrl, key, function()
-		local win = hs.window.focusedWindow()
-		if not win then
-			-- try to ensure something is focused before attempting directional switch
-			local frontmost = hs.window.frontmostWindow()
-			if frontmost then
-				frontmost:focus()
-			end
-			return
-		end
-		focusFn(win)
-	end)
-end
-
 --- auto-center kitty windows on launch
 local function centerKittyWindow(target, attempt)
 	attempt = attempt or 1
