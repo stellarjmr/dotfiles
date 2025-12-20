@@ -1,0 +1,126 @@
+-- IPython REPL integration for Ghostty terminal.
+-- Uses %run magic and clipboard paste to send code.
+return {}
+-- if vim.env.TERM ~= "xterm-ghostty" then
+--   return {}
+-- end
+--
+-- local M = {}
+-- local repl_created = false
+-- local code_file = "/tmp/nvim-slime-code.py"
+-- local cell_delimiter = "# %%"
+--
+-- local function osascript(script)
+--   vim.fn.system("osascript -e " .. vim.fn.shellescape(script))
+-- end
+--
+-- local function send_code(text)
+--   local f = io.open(code_file, "w")
+--   if f then
+--     f:write(text)
+--     f:close()
+--   end
+--
+--   vim.fn.setreg("+", "%run " .. code_file)
+--
+--   osascript([[
+--     tell application "Ghostty" to activate
+--     delay 0.03
+--     tell application "System Events"
+--       keystroke "]" using {command down}
+--       delay 0.1
+--       keystroke "v" using {command down}
+--       key code 36
+--       delay 0.15
+--       keystroke "[" using {command down}
+--       keystroke "[" using {command down}
+--     end tell
+--   ]])
+-- end
+--
+-- local function ensure_repl()
+--   if repl_created then
+--     return true
+--   end
+--
+--   local cwd = vim.fn.getcwd()
+--   local python = vim.fn.expand("~/conda/envs/ovito/bin/python")
+--   vim.fn.setreg("+", string.format("cd %s && %s -m IPython", cwd, python))
+--
+--   osascript([[
+--     tell application "Ghostty" to activate
+--     delay 0.05
+--     tell application "System Events"
+--       keystroke "d" using {command down}
+--       delay 0.25
+--       keystroke "v" using {command down}
+--       key code 36
+--       delay 0.6
+--       keystroke "[" using {command down}
+--     end tell
+--   ]])
+--
+--   repl_created = true
+--   return true
+-- end
+--
+-- local function get_cell_text()
+--   local cur, start_l, end_l = vim.fn.line("."), 1, vim.fn.line("$")
+--   local total = end_l
+--
+--   for i = cur - 1, 1, -1 do
+--     if vim.fn.getline(i):match("^" .. vim.pesc(cell_delimiter)) then
+--       start_l = i + 1
+--       break
+--     end
+--   end
+--
+--   for i = cur + 1, total do
+--     if vim.fn.getline(i):match("^" .. vim.pesc(cell_delimiter)) then
+--       end_l = i - 1
+--       break
+--     end
+--   end
+--
+--   if vim.fn.getline(start_l):match("^" .. vim.pesc(cell_delimiter)) then
+--     start_l = start_l + 1
+--   end
+--
+--   return table.concat(vim.fn.getline(start_l, end_l), "\n") .. "\n"
+-- end
+--
+-- local function run_cell()
+--   if ensure_repl() then send_code(get_cell_text()) end
+-- end
+--
+-- local function run_line()
+--   if ensure_repl() then send_code(vim.fn.getline(".") .. "\n") end
+-- end
+--
+-- local function run_selection()
+--   if ensure_repl() then
+--     local s, e = vim.fn.getpos("'<")[2], vim.fn.getpos("'>")[2]
+--     send_code(table.concat(vim.fn.getline(s, e), "\n") .. "\n")
+--   end
+-- end
+--
+-- local function run_file()
+--   if ensure_repl() then
+--     send_code(table.concat(vim.fn.getline(1, "$"), "\n") .. "\n")
+--   end
+-- end
+--
+-- return {
+--   dir = vim.fn.stdpath("config"),
+--   name = "ghostty-repl",
+--   ft = { "python" },
+--   keys = {
+--     { "<leader>sc", run_cell, desc = "Send Cell" },
+--     { "<leader>sl", run_line, desc = "Send Line" },
+--     { "<leader>ss", run_selection, mode = "v", desc = "Send Selection" },
+--     { "<leader>sf", run_file, desc = "Send File" },
+--   },
+--   config = function()
+--     vim.g.slime_cell_delimiter = cell_delimiter
+--   end,
+-- }
