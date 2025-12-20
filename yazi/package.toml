@@ -9,11 +9,6 @@ rev = "55bf699"
 hash = "7918aab6a71caf31b58411f789195677"
 
 [[plugin.deps]]
-use = "yazi-rs/plugins:smart-paste"
-rev = "55bf699"
-hash = "104fa2ce07d8890b07fcff68b0aaf923"
-
-[[plugin.deps]]
 use = "Lil-Dank/lazygit"
 rev = "7a08a09"
 hash = "a1fa2b3e1826c3a34804ea8c548e9f80"
@@ -22,11 +17,6 @@ hash = "a1fa2b3e1826c3a34804ea8c548e9f80"
 use = "AnirudhG07/custom-shell"
 rev = "6b4550a"
 hash = "43019cca17a4d7b41746c2e0a6b8f33f"
-
-[[plugin.deps]]
-use = "sunruisjtu2020/quicklook"
-rev = "901e7a4"
-hash = "fd314a7aa9d7f25162c6c757c1956ca8"
 
 [[flavor.deps]]
 use = "Chromium-3-Oxide/everforest-medium"
