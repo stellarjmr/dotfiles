@@ -19,7 +19,7 @@
             "type": "host",
             "key": " PC",
             "keyColor": "red",
-            "format": "MacBook Pro (14-inch, 2024)"
+            "format": "Mac Studio (2025)"
         },
         {
             "type": "cpu",

@@ -1,8 +1,8 @@
 // -- CONFIGURATION --
 vec4 TRAIL_COLOR = iCurrentCursorColor; // can change to eg: vec4(0.2, 0.6, 1.0, 0.5);
 const float DURATION = 0.09; // in seconds
-const float MAX_TRAIL_LENGTH = 0.2;
-const float THRESHOLD_MIN_DISTANCE = 1.5; // min distance to show trail (units of cursor width)
+const float TRAIL_LENGTH_CELLS = 2.0; // match kitty cursor_trail 2 (in cells)
+const float THRESHOLD_MIN_DISTANCE = 0.0; // min distance to show trail (units of cursor size)
 const float BLUR = 2.0; // blur size in pixels (for antialiasing)
 
 // --- CONSTANTS for easing functions ---
@@ -160,7 +160,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
 	
      vec4 newColor = vec4(fragColor);
 	
-     float minDist = currentCursor.w * THRESHOLD_MIN_DISTANCE;
+     float cellSize = max(currentCursor.z, currentCursor.w);
+     float maxTrailLength = cellSize * TRAIL_LENGTH_CELLS;
+     float minDist = cellSize * THRESHOLD_MIN_DISTANCE;
      float progress = clamp((iTime - iTimeCursorChange) / DURATION, 0.0, 1.0);
      if (lineLength > minDist) {
          // ANIMATION logic
@@ -168,9 +170,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
         float head_eased = 0.0;
         float tail_eased = 0.0;
 
-        float tail_delay_factor = MAX_TRAIL_LENGTH / lineLength;
+        float tail_delay_factor = maxTrailLength / lineLength;
 
-        float isLongMove = step(MAX_TRAIL_LENGTH, lineLength);
+        float isLongMove = step(maxTrailLength, lineLength);
 
         float head_eased_short = ease(progress);
         float tail_eased_short = ease(smoothstep(tail_delay_factor, 1.0, progress));

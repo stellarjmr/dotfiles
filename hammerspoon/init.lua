@@ -93,37 +93,52 @@ local zenWindowUnitRect = hs.geometry.rect(
 )
 local zenResizeMaxAttempts = 6
 
-local function resizeZenWindow(win, attempt)
+local function resizeZenWindow(winId, attempt)
 	attempt = attempt or 1
-	if not win or attempt > zenResizeMaxAttempts then
+	if not winId or attempt > zenResizeMaxAttempts then
+		return
+	end
+
+	local win = hs.window.get(winId)
+	if not win then
 		return
 	end
 
 	local screen = win:screen()
 	if not screen then
 		hs.timer.doAfter(0.3, function()
-			resizeZenWindow(win, attempt + 1)
+			resizeZenWindow(winId, attempt + 1)
 		end)
 		return
 	end
 
 	if not win:isStandard() then
 		hs.timer.doAfter(0.3, function()
-			resizeZenWindow(win, attempt + 1)
+			resizeZenWindow(winId, attempt + 1)
 		end)
 		return
 	end
 
-	win:moveToUnit(zenWindowUnitRect, screen)
+	win:moveToUnit(zenWindowUnitRect, 0)
 
 	hs.timer.doAfter(0.15, function()
-		local frame = win:frame()
-		local screenFrame = screen:frame()
+		local liveWin = hs.window.get(winId)
+		if not liveWin then
+			return
+		end
+
+		local liveScreen = liveWin:screen()
+		if not liveScreen then
+			return
+		end
+
+		local frame = liveWin:frame()
+		local screenFrame = liveScreen:frame()
 		local targetW = screenFrame.w * zenWindowSizeRatio.width
 		local targetH = screenFrame.h * zenWindowSizeRatio.height
 
 		if math.abs(frame.w - targetW) > 1 or math.abs(frame.h - targetH) > 1 then
-			resizeZenWindow(win, attempt + 1)
+			resizeZenWindow(winId, attempt + 1)
 		end
 	end)
 end
@@ -138,7 +153,12 @@ zenWindowFilter:subscribe({
 	end
 
 	hs.timer.doAfter(0.1, function()
-		resizeZenWindow(win)
+		local winId = win:id()
+		if not winId then
+			return
+		end
+
+		resizeZenWindow(winId)
 	end)
 end)
 
