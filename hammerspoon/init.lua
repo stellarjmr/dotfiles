@@ -270,20 +270,28 @@ windowFilter:subscribe({
 	hs.window.filter.windowMoved,
 }, windowMoved)
 
---- Open new safari window
+--- Open new zotero window
 hs.hotkey.bind({ "ctrl" }, "return", function()
-	local safariApp = hs.application.find("Safari")
-	if safariApp and #safariApp:allWindows() > 0 then
-		safariApp:setFrontmost()
-	else
-		if safariApp then
-			safariApp:selectMenuItem({ "File", "New Window" })
-			safariApp:setFrontmost()
+	local zoteroApp = hs.application.find("Zotero")
+	if not zoteroApp then
+		hs.application.launchOrFocus("Zotero")
+		return
+	end
+
+	if zoteroApp:isHidden() then
+		zoteroApp:unhide()
+	end
+
+	if #zoteroApp:allWindows() == 0 then
+		if not zoteroApp:selectMenuItem({ "File", "New Window" }) then
+			hs.execute("/usr/bin/open -a Zotero")
 		end
 	end
+
+	zoteroApp:setFrontmost()
 end)
 
---- Open new zen window
+--- Open new browser window
 hs.hotkey.bind(alt_shift, "return", function()
 	local zenApp = hs.application.find("Zen")
 	if zenApp and #zenApp:allWindows() > 0 then
@@ -462,3 +470,4 @@ end)
 require("app_icons_menubar")
 require("kitty-menubar")
 require("safari-scholar-google").start()
+require("zotero")
