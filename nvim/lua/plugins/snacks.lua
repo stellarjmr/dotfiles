@@ -175,7 +175,7 @@ return {
             pane = 2,
             icon = " ",
             title = "My Todos",
-            limit = 5,
+            limit = 8,
             indent = 2,
             enabled = function()
               return dashboard_has_pane_space()
