@@ -1,8 +1,5 @@
 # command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
 
-# custom-shader
-custom-shader = shaders/cursor_tail.glsl
-
 # theme
 theme = EverforestDarkHard
 
@@ -15,6 +12,10 @@ font-style = Bold
 font-style-bold = Bold
 font-style-italic = Semibold Italic
 font-style-bold-italic = Bold Italic
+
+# cursor
+# cursor-color = #d3c6aa
+custom-shader = shaders/cursor_tail.glsl
 
 # window
 window-padding-x = 2,2
