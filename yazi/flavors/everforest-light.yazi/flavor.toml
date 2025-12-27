@@ -5,10 +5,6 @@
 [mgr]
 cwd = { fg = "#3a94c5" }
 
-# Hovered
-hovered         = { reversed = true }
-preview_hovered = { underline = true }
-
 # Find
 find_keyword  = { fg = "#dfa000", bold = true, italic = true, underline = true }
 find_position = { fg = "#df69ba", bg = "reset", bold = true, italic = true }
@@ -35,7 +31,13 @@ border_style  = { fg = "#e0dcc7" }
 syntect_theme = ""
 
 # : }}}
+# : Indicator {{{
 
+[indicator]
+current = { reversed = true }
+preview = { underline = true }
+
+# : }}}
 
 # : Tabs {{{
 
@@ -212,8 +214,8 @@ rules = [
 	{ mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#3a94c5" },
 
 	# Fallback
-	{ name = "*", fg = "#35a77c" },
-	{ name = "*/", fg = "#8da101" }
+	{ url = "*", fg = "#35a77c" },
+	{ url = "*/", fg = "#8da101" }
 ]
 
 # : }}}

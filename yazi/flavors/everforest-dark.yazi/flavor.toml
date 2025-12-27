@@ -5,9 +5,6 @@
 [mgr]
 cwd = { fg = "#7fbbb3" }
 
-# Hovered
-hovered         = { reversed = true }
-preview_hovered = { underline = true }
 
 # Find
 find_keyword  = { fg = "#dbbc7f", bold = true, italic = true, underline = true }
@@ -33,6 +30,15 @@ border_style  = { fg = "#4f585e" }
 
 # Highlighting
 syntect_theme = ""
+
+# : }}}
+
+
+# : Indicator {{{
+
+[indicator]
+current = { reversed = true }
+preview = { underline = true }
 
 # : }}}
 
@@ -212,8 +218,8 @@ rules = [
 	{ mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#7fbbb3" },
 
 	# Fallback
-	{ name = "*", fg = "#83c092" },
-	{ name = "*/", fg = "#a7c080" }
+	{ url = "*", fg = "#83c092" },
+	{ url = "*/", fg = "#a7c080" }
 ]
 
 # : }}}

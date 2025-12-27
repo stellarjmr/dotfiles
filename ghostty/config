@@ -15,7 +15,7 @@ font-style-bold-italic = Bold Italic
 
 # cursor
 # cursor-color = #d3c6aa
-custom-shader = shaders/cursor_tail.glsl
+# custom-shader = shaders/cursor_tail.glsl
 
 # window
 window-padding-x = 2,2

@@ -45,3 +45,8 @@ desc = "Cancel input"
 on = [ ":" ]
 run = "plugin custom-shell zsh"
 desc = "Run zsh"
+
+[[mgr.prepend_keymap]]
+on   = "T"
+run  = "plugin toggle-pane max-current"
+desc = "Show or hide the preview pane"
