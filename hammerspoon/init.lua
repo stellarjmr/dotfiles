@@ -50,39 +50,40 @@ hs.hotkey.bind(ctrl_alt, "C", function()
 end)
 
 --- auto-center kitty windows on launch
-local function centerKittyWindow(target, attempt)
-	attempt = attempt or 1
-	if attempt > 8 or not target then
-		return
-	end
+-- local function centerKittyWindow(target, attempt)
+-- 	attempt = attempt or 1
+-- 	if attempt > 8 or not target then
+-- 		return
+-- 	end
+--
+-- 	-- target can be an app or a window
+-- 	local win = target.mainWindow and target:mainWindow() or target
+-- 	if win then
+-- 		win:centerOnScreen(nil, true)
+-- 		return
+-- 	end
+--
+-- 	hs.timer.doAfter(0.2, function()
+-- 		centerKittyWindow(target, attempt + 1)
+-- 	end)
+-- end
+--
+-- local kittyWatcher = hs.application.watcher.new(function(appName, event, app)
+-- 	if appName == "kitty" and event == hs.application.watcher.launched then
+-- 		hs.timer.doAfter(0.3, function()
+-- 			centerKittyWindow(app)
+-- 		end)
+-- 	end
+-- end)
+-- kittyWatcher:start()
+--
+-- local kittyWindowFilter = hs.window.filter.new("kitty")
+-- kittyWindowFilter:subscribe(hs.window.filter.windowCreated, function(win)
+-- 	hs.timer.doAfter(0.1, function()
+-- 		centerKittyWindow(win)
+-- 	end)
+-- end)
 
-	-- target can be an app or a window
-	local win = target.mainWindow and target:mainWindow() or target
-	if win then
-		win:centerOnScreen(nil, true)
-		return
-	end
-
-	hs.timer.doAfter(0.2, function()
-		centerKittyWindow(target, attempt + 1)
-	end)
-end
-
-local kittyWatcher = hs.application.watcher.new(function(appName, event, app)
-	if appName == "kitty" and event == hs.application.watcher.launched then
-		hs.timer.doAfter(0.3, function()
-			centerKittyWindow(app)
-		end)
-	end
-end)
-kittyWatcher:start()
-
-local kittyWindowFilter = hs.window.filter.new("kitty")
-kittyWindowFilter:subscribe(hs.window.filter.windowCreated, function(win)
-	hs.timer.doAfter(0.1, function()
-		centerKittyWindow(win)
-	end)
-end)
 --- resize Zen windows on creation/focus
 local zenWindowSizeRatio = { width = 0.6, height = 0.85 }
 local zenWindowUnitRect = hs.geometry.rect(
@@ -468,6 +469,7 @@ end)
 -- require("brew-menubar")
 -- require("music-menubar")
 require("app_icons_menubar")
+-- require("kitty")
 require("kitty-menubar")
 require("safari-scholar-google").start()
 require("zotero")

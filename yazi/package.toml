@@ -18,7 +18,17 @@ use = "AnirudhG07/custom-shell"
 rev = "b04213d"
 hash = "3efc7ddc9bac120c618462eb994edf75"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "7ca66b4"
+hash = "8a7c58225816a163a6e8730c0adafbc8"
+
+[[plugin.deps]]
+use = "Rolv-Apneseth/starship"
+rev = "eca1861"
+hash = "e519d894e94ded741e06aae4d4775981"
+
 [[flavor.deps]]
 use = "Chromium-3-Oxide/everforest-medium"
 rev = "0158f0f"
-hash = "dbbbfe681e156c28303efb1f44b6cbc4"
+hash = "a7c36abf0b13289aceb1c20a17c6a63e"
