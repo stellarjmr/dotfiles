@@ -1,5 +1,5 @@
--- ~/.hammerspoon/kitty.lua
--- Standalone kitty side windows: Alt+E left, Alt+D right (no split, keep main window)
+-- ~/.hammerspoon/ghostty.lua
+-- Standalone Ghostty side windows: Alt+E left, Alt+D right (no split, keep main window)
 
 local M = {}
 
@@ -12,9 +12,8 @@ local GAP = 10 -- gap between main and side window (px)
 local OUTER = 10 -- margin to screen usable edges (px)
 local MIN_SIDE_W = 200 -- minimum side window width (px)
 
--- kitty executable path (default install location)
-local KITTY_BIN = "/Applications/kitty.app/Contents/MacOS/kitty"
-local KITTEN_BIN = "/opt/homebrew/bin/kitten"
+local GHOSTTY_APP = "Ghostty"
+local OPEN_BIN = "/usr/bin/open"
 
 -- ====== Internal state ======
 local leftWinId = nil
@@ -26,19 +25,18 @@ local pending = nil -- { side="left/right", mainId=... }
 local wf = nil -- window filter
 local started = false
 
-local cachedSocketPath = nil
 local hotkeyLeft = nil
 local hotkeyRight = nil
 local hotkeysEnabled = false
 
 -- ====== Helpers ======
-local function isKitty(win)
-	return win and win:application() and win:application():name() == "kitty" and win:isStandard()
+local function isGhostty(win)
+	return win and win:application() and win:application():name() == GHOSTTY_APP and win:isStandard()
 end
 
-local function focusedKittyWindow()
+local function focusedGhosttyWindow()
 	local w = hs.window.focusedWindow()
-	if isKitty(w) then
+	if isGhostty(w) then
 		return w
 	end
 	return nil
@@ -49,7 +47,7 @@ local function getWinById(id)
 		return nil
 	end
 	local w = hs.window.get(id)
-	if isKitty(w) then
+	if isGhostty(w) then
 		return w
 	end
 	return nil
@@ -96,21 +94,6 @@ local function calcSideWidthPx(mainFrameW)
 	return w
 end
 
-local function hasKitten()
-	return hs.fs.attributes(KITTEN_BIN) ~= nil
-end
-
-local function findSocketPath()
-	if cachedSocketPath then
-		return cachedSocketPath
-	end
-	local path = hs.execute("ls /tmp/kitty* 2>/dev/null | head -1 | tr -d '\\n'")
-	if path and path ~= "" then
-		cachedSocketPath = path
-	end
-	return cachedSocketPath
-end
-
 local function placeSide(mainW, sideW, side)
 	local mf = mainW:frame()
 	local sf = mainW:screen():frame() -- usable area (no menubar/Dock)
@@ -149,50 +132,37 @@ local function setHotkeysEnabled(enabled)
 	end
 end
 
-local function launchKittyWindowDirect(cmd, env)
-	-- Don't use --geometry (not supported on macOS); just create a new OS window.
-	local args = { "--detach" }
-	if cmd and #cmd > 0 then
-		for i = 1, #cmd do
-			table.insert(args, cmd[i])
-		end
+local function openGhosttyApp(newInstance)
+	local args = { "-a", GHOSTTY_APP }
+	if newInstance then
+		args = { "-na", GHOSTTY_APP }
 	end
-	local task = hs.task.new(KITTY_BIN, nil, args)
-	if env and task.setEnvironment then
-		task:setEnvironment(env)
-	end
-	task:start()
+	hs.task.new(OPEN_BIN, nil, args):start()
 end
 
-local function launchKittyWindow(cmd, env)
-	local socketPath = findSocketPath()
-	if socketPath and hasKitten() then
-		local args = { "@", "--to", "unix:" .. socketPath, "launch", "--type=os-window", "--cwd=current" }
-		if env then
-			for key, value in pairs(env) do
-				table.insert(args, "--env")
-				table.insert(args, key .. "=" .. value)
+local function launchGhosttyWindow()
+	local app = hs.application.find(GHOSTTY_APP)
+	if app then
+		local menuCandidates = {
+			{ "Shell", "New Window" },
+			{ "Shell", "New OS Window" },
+			{ "File", "New Window" },
+		}
+		for _, path in ipairs(menuCandidates) do
+			if app:selectMenuItem(path) then
+				return
 			end
 		end
-		if cmd and #cmd > 0 then
-			for i = 1, #cmd do
-				table.insert(args, cmd[i])
-			end
-		end
-		local task = hs.task.new(KITTEN_BIN, function(exitCode, _, _)
-			if exitCode ~= 0 then
-				cachedSocketPath = nil
-				launchKittyWindowDirect(cmd, env)
-			end
-		end, args)
-		task:start()
-		return
 	end
-	launchKittyWindowDirect(cmd, env)
+	if app then
+		openGhosttyApp(true)
+	else
+		openGhosttyApp(false)
+	end
 end
 
 local function ensureSide(side)
-	local mainW = focusedKittyWindow()
+	local mainW = focusedGhosttyWindow()
 	if not mainW then
 		return
 	end
@@ -209,7 +179,7 @@ local function ensureSide(side)
 
 	-- Create a new OS window and place it when windowCreated fires.
 	pending = { side = side, mainId = mainW:id() }
-	launchKittyWindow()
+	launchGhosttyWindow()
 
 	-- Fallback in case the event does not fire and pending gets stuck.
 	hs.timer.doAfter(0.6, function()
@@ -232,13 +202,13 @@ function M.start(opts)
 	OUTER = opts.outer or OUTER
 	MIN_SIDE_W = opts.min_side_w or MIN_SIDE_W
 
-	-- Subscribe to kitty window creation events (event-driven, light weight).
-	wf = hs.window.filter.new({ "kitty" }) -- only visible kitty windows (faster, cleaner)
+	-- Subscribe to Ghostty window creation events (event-driven, light weight).
+	wf = hs.window.filter.new({ GHOSTTY_APP }) -- only visible Ghostty windows (faster, cleaner)
 	wf:subscribe(hs.window.filter.windowCreated, function(w)
 		if not pending then
 			return
 		end
-		if not isKitty(w) then
+		if not isGhostty(w) then
 			return
 		end
 		if w:id() == pending.mainId then
@@ -246,7 +216,7 @@ function M.start(opts)
 		end
 
 		local mainW = hs.window.get(pending.mainId)
-		if not isKitty(mainW) then
+		if not isGhostty(mainW) then
 			pending = nil
 			return
 		end
@@ -287,14 +257,14 @@ function M.start(opts)
 		setHotkeysEnabled(false)
 	end)
 
-	-- Hotkeys: Alt+E left, Alt+D right (only enabled when kitty is focused)
+	-- Hotkeys: Alt+E left, Alt+D right (only enabled when Ghostty is focused)
 	hotkeyLeft = hs.hotkey.new({ "alt" }, "e", function()
 		ensureSide("left")
 	end)
 	hotkeyRight = hs.hotkey.new({ "alt" }, "d", function()
 		ensureSide("right")
 	end)
-	setHotkeysEnabled(focusedKittyWindow() ~= nil)
+	setHotkeysEnabled(focusedGhosttyWindow() ~= nil)
 end
 
 M.start()
