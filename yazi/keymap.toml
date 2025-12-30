@@ -42,11 +42,15 @@ run  = "close"
 desc = "Cancel input"
 
 [[mgr.prepend_keymap]]
-on = [ ":" ]
-run = "plugin custom-shell zsh"
-desc = "Run zsh"
-
-[[mgr.prepend_keymap]]
 on   = "T"
 run  = "plugin toggle-pane max-current"
 desc = "Show or hide the preview pane"
+
+[[mgr.prepend_keymap]]
+on  = "M"
+run = "plugin mount"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "s" ]
+run  = "cd sftp://my-server"
+desc = "Go to my-server"
