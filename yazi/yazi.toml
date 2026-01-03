@@ -1,2 +1,11 @@
 [mgr]
 title_format = ''
+
+[preview]
+max_width = 9999
+max_height = 9999
+
+[plugin]
+prepend_previewers = [
+  { mime = "image/*", run = "image-fit" },
+]
