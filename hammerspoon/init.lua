@@ -318,6 +318,17 @@ hs.hotkey.bind({ "alt" }, "return", function()
 		end
 	end
 end)
+hs.hotkey.bind(ctrl_alt, "return", function()
+	local ghosttyApp = hs.application.find("ghostty")
+	if ghosttyApp and #ghosttyApp:allWindows() > 0 then
+		ghosttyApp:setFrontmost()
+	else
+		if ghosttyApp then
+			ghosttyApp:selectMenuItem({ "File", "New Window" })
+			ghosttyApp:setFrontmost()
+		end
+	end
+end)
 
 --- Open new vscode window
 hs.hotkey.bind(cmd_ctrl, "return", function()

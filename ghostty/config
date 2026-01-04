@@ -23,11 +23,11 @@ window-padding-y = 0,0
 window-vsync = true
 window-decoration = auto
 macos-titlebar-style = hidden
-# shell-integration = zsh
-# shell-integration-features = no-title
+shell-integration = zsh
+shell-integration-features = ssh-terminfo,ssh-env,no-title
 macos-titlebar-proxy-icon = visible
 window-title-font-family = 0xProto Nerd Font Bold
-window-height = 32
+window-height = 35
 window-width = 125
 focus-follows-mouse = true
 macos-icon = official
@@ -75,6 +75,8 @@ keybind = super+r=reload_config
 # keybind = super+physical:seven=goto_tab:7
 # keybind = super+physical:eight=goto_tab:8
 # keybind = super+physical:nine=goto_tab:9
+keybind = super+d=text:\x1bd
+keybind = super+shift+d=text:\x1bD
 keybind = super+1=text:\x1b1
 keybind = super+2=text:\x1b2
 keybind = super+3=text:\x1b3
