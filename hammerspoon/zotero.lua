@@ -95,14 +95,40 @@ local function clearGPending()
 	end
 end
 
+local function setNormalMode(enabled)
+	if normalMode == enabled then
+		return
+	end
+	normalMode = enabled
+	clearGPending()
+end
+
 keyTap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(event)
-	if not normalMode or not isZoteroFrontmost() then
+	if not isZoteroFrontmost() then
+		return false
+	end
+
+	local keyCode = event:getKeyCode()
+	if keyCode == hs.keycodes.map.escape then
+		if not normalMode then
+			setNormalMode(true)
+			return true
+		end
 		return false
 	end
 
 	local flags = event:getFlags()
 	local chars = event:getCharacters()
 	if not chars then
+		return false
+	end
+
+	if chars == "i" and not hasModifiers(flags) then
+		setNormalMode(false)
+		return false
+	end
+
+	if not normalMode then
 		return false
 	end
 
@@ -187,6 +213,7 @@ end)
 
 local function enable()
 	if keyTap then
+		setNormalMode(true)
 		keyTap:start()
 	end
 end
