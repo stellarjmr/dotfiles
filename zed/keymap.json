@@ -44,7 +44,8 @@
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-p": "file_finder::Toggle",
+      "cmd-o": "file_finder::Toggle",
+      "cmd-p": "projects::OpenRecent",
       "cmd-shift-p": "command_palette::Toggle",
       "cmd-f": "buffer_search::Deploy",
       "cmd-shift-f": "project_search::ToggleFocus",
@@ -62,6 +63,27 @@
     "context": "Workspace",
     "bindings": {
       "alt-e": "workspace::ToggleLeftDock",
+      "alt-=": "workspace::IncreaseActiveDockSize",
+      "alt--": "workspace::DecreaseActiveDockSize"
+    }
+  },
+
+  // === Project Panel ===
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "l": "project_panel::OpenPermanent"
+    }
+  },
+
+  // === Pane Navigation ===
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-h": "workspace::ActivatePaneLeft",
+      "alt-j": "workspace::ActivatePaneDown",
+      "alt-k": "workspace::ActivatePaneUp",
+      "alt-l": "workspace::ActivatePaneRight"
     }
   },
 

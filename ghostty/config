@@ -1,4 +1,5 @@
-command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
+# command = /bin/zsh -e ~/.config/ghostty/launch-tmux.sh
+command = /opt/homebrew/bin/zellij
 
 # theme
 theme = EverforestDarkHard
@@ -28,7 +29,7 @@ shell-integration-features = ssh-terminfo,ssh-env,no-title
 macos-titlebar-proxy-icon = visible
 window-title-font-family = 0xProto Nerd Font Bold
 window-height = 35
-window-width = 125
+window-width = 130
 focus-follows-mouse = true
 macos-icon = official
 background-opacity = 1
@@ -75,19 +76,19 @@ keybind = super+r=reload_config
 # keybind = super+physical:seven=goto_tab:7
 # keybind = super+physical:eight=goto_tab:8
 # keybind = super+physical:nine=goto_tab:9
-keybind = super+d=text:\x1bd
-keybind = super+shift+d=text:\x1bD
-keybind = super+1=text:\x1b1
-keybind = super+2=text:\x1b2
-keybind = super+3=text:\x1b3
-keybind = super+4=text:\x1b4
-keybind = super+5=text:\x1b5
-keybind = super+6=text:\x1b6
-keybind = super+7=text:\x1b7
-keybind = super+8=text:\x1b8
-keybind = super+9=text:\x1b9
-keybind = super+t=text:\x1bt
-keybind = super+w=text:\x1bw
+# keybind = super+d=text:\x1bd
+# keybind = super+shift+d=text:\x1bD
+# keybind = super+1=text:\x1b1
+# keybind = super+2=text:\x1b2
+# keybind = super+3=text:\x1b3
+# keybind = super+4=text:\x1b4
+# keybind = super+5=text:\x1b5
+# keybind = super+6=text:\x1b6
+# keybind = super+7=text:\x1b7
+# keybind = super+8=text:\x1b8
+# keybind = super+9=text:\x1b9
+# keybind = super+t=text:\x1bt
+# keybind = super+w=text:\x1bw
 
 # vim
 keybind = super+a=text:\x1bgg0vG

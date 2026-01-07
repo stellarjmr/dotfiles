@@ -7,6 +7,27 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "buffer_font_weight": 500.0,
+  "completions": {
+    "words_min_length": 3
+  },
+  "indent_guides": {
+    "background_coloring": "disabled",
+    "coloring": "fixed",
+    "active_line_width": 1,
+    "line_width": 1
+  },
+  "soft_wrap": "none",
+  "show_wrap_guides": true,
+  "gutter": {
+    "min_line_number_digits": 0,
+    "folds": true
+  },
+  "relative_line_numbers": "enabled",
+  "outline_panel": {
+    
+  },
+  "restore_on_file_reopen": false,
   "when_closing_with_no_tabs": "platform_default",
   "audio": {
     "experimental.auto_speaker_volume": true
@@ -28,8 +49,7 @@
     "show_onboarding_banner": true,
     "show_menus": false,
     "show_sign_in": false,
-    "show_user_picture": false,
-    "show_branch_icon": false
+    "show_user_picture": false
   },
   "project_panel": {
     "default_width": 200.0
@@ -55,15 +75,15 @@
     "show": "auto"
   },
   "vim_mode": true,
-  "ui_font_size": 16,
-  "buffer_font_size": 14.0,
+  "ui_font_size": 18.0,
+  "buffer_font_size": 18.0,
   "theme": {
     "mode": "system",
     "light": "Everforest Dark Hard",
     "dark": "Everforest Dark Hard"
   },
   "cursor_blink": false,
-  "restore_on_startup": "last_workspace",
+  "restore_on_startup": "none",
   "session": {
     "restore_unsaved_buffers": false,
     "restore": false
@@ -92,7 +112,6 @@
   "inlay_hints": {
     "enabled": false
   },
-  "show_whitespaces": "none",
   "git": {
     "inline_blame": {
       "enabled": false
