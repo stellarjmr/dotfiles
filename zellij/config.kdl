@@ -1,0 +1,81 @@
+on_force_close "quit"
+simplified_ui true
+default_shell "zsh"
+pane_frames true
+theme "everforest"
+themes {
+    everforest {
+        fg 211 198 170
+        bg 45 53 59
+        red 230 126 128
+        green 167 192 128
+        yellow 219 188 127
+        blue 127 187 179
+        magenta 214 153 182
+        orange 230 152 117
+        cyan 131 192 146
+        black 33 39 44
+        white 230 226 204
+    }
+}
+plugins {
+    tab-bar location="file:/Users/zhimin/.config/zellij/plugins/everforest-tab-bar/target/wasm32-wasip1/release/everforest_tab_bar.wasm"
+}
+default_layout "my_layout"
+mouse_mode true
+scroll_buffer_size 10000
+copy_command "pbcopy"
+copy_clipboard "system"
+copy_on_select true
+ui {
+    pane_frames {
+        rounded_corners true
+        hide_session_name true
+    }
+}
+auto_layout true
+styled_underlines true
+show_startup_tips false
+show_release_notes false
+keybinds clear-defaults=true {
+    normal {
+        bind "Super t" { NewTab; }
+        bind "Super w" { CloseFocus; }
+        bind "Super d" { NewPane; }
+        bind "Super D" { NewPane "Down"; }
+        bind "Super 1" { GoToTab 1; }
+        bind "Super 2" { GoToTab 2; }
+        bind "Super 3" { GoToTab 3; }
+        bind "Super 4" { GoToTab 4; }
+        bind "Super 5" { GoToTab 5; }
+        bind "Super 6" { GoToTab 6; }
+        bind "Super 7" { GoToTab 7; }
+        bind "Super 8" { GoToTab 8; }
+        bind "Super 9" { GoToTab 9; }
+        bind "Super f" { ToggleFocusFullscreen; }
+
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt -" { Resize "Decrease Left"; }
+        bind "Alt =" { Resize "Increase Right"; }
+        bind "Alt _" { Resize "Decrease Up"; }
+        bind "Alt +" { Resize "Increase Down"; }
+        bind "Alt f" { ToggleFloatingPanes; }
+        bind "Alt v" { SwitchToMode "Scroll"; }
+    }
+    scroll {
+        bind "Esc" { SwitchToMode "Normal"; }
+        bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
+        bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        bind "v" { EditScrollback; SwitchToMode "Normal"; }
+        bind "y" { Copy; }
+    }
+}

@@ -1,0 +1,15 @@
+[package]
+name = "everforest-tab-bar"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[[bin]]
+name = "everforest_tab_bar"
+path = "src/main.rs"
+
+[dependencies]
+ansi_term = "0.12"
+unicode-width = "0.1"
+zellij-tile = "=0.43.1"
+zellij-tile-utils = "=0.43.1"
