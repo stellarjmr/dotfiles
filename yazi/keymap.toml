@@ -52,5 +52,5 @@ run = "plugin mount"
 
 [[mgr.prepend_keymap]]
 on   = [ "g", "s" ]
-run  = "cd sftp://my-server"
+run  = "cd sftp://archer"
 desc = "Go to my-server"

@@ -1,0 +1,176 @@
+return {}
+-- Only activate this zellij-based setup inside a zellij session.
+-- if vim.env.ZELLIJ == nil and vim.env.ZELLIJ_SESSION_NAME == nil then
+--   return {}
+-- end
+--
+-- local function ensure_zellij()
+--   if vim.env.ZELLIJ == nil and vim.env.ZELLIJ_SESSION_NAME == nil then
+--     vim.notify("vim-slime zellij config requires a zellij session", vim.log.levels.WARN)
+--     return false
+--   end
+--
+--   return true
+-- end
+--
+-- local function zellij_cmd()
+--   local session = vim.env.ZELLIJ_SESSION_NAME
+--   if session ~= nil and session ~= "" then
+--     return string.format("zellij -s %s", vim.fn.shellescape(session))
+--   end
+--   return "zellij"
+-- end
+--
+-- local function zellij_run_async(cmd)
+--   vim.fn.jobstart({ "sh", "-c", cmd }, { detach = true })
+-- end
+--
+-- local function zellij_layout_has_pane(pane_name)
+--   local output = vim.fn.system(zellij_cmd() .. " action dump-layout")
+--   if vim.v.shell_error ~= 0 then
+--     return false
+--   end
+--
+--   return output:find(pane_name, 1, true) ~= nil
+-- end
+--
+-- local function ensure_ipython_pane()
+--   if not ensure_zellij() then
+--     return nil
+--   end
+--
+--   if vim.g.slime_zellij_repl_ready or zellij_layout_has_pane("nvim-ipython") then
+--     vim.g.slime_zellij_repl_ready = true
+--     return true
+--   end
+--
+--   local function resize_repl_pane()
+--     local steps = tonumber(vim.g.slime_zellij_repl_resize_steps) or 3
+--     if steps <= 0 then
+--       return
+--     end
+--
+--     vim.fn.system(zellij_cmd() .. " action move-focus right")
+--     for _ = 1, steps do
+--       vim.fn.system(zellij_cmd() .. " action resize decrease left")
+--     end
+--     vim.fn.system(zellij_cmd() .. " action move-focus left")
+--   end
+--
+--   local cwd = vim.fn.getcwd()
+--   local python = vim.fn.expand("~/conda/envs/ovito/bin/python")
+--   local cmd = string.format(
+--     "%s action new-pane -d right -n %s --close-on-exit --cwd %s -- %s -m IPython",
+--     zellij_cmd(),
+--     vim.fn.shellescape("nvim-ipython"),
+--     vim.fn.shellescape(cwd),
+--     vim.fn.shellescape(python)
+--   )
+--
+--   vim.fn.system(cmd)
+--   if vim.v.shell_error ~= 0 then
+--     vim.notify("Failed to launch zellij pane for IPython", vim.log.levels.ERROR)
+--     return nil
+--   end
+--
+--   resize_repl_pane()
+--   vim.g.slime_zellij_repl_ready = true
+--   return true
+-- end
+--
+-- local function close_repl_pane()
+--   if not ensure_zellij() then
+--     return
+--   end
+--
+--   local close_cmd = table.concat({
+--     zellij_cmd() .. " action move-focus right",
+--     string.format("%s action write-chars %s", zellij_cmd(), vim.fn.shellescape("exit")),
+--     zellij_cmd() .. " action write 13 10",
+--     zellij_cmd() .. " action move-focus left",
+--   }, " ; ")
+--
+--   zellij_run_async(close_cmd)
+--   vim.g.slime_zellij_repl_ready = false
+-- end
+--
+-- return {
+--   "jpalardy/vim-slime",
+--   enabled = true,
+--   ft = { "python" },
+--   keys = {
+--     {
+--       "<leader>sc",
+--       function()
+--         if not ensure_ipython_pane() then
+--           return
+--         end
+--
+--         local keys = vim.api.nvim_replace_termcodes("<Plug>SlimeSendCell", true, false, true)
+--         vim.api.nvim_feedkeys(keys, "m", false)
+--       end,
+--       desc = "Slime Send Cell",
+--     },
+--     {
+--       "<leader>sl",
+--       function()
+--         if not ensure_ipython_pane() then
+--           return
+--         end
+--
+--         local keys = vim.api.nvim_replace_termcodes("<Plug>SlimeLineSend", true, false, true)
+--         vim.api.nvim_feedkeys(keys, "m", false)
+--       end,
+--       desc = "Slime Send Line",
+--     },
+--     {
+--       "<leader>ss",
+--       function()
+--         if not ensure_ipython_pane() then
+--           return
+--         end
+--
+--         local keys = vim.api.nvim_replace_termcodes("<Plug>SlimeRegionSend", true, false, true)
+--         vim.api.nvim_feedkeys(keys, "x", false)
+--       end,
+--       mode = "v",
+--       desc = "Slime Send Selection",
+--     },
+--     {
+--       "<leader>sf",
+--       function()
+--         if not ensure_ipython_pane() then
+--           return
+--         end
+--
+--         local save_cursor = vim.fn.getpos(".")
+--         vim.cmd("normal! ggVG")
+--         local keys = vim.api.nvim_replace_termcodes("<Plug>SlimeRegionSend", true, false, true)
+--         vim.api.nvim_feedkeys(keys, "x", false)
+--         vim.fn.setpos(".", save_cursor)
+--       end,
+--       desc = "Slime Send File",
+--     },
+--   },
+--   config = function()
+--     if not ensure_zellij() then
+--       return
+--     end
+--
+--     vim.g.slime_target = "zellij"
+--     vim.g.slime_default_config = {
+--       session_id = vim.env.ZELLIJ_SESSION_NAME or "current",
+--       relative_pane = "right",
+--       relative_move_back = "left",
+--     }
+--     vim.g.slime_dont_ask_default = 1
+--     vim.g.slime_bracketed_paste = 1
+--     vim.g.slime_cell_delimiter = "# %%"
+--
+--     vim.api.nvim_create_user_command("SlimeClose", close_repl_pane, {})
+--     vim.keymap.set("n", "<leader>rq", close_repl_pane, { desc = "Close REPL pane" })
+--     vim.api.nvim_create_autocmd("VimLeavePre", {
+--       callback = close_repl_pane,
+--     })
+--   end,
+-- }
