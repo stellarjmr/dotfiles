@@ -1,0 +1,13 @@
+[
+  {
+    "label": "LazyGit",
+    "command": "lazygit",
+    "hide": "on_success",
+  },
+  {
+    "label": "yazi",
+    "command": "yazi",
+    "args": ["$ZED_FILE"],
+    "hide": "on_success"
+  }
+]
