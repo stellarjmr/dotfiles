@@ -330,17 +330,18 @@ hs.hotkey.bind(ctrl_alt, "return", function()
 	end
 end)
 
---- Open new vscode window
+--- Open new vscode/zed window
 hs.hotkey.bind(cmd_ctrl, "return", function()
-	local codeApp = hs.application.find("Code")
-	if codeApp and #codeApp:allWindows() > 0 then
-		codeApp:setFrontmost()
-	else
-		if codeApp then
-			codeApp:selectMenuItem({ "File", "New Window" })
-			codeApp:setFrontmost()
-		end
-	end
+	hs.application.launchOrFocus("Zed")
+	-- local codeApp = hs.application.find("Code")
+	-- if codeApp and #codeApp:allWindows() > 0 then
+	-- 	codeApp:setFrontmost()
+	-- else
+	-- 	if codeApp then
+	-- 		codeApp:selectMenuItem({ "File", "New Window" })
+	-- 		codeApp:setFrontmost()
+	-- 	end
+	-- end
 end)
 
 --- Open Apps.app

@@ -47,6 +47,7 @@
       "cmd-o": "file_finder::Toggle",
       "cmd-p": "projects::OpenRecent",
       "cmd-shift-p": "command_palette::Toggle",
+      "cmd-shift-a": "zed::Extensions",
       "cmd-f": "buffer_search::Deploy",
       "cmd-shift-f": "project_search::ToggleFocus",
       "cmd-g": "search::SelectNextMatch",
@@ -54,7 +55,9 @@
       "cmd-shift-o": "outline::Toggle",
       "alt-d": "workspace::NewTerminal",
       "cmd-l": "go_to_line::Toggle",
-      "escape": "workspace::CloseAllDocks"
+      "escape": "workspace::CloseAllDocks",
+      "alt-r": "repl::Run",
+      "alt-R": "repl::Restart"
     }
   },
 
@@ -109,5 +112,14 @@
     "bindings": {
       "alt-p": "markdown::OpenPreview"
     }
+  },
+
+  // === TUIs ===
+  {
+     "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
+     "bindings": {
+       "space l g": ["task::Spawn",{ "task_name": "LazyGit", "reveal_target": "center" }],
+       "space e": ["task::Spawn",{ "task_name": "yazi", "reveal_target": "center"}],
+   }
   }
 ]
