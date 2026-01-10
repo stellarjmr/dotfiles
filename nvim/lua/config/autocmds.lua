@@ -112,3 +112,17 @@ vim.api.nvim_create_autocmd("CursorHold", {
     })
   end,
 })
+
+-- Set cursor to bar on exit/suspend to fix terminal cursor issues
+-- https://neovim.io/doc/user/faq.html#faq
+vim.api.nvim_create_autocmd({ "VimLeave", "VimSuspend" }, {
+  pattern = "*",
+  desc = "Restore terminal cursor",
+  callback = function()
+    -- vim.cmd([[set guicursor=a:ver100-blinkwait1-blinkoff500-blinkon500]])
+
+    -- https://github.com/microsoft/terminal/issues/13420#issuecomment-1501102143
+    vim.opt.guicursor = ""
+    vim.fn.chansend(vim.v.stderr, "\x1b[ q")
+  end,
+})

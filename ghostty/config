@@ -14,7 +14,9 @@ font-style-italic = Semibold Italic
 font-style-bold-italic = Bold Italic
 
 # cursor
+cursor-style = bar
 # cursor-color = #d3c6aa
+cursor-style-blink = true
 # custom-shader = shaders/cursor_tail.glsl
 
 # window
