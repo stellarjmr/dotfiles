@@ -54,3 +54,18 @@ run = "plugin mount"
 on   = [ "g", "s" ]
 run  = "cd sftp://archer"
 desc = "Go to my-server"
+
+[[mgr.prepend_keymap]]
+on   = "X"
+run  = "shell 'open -a Ovito \"$@\"' --confirm"
+desc = "Open in Ovito"
+
+[[mgr.prepend_keymap]]
+on   = "V"
+run  = "shell 'open -a VESTA \"$@\"' --confirm"
+desc = "Open in VESTA"
+
+[[mgr.prepend_keymap]]
+on   = "C"
+run  = "shell 'open -a \"Visual Studio Code\" \"$@\"' --confirm"
+desc = "Open in VSCode"
