@@ -102,4 +102,5 @@ keybind = super+p=text:\x1b:lua Snacks.picker.smart()\n
 
 # quick terminal
 quick-terminal-position = center
+quick-terminal-size = 35%,55%
 keybind = global:alt+shift+q=toggle_quick_terminal
