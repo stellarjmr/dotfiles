@@ -126,3 +126,24 @@ vim.api.nvim_create_autocmd({ "VimLeave", "VimSuspend" }, {
     vim.fn.chansend(vim.v.stderr, "\x1b[ q")
   end,
 })
+
+-- Auto-reload buffers when files change on disk
+vim.opt.autoread = true
+vim.g.autoread_enabled = true
+
+local autoread_group = vim.api.nvim_create_augroup("AutoReadChecktime", { clear = true })
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  group = autoread_group,
+  callback = function()
+    if vim.g.autoread_enabled then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+vim.keymap.set("n", "<leader>ar", function()
+  vim.g.autoread_enabled = not vim.g.autoread_enabled
+  vim.opt.autoread = vim.g.autoread_enabled
+  local status = vim.g.autoread_enabled and "on" or "off"
+  vim.notify("Auto-reload: " .. status)
+end, { desc = "Toggle auto-reload" })
