@@ -7,6 +7,7 @@ return {
       python = { "ruff_format" },
       sh = { "shfmt" },
       tex = { "tex-fmt" },
+      typst = { "typstyle" },
     })
   end,
 }
