@@ -227,6 +227,9 @@ function M.start(opts)
 	started = true
 	opts = opts or {}
 
+	-- Suppress hotkey enable/disable log spam
+	hs.hotkey.setLogLevel("warning")
+
 	-- Allow override from init.lua (optional).
 	GAP = opts.gap or GAP
 	OUTER = opts.outer or OUTER
