@@ -66,6 +66,11 @@ run  = "shell 'open -a VESTA \"$@\"' --confirm"
 desc = "Open in VESTA"
 
 [[mgr.prepend_keymap]]
+on   = "P"
+run  = "shell 'open -a sioyek \"$@\"' --confirm"
+desc = "Open in sioyek"
+
+[[mgr.prepend_keymap]]
 on   = "C"
 run  = "shell 'open -a \"Visual Studio Code\" \"$@\"' --confirm"
 desc = "Open in VSCode"

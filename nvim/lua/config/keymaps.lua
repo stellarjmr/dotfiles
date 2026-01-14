@@ -6,6 +6,7 @@ local map = vim.keymap.set
 -- alt+w to close buffer, alt+q to quit
 map("n", "<A-w>", ":bd<CR>", { noremap = true, silent = true })
 map("n", "<A-q>", ":q<CR>", { noremap = true, silent = true })
+map("i", "<S-CR>", "<C-o>o", { noremap = true, silent = true })
 
 -- quick "cd" shortcuts; update the list below to your frequently used directories
 local cd_targets = {
