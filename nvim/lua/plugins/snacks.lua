@@ -281,7 +281,7 @@ return {
           cwd = "~/Documents",
           hidden = false,
           -- Add folders to exclude here
-          exclude = { "Master", "PhD/Documents", "PDRA/Documents", "GitHub", "Notes" },
+          exclude = { "Master", "PhD", "PDRA/Documents", "GitHub", "Notes" },
         })
       end,
       desc = "Find Documents File",

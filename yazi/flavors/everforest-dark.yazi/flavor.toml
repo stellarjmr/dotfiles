@@ -39,6 +39,7 @@ syntect_theme = ""
 [indicator]
 current = { reversed = true }
 preview = { underline = true }
+parent  = { reversed = true }
 
 # : }}}
 
@@ -50,8 +51,8 @@ active   = { fg = "#4f585e", bg = "#7fbbb3", bold = true }
 inactive = { fg = "#7fbbb3", bg = "#4f585e" }
 
 # Separator
-separator_open = ""
-separator_close = ""
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
 
 # : }}}
 
@@ -81,11 +82,11 @@ sep_left  = { open = "", close = "" }
 sep_right  = { open = "", close = "" }
 
 # Permissions
-permissions_s = { fg = "#2d353b" }
-permissions_t = { fg = "#a7c080" }
-permissions_r = { fg = "#dbbc7f" }
-permissions_w = { fg = "#e67e80" }
-permissions_x = { fg = "#7fbbb3" }
+perm_s = { fg = "#2d353b" }
+perm_t = { fg = "#a7c080" }
+perm_r = { fg = "#dbbc7f" }
+perm_w = { fg = "#e67e80" }
+perm_x = { fg = "#7fbbb3" }
 
 # Progress
 progress_label  = { bold = true }
@@ -142,6 +143,9 @@ tbl_cell = { fg = "#dbbc7f", reversed = true }
 title_info  = { fg = "#a7c080" }
 title_warn  = { fg = "#dbbc7f" }
 title_error = { fg = "#e67e80" }
+icon_info   = ""
+icon_warn   = ""
+icon_error  = ""
 
 # : }}}
 
@@ -170,9 +174,12 @@ selected = { reversed = true }
 # : Completion {{{
 
 [cmp]
-border   = { fg = "#7fbbb3" }
-active   = { reversed = true }
-inactive = {}
+border       = { fg = "#7fbbb3" }
+active       = { reversed = true }
+inactive     = {}
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
 
 # : }}}
 
@@ -204,6 +211,13 @@ footer  = { fg = "#2d353b", bg = "#d3c6aa" }
 [filetype]
 
 rules = [
+	# VFS
+	{ url = "archive://*", fg = "#e67e80" },
+
+	# Special files
+	{ name = "*", is = "orphan", bg = "#e67e80" },
+	{ name = "*", is = "exec",   fg = "#a7c080" },
+
 	# Images
 	{ mime = "image/*", fg = "#7fbbb3" },
 
@@ -212,7 +226,7 @@ rules = [
 
 	# Archives
 	{ mime = "application/*zip", fg = "#e67e80" },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#e67e80" },
+	{ mime = "application/{tar,bzip*,7z-compressed,xz,rar}", fg = "#e67e80" },
 
 	# Documents
 	{ mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#7fbbb3" },
@@ -220,6 +234,16 @@ rules = [
 	# Fallback
 	{ url = "*", fg = "#83c092" },
 	{ url = "*/", fg = "#a7c080" }
+]
+
+# : }}}
+
+
+# : Icons {{{
+
+[icon]
+prepend_conds = [
+	{ if = "dir", text = "", fg = "#a7c080" },
 ]
 
 # : }}}

@@ -79,7 +79,7 @@
   "icon_theme": {
     "mode": "system",
     "light": "Material Icon Theme",
-    "dark": "Zed (Default)"
+    "dark": "Material Icon Theme"
   },
   // "base_keymap": "None",
   "minimap": {
@@ -90,8 +90,8 @@
   "buffer_font_size": 16.0,
   "theme": {
     "mode": "dark",
-    "light": "Everforest Light Medium (material)",
-    "dark": "Everforest Dark Hard (material)"
+    "light": "Kanagawa Lotus",
+    "dark": "Kanagawa Dragon"
   },
   "cursor_blink": false,
   "restore_on_startup": "launchpad",
