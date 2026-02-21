@@ -52,6 +52,11 @@ run  = "cd sftp://archer"
 desc = "Go to my-server"
 
 [[mgr.prepend_keymap]]
+on   = "F"
+run  = "shell 'open .'"
+desc = "Open in Finder"
+
+[[mgr.prepend_keymap]]
 on   = "X"
 run  = "shell 'open -a Ovito \"$@\"' --confirm"
 desc = "Open in Ovito"

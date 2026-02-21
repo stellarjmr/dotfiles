@@ -1,6 +1,7 @@
 local delimiter = "# %%"
 local state = {
   repl_id = nil,
+  python = nil,
 }
 
 local function trim(s)
@@ -29,6 +30,36 @@ end
 
 local function shell_quote(value)
   return vim.fn.shellescape(value)
+end
+
+local function cmd_ok(argv)
+  local code = vim.fn.system(argv)
+  return vim.v.shell_error == 0
+end
+
+local function detect_ipython_python()
+  if state.python then
+    return state.python
+  end
+
+  local conda_base = vim.fn.expand("~/conda")
+  local candidates = { conda_base .. "/bin/python" }
+  local envs_dir = conda_base .. "/envs"
+
+  if vim.fn.isdirectory(envs_dir) == 1 then
+    for _, name in ipairs(vim.fn.readdir(envs_dir)) do
+      table.insert(candidates, envs_dir .. "/" .. name .. "/bin/python")
+    end
+  end
+
+  for _, py in ipairs(candidates) do
+    if vim.fn.executable(py) == 1 and cmd_ok({ py, "-c", "import IPython" }) then
+      state.python = py
+      return py
+    end
+  end
+
+  return nil
 end
 
 local function visual_selection_text()
@@ -64,17 +95,28 @@ local function current_cell_text()
   local start_row = 1
   local end_row = #lines
 
-  for row = cursor_row - 1, 1, -1 do
-    if vim.startswith(lines[row], delimiter) then
-      start_row = row + 1
-      break
+  -- If cursor is on a delimiter, treat the cell as the one below it
+  if vim.startswith(lines[cursor_row], delimiter) then
+    start_row = cursor_row + 1
+    for row = cursor_row + 1, #lines do
+      if vim.startswith(lines[row], delimiter) then
+        end_row = row - 1
+        break
+      end
     end
-  end
+  else
+    for row = cursor_row - 1, 1, -1 do
+      if vim.startswith(lines[row], delimiter) then
+        start_row = row + 1
+        break
+      end
+    end
 
-  for row = cursor_row + 1, #lines do
-    if vim.startswith(lines[row], delimiter) then
-      end_row = row - 1
-      break
+    for row = cursor_row + 1, #lines do
+      if vim.startswith(lines[row], delimiter) then
+        end_row = row - 1
+        break
+      end
     end
   end
 
@@ -107,26 +149,23 @@ local function sendable_text(kind)
 end
 
 local function current_terminal_id()
-  local script = [[
+  local ok, output = run_osascript([[
 tell application "Ghostty"
   return id of focused terminal of selected tab of front window
 end tell
-]]
-
-  local ok, output = run_osascript(script)
+]])
   if not ok or output == "" then
     return nil
   end
-
   return output
 end
 
 local function terminal_exists(terminal_id)
-  if terminal_id == nil or terminal_id == "" then
+  if not terminal_id or terminal_id == "" then
     return false
   end
 
-  local script = [[
+  local ok, output = run_osascript([[
 on run argv
   set targetId to item 1 of argv
   tell application "Ghostty"
@@ -138,77 +177,54 @@ on run argv
     end try
   end tell
 end run
-]]
-
-  local ok, output = run_osascript(script, { terminal_id })
+]], { terminal_id })
   return ok and output == "1"
 end
 
 local function focus_terminal(terminal_id)
-  if terminal_id == nil or terminal_id == "" then
+  if not terminal_id or terminal_id == "" then
     return false, "missing terminal id"
   end
 
-  local script = [[
+  return run_osascript([[
 on run argv
   set targetId to item 1 of argv
   tell application "Ghostty"
     focus (first terminal whose id is targetId)
   end tell
 end run
-]]
-
-  return run_osascript(script, { terminal_id })
-end
-
-local function input_text_to_terminal(terminal_id, text)
-  if terminal_id == nil or terminal_id == "" then
-    return false, "missing terminal id"
-  end
-
-  local script = [[
-on run argv
-  set targetId to item 1 of argv
-  set payload to item 2 of argv
-  tell application "Ghostty"
-    input text payload to (first terminal whose id is targetId)
-  end tell
-end run
-]]
-
-  return run_osascript(script, { terminal_id, text })
-end
-
-local function send_enter_to_terminal(terminal_id)
-  if terminal_id == nil or terminal_id == "" then
-    return false, "missing terminal id"
-  end
-
-  local script = [[
-on run argv
-  set targetId to item 1 of argv
-  tell application "Ghostty"
-    send key "enter" to (first terminal whose id is targetId)
-  end tell
-end run
-]]
-  return run_osascript(script, { terminal_id })
+]], { terminal_id })
 end
 
 local function close_terminal(terminal_id)
-  if terminal_id == nil or terminal_id == "" then
+  if not terminal_id or terminal_id == "" then
     return false, "missing terminal id"
   end
 
-  local script = [[
+  return run_osascript([[
 on run argv
   set targetId to item 1 of argv
   tell application "Ghostty"
     close (first terminal whose id is targetId)
   end tell
 end run
-]]
-  return run_osascript(script, { terminal_id })
+]], { terminal_id })
+end
+
+local function send_text_and_refocus(source_id, repl_id, text)
+  return run_osascript([[
+on run argv
+  set sourceId to item 1 of argv
+  set replId to item 2 of argv
+  set payload to item 3 of argv
+  tell application "Ghostty"
+    set replTerm to first terminal whose id is replId
+    input text payload to replTerm
+    send key "enter" to replTerm
+    focus (first terminal whose id is sourceId)
+  end tell
+end run
+]], { source_id, repl_id, text })
 end
 
 local function ensure_repl_terminal(source_terminal_id)
@@ -216,15 +232,21 @@ local function ensure_repl_terminal(source_terminal_id)
     return state.repl_id
   end
 
-  if source_terminal_id == nil or source_terminal_id == "" then
+  if not source_terminal_id or source_terminal_id == "" then
     notify_error("Ghostty source terminal is unavailable")
     return nil
   end
 
+  local python = detect_ipython_python()
+  if not python then
+    notify_error("No Python with IPython found under ~/conda")
+    return nil
+  end
+
   local cwd = vim.fn.getcwd()
-  local python = vim.fn.expand("~/conda/bin/python")
   local init_text = "exec " .. shell_quote(python) .. " -m IPython\n"
-  local script = [[
+
+  local ok, output = run_osascript([[
 on run argv
   set sourceId to item 1 of argv
   set workingDir to item 2 of argv
@@ -238,9 +260,8 @@ on run argv
     return id of replTerm
   end tell
 end run
-]]
+]], { source_terminal_id, cwd, init_text })
 
-  local ok, output = run_osascript(script, { source_terminal_id, cwd, init_text })
   if not ok or output == "" then
     notify_error("Failed to create Ghostty REPL split: " .. output)
     return nil
@@ -248,24 +269,24 @@ end run
 
   state.repl_id = output
   focus_terminal(source_terminal_id)
+
+  -- Resize to ~70/30 via send key (perform action doesn't work for resize_split)
+  run_osascript([[
+on run argv
+  tell application "Ghostty"
+    set t to first terminal whose id is (item 1 of argv)
+    repeat 40 times
+      send key "minus" modifiers "option" to t
+    end repeat
+  end tell
+end run
+]], { source_terminal_id })
+
   return output
 end
 
-local function request_repl_exit(terminal_id)
-  if terminal_id == nil or terminal_id == "" then
-    return false, "missing terminal id"
-  end
-
-  local ok, err = input_text_to_terminal(terminal_id, "exit()")
-  if not ok then
-    return false, err
-  end
-
-  return send_enter_to_terminal(terminal_id)
-end
-
 local function exit_and_close_repl(terminal_id)
-  if terminal_id == nil or terminal_id == "" then
+  if not terminal_id or terminal_id == "" then
     return false
   end
 
@@ -274,11 +295,37 @@ local function exit_and_close_repl(terminal_id)
     return true
   end
 
-  request_repl_exit(terminal_id)
-  vim.wait(150)
-  local ok = close_terminal(terminal_id)
+  local source_id = current_terminal_id()
+
+  -- Send exit() and enter in one call
+  run_osascript([[
+on run argv
+  set targetId to item 1 of argv
+  tell application "Ghostty"
+    set t to first terminal whose id is targetId
+    input text "exit()" to t
+    send key "enter" to t
+  end tell
+end run
+]], { terminal_id })
+
+  -- Wait for IPython to exit gracefully
+  local exited = vim.wait(1500, function()
+    return not terminal_exists(terminal_id)
+  end, 50)
+
+  if not exited then
+    close_terminal(terminal_id)
+  end
+
   state.repl_id = nil
-  return ok
+
+  -- Refocus the source terminal to avoid keyboard getting stuck
+  if source_id then
+    focus_terminal(source_id)
+  end
+
+  return true
 end
 
 local function send_text(kind)
@@ -299,20 +346,9 @@ local function send_text(kind)
     return
   end
 
-  local ok, err = input_text_to_terminal(repl_id, text)
+  local ok, err = send_text_and_refocus(source_terminal_id, repl_id, text)
   if not ok then
     notify_error("Failed to send text to Ghostty REPL: " .. err)
-    return
-  end
-
-  local ok_enter, enter_err = send_enter_to_terminal(repl_id)
-  if not ok_enter then
-    notify_error("Failed to submit text in Ghostty REPL: " .. enter_err)
-  end
-
-  local ok_focus, focus_err = focus_terminal(source_terminal_id)
-  if not ok_focus then
-    notify_error("Failed to refocus the Ghostty editor split: " .. focus_err)
   end
 end
 
@@ -328,7 +364,7 @@ return {
   {
     dir = vim.fn.stdpath("config"),
     name = "ghostty-repl",
-    enabled = true and vim.fn.has("mac") == 1,
+    enabled = vim.fn.has("mac") == 1,
     config = function()
       vim.g.slime_cell_delimiter = delimiter
 
@@ -353,7 +389,6 @@ return {
       vim.api.nvim_create_autocmd("VimLeavePre", {
         callback = function()
           exit_and_close_repl(state.repl_id)
-          state.repl_id = nil
         end,
       })
     end,

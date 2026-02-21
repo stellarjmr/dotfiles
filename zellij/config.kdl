@@ -19,7 +19,7 @@ themes {
     }
 }
 plugins {
-    tab-bar location="file:/Users/zhimin/.config/zellij/plugins/everforest-tab-bar/target/wasm32-wasip1/release/everforest_tab_bar.wasm"
+    tab-bar location="file:~/.config/zellij/plugins/everforest-tab-bar/target/wasm32-wasip1/release/everforest_tab_bar.wasm"
 }
 default_layout "my_layout"
 mouse_mode true

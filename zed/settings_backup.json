@@ -7,7 +7,65 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "disable_ai": true,
+  "agent": {
+    "always_allow_tool_actions": true,
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-opus-4-5-thinking"
+    },
+    "model_parameters": []
+  },
+  "agent_buffer_font_size": 16.0,
+  "buffer_line_height": "standard",
+  "buffer_font_weight": 500.0,
+  "completions": {
+    "words_min_length": 3
+  },
+  "indent_guides": {
+    "background_coloring": "disabled",
+    "coloring": "fixed",
+    "active_line_width": 1,
+    "line_width": 1
+  },
+  "soft_wrap": "none",
+  "show_wrap_guides": true,
+  "gutter": {
+    "min_line_number_digits": 0,
+    "folds": true
+  },
+  "relative_line_numbers": "enabled",
+  "outline_panel": {
+
+  },
+  "restore_on_file_reopen": false,
+  "when_closing_with_no_tabs": "platform_default",
+  "audio": {
+    "experimental.auto_speaker_volume": true
+  },
+  "terminal": {
+    "option_as_meta": false,
+    "max_scroll_history_lines": 10000,
+    "default_height": 200.0
+  },
+  "tabs": {
+    "git_status": true,
+    "file_icons": true
+  },
+  "tab_bar": {
+    "show": true
+  },
+  "title_bar": {
+    "show_branch_icon": true,
+    "show_branch_name": true,
+    "show_onboarding_banner": true,
+    "show_menus": false,
+    "show_sign_in": false,
+    "show_user_picture": false
+  },
+  "project_panel": {
+    "default_width": 200.0
+  },
+  "disable_ai": false,
   "buffer_font_features": {
     "calt": 0
   },
@@ -19,26 +77,28 @@
     "metrics": false
   },
   "icon_theme": {
-    "mode": "system",
-    "light": "Zed (Default)",
-    "dark": "Zed (Default)"
+    "mode": "dark",
+    "light": "Material Icon Theme",
+    "dark": "Material Icon Theme"
   },
   // "base_keymap": "None",
   "minimap": {
     "show": "auto"
   },
   "vim_mode": true,
-  "ui_font_size": 16,
-  "buffer_font_size": 14.0,
+  "ui_font_size": 18.0,
+  "buffer_font_size": 16.0,
   "theme": {
-    "mode": "system",
-    "light": "Everforest Dark Hard",
-    "dark": "Everforest Dark Hard"
+    "mode": "dark",
+    "light": "Kanagawa Lotus",
+    "dark": "Kanagawa"
   },
   "cursor_blink": false,
-  "restore_on_startup": "none",
+  "restore_on_startup": "launchpad",
   "session": {
-    "restore_unsaved_buffers": false
+    "trust_all_worktrees": true,
+    "restore_unsaved_buffers": false,
+    "restore": false
   },
   "auto_install_extensions": {
     "html": false,
@@ -55,15 +115,15 @@
     }
   },
   "diagnostics": {
+    "button": true,
     "include_warnings": false,
     "enabled": false
   },
   "show_diagnostics": "off",
-  "show_inline_completions": false,
+  "show_edit_predictions": false,
   "inlay_hints": {
     "enabled": false
   },
-  "show_whitespaces": "none",
   "git": {
     "inline_blame": {
       "enabled": false
@@ -71,12 +131,14 @@
   },
   "languages": {
     "Python": {
-      "show_inline_completions": false,
+      "show_edit_predictions": false,
       "enable_language_server": false,
       "format_on_save": "off",
       "diagnostics": {
         "enabled": false
       }
     }
-  }
+  },
+  "git_status": true,
+
 }

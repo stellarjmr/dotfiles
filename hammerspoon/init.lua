@@ -94,7 +94,7 @@ local zenWindowUnitRect = hs.geometry.rect(
 )
 local zenResizeMaxAttempts = 6
 
-local function resizeZenWindow(winId, attempt)
+local function resizeZenWindow(winId, attempt, onComplete)
 	attempt = attempt or 1
 	if not winId or attempt > zenResizeMaxAttempts then
 		return
@@ -108,14 +108,14 @@ local function resizeZenWindow(winId, attempt)
 	local screen = win:screen()
 	if not screen then
 		hs.timer.doAfter(0.3, function()
-			resizeZenWindow(winId, attempt + 1)
+			resizeZenWindow(winId, attempt + 1, onComplete)
 		end)
 		return
 	end
 
 	if not win:isStandard() then
 		hs.timer.doAfter(0.3, function()
-			resizeZenWindow(winId, attempt + 1)
+			resizeZenWindow(winId, attempt + 1, onComplete)
 		end)
 		return
 	end
@@ -139,7 +139,9 @@ local function resizeZenWindow(winId, attempt)
 		local targetH = screenFrame.h * zenWindowSizeRatio.height
 
 		if math.abs(frame.w - targetW) > 1 or math.abs(frame.h - targetH) > 1 then
-			resizeZenWindow(winId, attempt + 1)
+			resizeZenWindow(winId, attempt + 1, onComplete)
+		elseif onComplete then
+			onComplete(liveWin)
 		end
 	end)
 end
@@ -153,13 +155,27 @@ zenWindowFilter:subscribe({
 		return
 	end
 
-	hs.timer.doAfter(0.1, function()
+	-- Skip auto-resize if there are already other Zen windows
+	local zenApp = win:application()
+	if zenApp then
+		local allWins = zenApp:allWindows()
+		if #allWins > 1 then
+			return
+		end
+	end
+
+	hs.timer.doAfter(0.001, function()
 		local winId = win:id()
 		if not winId then
 			return
 		end
 
-		resizeZenWindow(winId)
+		resizeZenWindow(winId, nil, function(w)
+			local app = w:application()
+			if app then
+				app:selectMenuItem({ "File", "New Tab" })
+			end
+		end)
 	end)
 end)
 
@@ -307,24 +323,13 @@ end)
 
 --- Open new terminal window
 hs.hotkey.bind({ "alt" }, "return", function()
-	local ghosttyApp = hs.application.find("kitty")
-	if ghosttyApp and #ghosttyApp:allWindows() > 0 then
-		ghosttyApp:setFrontmost()
-	else
-		if ghosttyApp then
-			-- ghosttyApp:selectMenuItem({ "File", "New Window" })
-			ghosttyApp:selectMenuItem({ "Shell", "New OS Window" })
-			ghosttyApp:setFrontmost()
-		end
-	end
-end)
-hs.hotkey.bind(ctrl_alt, "return", function()
 	local ghosttyApp = hs.application.find("ghostty")
 	if ghosttyApp and #ghosttyApp:allWindows() > 0 then
 		ghosttyApp:setFrontmost()
 	else
 		if ghosttyApp then
 			ghosttyApp:selectMenuItem({ "File", "New Window" })
+			-- ghosttyApp:selectMenuItem({ "Shell", "New OS Window" })
 			ghosttyApp:setFrontmost()
 		end
 	end
@@ -332,16 +337,16 @@ end)
 
 --- Open new vscode/zed window
 hs.hotkey.bind(cmd_ctrl, "return", function()
-	hs.application.launchOrFocus("Zed")
-	-- local codeApp = hs.application.find("Code")
-	-- if codeApp and #codeApp:allWindows() > 0 then
-	-- 	codeApp:setFrontmost()
-	-- else
-	-- 	if codeApp then
-	-- 		codeApp:selectMenuItem({ "File", "New Window" })
-	-- 		codeApp:setFrontmost()
-	-- 	end
-	-- end
+	-- hs.application.launchOrFocus("Zed")
+	local codeApp = hs.application.find("Code")
+	if codeApp and #codeApp:allWindows() > 0 then
+		codeApp:setFrontmost()
+	else
+		if codeApp then
+			codeApp:selectMenuItem({ "File", "New Window" })
+			codeApp:setFrontmost()
+		end
+	end
 end)
 
 --- Open Apps.app
@@ -473,6 +478,50 @@ pinyinAppFilter:subscribe(hs.window.filter.windowFocused, function()
 	hs.keycodes.currentSourceID(inputPinyin)
 end)
 
+--- Open Ghostty + Zen side by side (ctrl+cmd+t)
+hs.hotkey.bind(cmd_ctrl, "t", function()
+	local screen = hs.screen.mainScreen():frame()
+	local halfW = screen.w / 2
+
+	-- Launch new Ghostty window
+	local ghosttyApp = hs.application.find("ghostty")
+	if ghosttyApp then
+		ghosttyApp:selectMenuItem({ "File", "New Window" })
+	else
+		hs.application.launchOrFocus("Ghostty")
+	end
+
+	-- Launch new Zen blank window
+	local zenApp = hs.application.find("Zen")
+	if zenApp then
+		zenApp:selectMenuItem({ "File", "New Blank Window" })
+	else
+		hs.application.launchOrFocus("Zen")
+	end
+
+	-- Wait for windows to appear, then tile them
+	hs.timer.doAfter(1.0, function()
+		local ghostty = hs.application.find("ghostty")
+		local zen = hs.application.find("Zen")
+		if not ghostty or not zen then
+			return
+		end
+
+		local gWin = ghostty:mainWindow()
+		local zWin = zen:mainWindow()
+		if not gWin or not zWin then
+			return
+		end
+
+		-- Ghostty on the left half
+		gWin:setFrame({ x = screen.x, y = screen.y, w = halfW, h = screen.h }, 0)
+		-- Zen on the right half
+		zWin:setFrame({ x = screen.x + halfW, y = screen.y, w = halfW, h = screen.h }, 0)
+
+		gWin:focus()
+	end)
+end)
+
 --- Menu Bar
 -- require("safari")
 -- require("message")
@@ -480,9 +529,9 @@ end)
 -- require("reminder-menubar")
 -- require("brew-menubar")
 -- require("music-menubar")
-require("app_icons_menubar")
 -- require("kitty")
 -- require("ghostty")
-require("kitty-menubar")
-require("safari-scholar-google").start()
+-- require("kitty-menubar")
+-- require("safari-scholar-google").start()
+require("app_icons_menubar")
 require("zotero")
