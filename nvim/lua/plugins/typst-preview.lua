@@ -2,7 +2,7 @@ return {
   "chomosuke/typst-preview.nvim",
   ft = "typst",
   config = function()
-    local open_cmd = [[open -a "Zen" "%s"; osascript -e 'tell application "kitty" to activate']]
+    local open_cmd = [[open -a "Zen" "%s"]]
 
     require("typst-preview").setup({
       open_cmd = open_cmd,

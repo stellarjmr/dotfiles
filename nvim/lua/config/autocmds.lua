@@ -147,3 +147,13 @@ vim.keymap.set("n", "<leader>ar", function()
   local status = vim.g.autoread_enabled and "on" or "off"
   vim.notify("Auto-reload: " .. status)
 end, { desc = "Toggle auto-reload" })
+
+-- tinymist open pdf command
+vim.api.nvim_create_user_command("OpenPdf", function()
+  local filepath = vim.api.nvim_buf_get_name(0)
+  if filepath:match("%.typ$") then
+    local pdf_path = filepath:gsub("%.typ$", ".pdf")
+    vim.system({ "open", pdf_path })
+  end
+end, {})
+vim.keymap.set("n", "<leader>tP", ":OpenPdf<CR>", { desc = "Open PDF" })

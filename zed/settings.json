@@ -8,10 +8,14 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent": {
-    "always_allow_tool_actions": true,
+    "tool_permissions": {
+      "default": "allow"
+    },
     "default_model": {
+      "effort": "medium",
+      "enable_thinking": true,
       "provider": "zed.dev",
-      "model": "claude-opus-4-5-thinking"
+      "model": "gpt-5.4"
     },
     "model_parameters": []
   },
@@ -77,7 +81,7 @@
     "metrics": false
   },
   "icon_theme": {
-    "mode": "system",
+    "mode": "dark",
     "light": "Material Icon Theme",
     "dark": "Material Icon Theme"
   },
@@ -91,7 +95,7 @@
   "theme": {
     "mode": "dark",
     "light": "Kanagawa Lotus",
-    "dark": "Kanagawa Dragon"
+    "dark": "Kanagawa"
   },
   "cursor_blink": false,
   "restore_on_startup": "launchpad",
