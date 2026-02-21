@@ -1,5 +1,6 @@
 return {
   "lervag/vimtex",
+  enabled = false,
   lazy = false,
   init = function()
     vim.g.vimtex_view_method = "sioyek"
