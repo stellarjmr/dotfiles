@@ -36,6 +36,7 @@ syntect_theme = ""
 [indicator]
 current = { reversed = true }
 preview = { underline = true }
+parent  = { reversed = true }
 
 # : }}}
 
@@ -46,8 +47,8 @@ active   = { fg = "#e0dcc7", bg = "#3a94c5", bold = true }
 inactive = { fg = "#3a94c5", bg = "#e0dcc7" }
 
 # Separator
-separator_open = ""
-separator_close = ""
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
 
 # : }}}
 
@@ -73,15 +74,15 @@ unset_alt  = { fg = "#3a94c5", bg = "#e0dcc7", bold = true }
 
 [status]
 overall   = {}
-sep_left  = { open = "", close = "" }
-sep_right  = { open = "", close = "" }
+sep_left  = { open = "", close = "" }
+sep_right  = { open = "", close = "" }
 
 # Permissions
-permissions_s = { fg = "#fdf6e3" }
-permissions_t = { fg = "#8da101" }
-permissions_r = { fg = "#dfa000" }
-permissions_w = { fg = "#f85552" }
-permissions_x = { fg = "#3a94c5" }
+perm_s = { fg = "#fdf6e3" }
+perm_t = { fg = "#8da101" }
+perm_r = { fg = "#dfa000" }
+perm_w = { fg = "#f85552" }
+perm_x = { fg = "#3a94c5" }
 
 # Progress
 progress_label  = { bold = true }
@@ -99,7 +100,7 @@ mask            = { bg = "#fdf6e3" }
 cand            = { fg = "#3a94c5" }
 rest            = { fg = "#fdf6e3" }
 desc            = { fg = "#df69ba" }
-separator       = "  "
+separator       = "  "
 separator_style = { fg = "#fdf6e3" }
 
 # : }}}
@@ -138,6 +139,9 @@ tbl_cell = { fg = "#dfa000", reversed = true }
 title_info  = { fg = "#8da101" }
 title_warn  = { fg = "#dfa000" }
 title_error = { fg = "#f85552" }
+icon_info   = ""
+icon_warn   = ""
+icon_error  = ""
 
 # : }}}
 
@@ -166,9 +170,12 @@ selected = { reversed = true }
 # : Completion {{{
 
 [cmp]
-border   = { fg = "#3a94c5" }
-active   = { reversed = true }
-inactive = {}
+border       = { fg = "#3a94c5" }
+active       = { reversed = true }
+inactive     = {}
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
 
 # : }}}
 
@@ -200,6 +207,13 @@ footer  = { fg = "#fdf6e3", bg = "#5c6a72" }
 [filetype]
 
 rules = [
+	# VFS
+	{ url = "archive://*", fg = "#f85552" },
+
+	# Special files
+	{ name = "*", is = "orphan", bg = "#f85552" },
+	{ name = "*", is = "exec",   fg = "#8da101" },
+
 	# Images
 	{ mime = "image/*", fg = "#3a94c5" },
 
@@ -208,7 +222,7 @@ rules = [
 
 	# Archives
 	{ mime = "application/*zip", fg = "#f85552" },
-	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#f85552" },
+	{ mime = "application/{tar,bzip*,7z-compressed,xz,rar}", fg = "#f85552" },
 
 	# Documents
 	{ mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#3a94c5" },
@@ -216,6 +230,16 @@ rules = [
 	# Fallback
 	{ url = "*", fg = "#35a77c" },
 	{ url = "*/", fg = "#8da101" }
+]
+
+# : }}}
+
+
+# : Icons {{{
+
+[icon]
+prepend_conds = [
+	{ if = "dir", text = "", fg = "#8da101" },
 ]
 
 # : }}}
