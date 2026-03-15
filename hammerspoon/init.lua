@@ -49,52 +49,12 @@ hs.hotkey.bind(ctrl_alt, "C", function()
 	end
 end)
 
---- auto-center kitty windows on launch
--- local function centerKittyWindow(target, attempt)
--- 	attempt = attempt or 1
--- 	if attempt > 8 or not target then
--- 		return
--- 	end
---
--- 	-- target can be an app or a window
--- 	local win = target.mainWindow and target:mainWindow() or target
--- 	if win then
--- 		win:centerOnScreen(nil, true)
--- 		return
--- 	end
---
--- 	hs.timer.doAfter(0.2, function()
--- 		centerKittyWindow(target, attempt + 1)
--- 	end)
--- end
---
--- local kittyWatcher = hs.application.watcher.new(function(appName, event, app)
--- 	if appName == "kitty" and event == hs.application.watcher.launched then
--- 		hs.timer.doAfter(0.3, function()
--- 			centerKittyWindow(app)
--- 		end)
--- 	end
--- end)
--- kittyWatcher:start()
---
--- local kittyWindowFilter = hs.window.filter.new("kitty")
--- kittyWindowFilter:subscribe(hs.window.filter.windowCreated, function(win)
--- 	hs.timer.doAfter(0.1, function()
--- 		centerKittyWindow(win)
--- 	end)
--- end)
-
 --- resize Zen windows on creation/focus
+local zenOpenedViaHotkey = false
 local zenWindowSizeRatio = { width = 0.6, height = 0.85 }
-local zenWindowUnitRect = hs.geometry.rect(
-	(1 - zenWindowSizeRatio.width) / 2,
-	(1 - zenWindowSizeRatio.height) / 2,
-	zenWindowSizeRatio.width,
-	zenWindowSizeRatio.height
-)
 local zenResizeMaxAttempts = 6
 
-local function resizeZenWindow(winId, attempt, onComplete)
+local function resizeZenWindow(winId, attempt)
 	attempt = attempt or 1
 	if not winId or attempt > zenResizeMaxAttempts then
 		return
@@ -108,19 +68,23 @@ local function resizeZenWindow(winId, attempt, onComplete)
 	local screen = win:screen()
 	if not screen then
 		hs.timer.doAfter(0.3, function()
-			resizeZenWindow(winId, attempt + 1, onComplete)
+			resizeZenWindow(winId, attempt + 1)
 		end)
 		return
 	end
 
 	if not win:isStandard() then
 		hs.timer.doAfter(0.3, function()
-			resizeZenWindow(winId, attempt + 1, onComplete)
+			resizeZenWindow(winId, attempt + 1)
 		end)
 		return
 	end
 
-	win:moveToUnit(zenWindowUnitRect, 0)
+	local screenFrame = screen:frame()
+	local w = screenFrame.w * zenWindowSizeRatio.width
+	local h = screenFrame.h * zenWindowSizeRatio.height
+	win:setSize({ w = w, h = h })
+	win:centerOnScreen(nil, true, 0)
 
 	hs.timer.doAfter(0.15, function()
 		local liveWin = hs.window.get(winId)
@@ -128,20 +92,9 @@ local function resizeZenWindow(winId, attempt, onComplete)
 			return
 		end
 
-		local liveScreen = liveWin:screen()
-		if not liveScreen then
-			return
-		end
-
 		local frame = liveWin:frame()
-		local screenFrame = liveScreen:frame()
-		local targetW = screenFrame.w * zenWindowSizeRatio.width
-		local targetH = screenFrame.h * zenWindowSizeRatio.height
-
-		if math.abs(frame.w - targetW) > 1 or math.abs(frame.h - targetH) > 1 then
-			resizeZenWindow(winId, attempt + 1, onComplete)
-		elseif onComplete then
-			onComplete(liveWin)
+		if math.abs(frame.w - w) > 1 or math.abs(frame.h - h) > 1 then
+			resizeZenWindow(winId, attempt + 1)
 		end
 	end)
 end
@@ -164,18 +117,23 @@ zenWindowFilter:subscribe({
 		end
 	end
 
+	local shouldNewTab = zenOpenedViaHotkey
+	zenOpenedViaHotkey = false
+
+	if shouldNewTab then
+		local app = win:application()
+		if app then
+			app:selectMenuItem({ "File", "New Tab" })
+		end
+	end
+
 	hs.timer.doAfter(0.001, function()
 		local winId = win:id()
 		if not winId then
 			return
 		end
 
-		resizeZenWindow(winId, nil, function(w)
-			local app = w:application()
-			if app then
-				app:selectMenuItem({ "File", "New Tab" })
-			end
-		end)
+		resizeZenWindow(winId)
 	end)
 end)
 
@@ -314,9 +272,12 @@ hs.hotkey.bind(alt_shift, "return", function()
 	if zenApp and #zenApp:allWindows() > 0 then
 		zenApp:setFrontmost()
 	else
+		zenOpenedViaHotkey = true
 		if zenApp then
 			zenApp:selectMenuItem({ "File", "New Window" })
 			zenApp:setFrontmost()
+		else
+			hs.application.launchOrFocus("Zen")
 		end
 	end
 end)
