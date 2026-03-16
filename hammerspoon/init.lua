@@ -53,7 +53,6 @@ hs.hotkey.bind(ctrl_alt, "C", function()
 end)
 
 --- resize Zen windows on creation/focus
-local zenOpenedViaHotkey = false
 local zenWindowSizeRatio = { width = 0.6, height = 0.85 }
 local zenResizeMaxAttempts = 6
 
@@ -117,16 +116,6 @@ zenWindowFilter:subscribe({
 		local allWins = zenApp:allWindows()
 		if #allWins > 1 then
 			return
-		end
-	end
-
-	local shouldNewTab = zenOpenedViaHotkey
-	zenOpenedViaHotkey = false
-
-	if shouldNewTab then
-		local app = win:application()
-		if app then
-			app:selectMenuItem({ "File", "New Tab" })
 		end
 	end
 
@@ -275,7 +264,6 @@ hs.hotkey.bind(alt_shift, "return", function()
 	if zenApp and #zenApp:allWindows() > 0 then
 		zenApp:setFrontmost()
 	else
-		zenOpenedViaHotkey = true
 		if zenApp then
 			zenApp:selectMenuItem({ "File", "New Window" })
 			zenApp:setFrontmost()
@@ -394,7 +382,7 @@ end)
 hs.hotkey.bind(cmd_shift, "x", function()
 	openSelectedInApp("Ovito")
 end)
-hs.hotkey.bind(alt_shift, "v", function()
+hs.hotkey.bind(cmd_shift, "v", function()
 	openSelectedInApp("VESTA")
 end)
 hs.hotkey.bind(cmd_shift, "c", function()
@@ -420,13 +408,14 @@ local function ghosttyOpenTab(cmd)
 	hs.osascript.applescript(script)
 end
 
-hs.hotkey.bind(cmd_shift, "v", function()
+hs.hotkey.bind(alt_shift, "v", function()
 	ghosttyOpenTab("nvim")
 end)
-hs.hotkey.bind(cmd_shift, "y", function()
+hs.hotkey.bind(alt_shift, "y", function()
 	ghosttyOpenTab("yazi")
 end)
 
+--- Show App ID
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "S", function()
 	hs.timer.doAfter(0.5, function()
 		local app = hs.application.frontmostApplication()
@@ -451,6 +440,7 @@ local englishAppFilter = hs.window.filter.new({
 	"Keynote",
 	"Ghostty",
 	"kitty",
+	"Zen",
 	"Visual Studio Code",
 	"Microsoft Word",
 	"Microsoft Excel",
@@ -510,6 +500,29 @@ hs.hotkey.bind(cmd_ctrl, "t", function()
 
 		gWin:focus()
 	end)
+end)
+
+--- Toggle Ghostty dark/light theme
+hs.hotkey.bind(ctrl, "T", function()
+	local themePath = os.getenv("HOME") .. "/.config/ghostty/theme.ghostty"
+	local f = io.open(themePath, "r")
+	local current = f and f:read("*a"):match("theme = (%S+)") or ""
+	if f then
+		f:close()
+	end
+
+	local newTheme = (current == "EverforestDarkHard") and "EverforestLightMed" or "EverforestDarkHard"
+	f = io.open(themePath, "w")
+	f:write("theme = " .. newTheme .. "\n")
+	f:close()
+
+	local app = hs.application.find("ghostty")
+	if app then
+		app:activate()
+		hs.timer.doAfter(0.01, function()
+			hs.eventtap.keyStroke({ "cmd" }, "r")
+		end)
+	end
 end)
 
 --- Menu Bar

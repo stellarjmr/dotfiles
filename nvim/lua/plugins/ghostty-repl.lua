@@ -212,6 +212,25 @@ end run
 end
 
 local function send_text_and_refocus(source_id, repl_id, text)
+  local multiline = text:find("\n") and text:find("\n[^\n]")
+
+  if multiline then
+    -- Copy to system clipboard and use IPython's %paste to avoid line-by-line execution
+    vim.fn.system("pbcopy", text)
+    return run_osascript([[
+on run argv
+  set sourceId to item 1 of argv
+  set replId to item 2 of argv
+  tell application "Ghostty"
+    set replTerm to first terminal whose id is replId
+    input text "%paste" to replTerm
+    send key "enter" to replTerm
+    focus (first terminal whose id is sourceId)
+  end tell
+end run
+]], { source_id, repl_id })
+  end
+
   return run_osascript([[
 on run argv
   set sourceId to item 1 of argv

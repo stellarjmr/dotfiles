@@ -2,20 +2,18 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 local map = vim.keymap.set
+local ok, local_config = pcall(require, "config.local_config")
+if not ok then
+  local_config = {}
+end
 
 -- alt+w to close buffer, alt+q to quit
 map("n", "<A-w>", ":bd<CR>", { noremap = true, silent = true })
 map("n", "<A-q>", ":q<CR>", { noremap = true, silent = true })
 map("i", "<S-CR>", "<C-o>o", { noremap = true, silent = true })
 
--- quick "cd" shortcuts; update the list below to your frequently used directories
-local cd_targets = {
-  "~/path/to/projects", -- 1
-  "~/path/to/frequent-dir-2", -- 2
-  "~/path/to/frequent-dir-3", -- 3
-  "~/.config", -- 4
-  -- add more entries as needed
-}
+-- quick "cd" shortcuts are loaded from local_config.lua to avoid committing personal paths
+local cd_targets = local_config.cd_targets or {}
 
 for idx, path in ipairs(cd_targets) do
   map("n", "<leader>cd" .. idx, function()

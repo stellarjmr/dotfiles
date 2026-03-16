@@ -75,7 +75,8 @@ return {
         },
         sources = {
           explorer = {
-            enable = false,
+            diagnostics = false,
+            git_untracked = false,
             layout = {
               layout = {
                 position = "left",
@@ -211,6 +212,14 @@ return {
     }
   end,
   keys = {
+    {
+      "<M-e>",
+      function()
+        Snacks.explorer()
+      end,
+      desc = "Open Explorer",
+      mode = "n",
+    },
     {
       "<leader>bg",
       function()

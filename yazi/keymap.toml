@@ -19,12 +19,12 @@ desc = "run lazygit"
 [[mgr.prepend_keymap]]
 on   = [ "g", "t" ]
 run  = "cd ~/path/to/frequent-dir-3"
-desc = "go ~/path/to/frequent-dir-3"
+desc = "go frequent dir 3"
 
 [[mgr.prepend_keymap]]
 on   = [ "g", "p" ]
 run  = "cd ~/path/to/projects"
-desc = "go Projects"
+desc = "go projects"
 
 [[mgr.prepend_keymap]]
 on   = [ "g", "m" ]
@@ -75,3 +75,8 @@ desc = "Open in sioyek"
 on   = "C"
 run  = "shell 'open -a \"Visual Studio Code\" \"$@\"' --confirm"
 desc = "Open in VSCode"
+
+[[mgr.prepend_keymap]]
+on   = "Z"
+run  = "shell 'zed \"$@\"' --confirm"
+desc = "Open in Zed"

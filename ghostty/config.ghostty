@@ -1,6 +1,5 @@
-# theme
-theme = EverforestDarkHard
-# theme = dark:EverforestDarkHard,light:EverforestLightMed
+# theme (managed by theme.ghostty)
+config-file = theme.ghostty
 
 # font
 font-size = 18.0
@@ -32,7 +31,7 @@ window-width = 125
 focus-follows-mouse = true
 macos-icon = official
 background-opacity = 1
-background-blur = macos-glass-clear
+# background-blur = macos-glass-clear
 unfocused-split-opacity = 0.9
 split-divider-color = #728B95
 working-directory = home
@@ -52,7 +51,7 @@ keybind = super+equal=increase_font_size:1
 keybind = super+n=new_window
 keybind = super+enter=toggle_fullscreen
 keybind = super+shift+p=toggle_command_palette
-keybind = super+q=quit
+keybind = cmd+q>cmd+q=quit
 keybind = super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
 keybind = super+r=reload_config
