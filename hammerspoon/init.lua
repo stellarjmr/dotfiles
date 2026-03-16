@@ -1,3 +1,6 @@
+--- local config (gitignored)
+local local_config = require("local_config")
+
 --- keybindings
 local cmd_ctrl = { "cmd", "ctrl" }
 local cmd_shift = { "cmd", "shift" }
@@ -391,11 +394,37 @@ end)
 hs.hotkey.bind(cmd_shift, "x", function()
 	openSelectedInApp("Ovito")
 end)
-hs.hotkey.bind(cmd_shift, "v", function()
+hs.hotkey.bind(alt_shift, "v", function()
 	openSelectedInApp("VESTA")
 end)
 hs.hotkey.bind(cmd_shift, "c", function()
 	openSelectedInApp("Visual Studio Code")
+end)
+
+--- Open new Ghostty tab with project dir
+local function ghosttyOpenTab(cmd)
+	local dir = local_config.project_dir or ""
+	local script = string.format(
+		[[
+		tell application "Ghostty"
+			activate
+			set cfg to new surface configuration
+			set initial working directory of cfg to (POSIX path of (path to home folder)) & "%s"
+			set initial input of cfg to "%s; exit\n"
+			new tab with configuration cfg
+		end tell
+	]],
+		dir,
+		cmd
+	)
+	hs.osascript.applescript(script)
+end
+
+hs.hotkey.bind(cmd_shift, "v", function()
+	ghosttyOpenTab("nvim")
+end)
+hs.hotkey.bind(cmd_shift, "y", function()
+	ghosttyOpenTab("yazi")
 end)
 
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "S", function()
