@@ -18,5 +18,10 @@ use = "yazi-rs/plugins:toggle-pane"
 rev = "1962818"
 hash = "4c0260feb50ea2437380690ffc241da7"
 
+[[plugin.deps]]
+use = "stellarjmr/image-fit"
+rev = "b5a7bea"
+hash = "5daa433f64a1201888a24769ac0af03d"
+
 [flavor]
 deps = []

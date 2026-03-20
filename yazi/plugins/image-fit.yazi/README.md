@@ -1,4 +1,4 @@
-# image-fit.yazi
+# image-fit
 
 Scale images to fit the preview pane by rendering a resized copy and showing it
 in Yazi.
@@ -11,8 +11,11 @@ in Yazi.
 ## Installation
 
 ```sh
-ya pkg add stellarjmr/image-fit.yazi
+ya pkg add stellarjmr/image-fit
 ```
+
+`ya` requires package names to be kebab-case, so the repo name must be
+`image-fit` (not `image-fit.yazi`).
 
 ## Usage
 
@@ -23,6 +26,15 @@ Add this to `yazi.toml`:
 prepend_previewers = [
   { mime = "image/*", run = "image-fit" },
 ]
+```
+
+To let this plugin fit images to the full preview area, add:
+
+```toml
+[preview]
+# Let images use the full preview area by removing caps.
+max_width = 9999
+max_height = 9999
 ```
 
 ## Notes
