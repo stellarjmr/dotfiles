@@ -12,10 +12,10 @@
       "default": "allow"
     },
     "default_model": {
-      "effort": "medium",
+      "effort": "high",
       "enable_thinking": true,
       "provider": "zed.dev",
-      "model": "gpt-5.4"
+      "model": "claude-sonnet-4-6"
     },
     "model_parameters": []
   },
@@ -93,9 +93,14 @@
   "ui_font_size": 18.0,
   "buffer_font_size": 16.0,
   "theme": {
-    "mode": "dark",
-    "light": "Kanagawa Lotus",
-    "dark": "Kanagawa Dragon"
+    "mode": "light",
+    "light": "Bluloco Light",
+    "dark": "Bluloco Dark"
+  },
+  "theme_overrides": {
+    "Bluloco Light": {
+      "editor.background": "#f7f7f7"
+    }
   },
   "cursor_blink": false,
   "restore_on_startup": "launchpad",

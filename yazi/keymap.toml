@@ -18,12 +18,12 @@ desc = "run lazygit"
 
 [[mgr.prepend_keymap]]
 on   = [ "g", "t" ]
-run  = "cd ~/path/to/frequent-dir-3"
-desc = "go frequent dir 3"
+run  = "cd ~/Desktop/"
+desc = "go Desktop"
 
 [[mgr.prepend_keymap]]
 on   = [ "g", "p" ]
-run  = "cd ~/path/to/projects"
+run  = "cd ~/projects/"
 desc = "go projects"
 
 [[mgr.prepend_keymap]]
