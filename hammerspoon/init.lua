@@ -273,6 +273,20 @@ hs.hotkey.bind(alt_shift, "return", function()
 	end
 end)
 
+hs.hotkey.bind(cmd_shift, "return", function()
+	local SafariApp = hs.application.find("Safari")
+	if SafariApp and #SafariApp:allWindows() > 0 then
+		SafariApp:setFrontmost()
+	else
+		if SafariApp then
+			SafariApp:selectMenuItem({ "File", "New Window" })
+			SafariApp:setFrontmost()
+		else
+			hs.application.launchOrFocus("Safari")
+		end
+	end
+end)
+
 --- Open new terminal window
 hs.hotkey.bind({ "alt" }, "return", function()
 	local ghosttyApp = hs.application.find("ghostty")
@@ -526,7 +540,6 @@ hs.hotkey.bind(ctrl, "T", function()
 end)
 
 --- Menu Bar
--- require("safari")
 -- require("message")
 -- require("calendar-menubar")
 -- require("reminder-menubar")
@@ -535,6 +548,6 @@ end)
 -- require("kitty")
 -- require("ghostty")
 -- require("kitty-menubar")
--- require("safari-scholar-google").start()
 require("app_icons_menubar")
+require("easydict")
 require("zotero")

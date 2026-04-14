@@ -7,11 +7,22 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "agent": {
-    "always_allow_tool_actions": true,
+    "dock": "right",
+    "tool_permissions": {
+      "default": "allow"
+    },
     "default_model": {
+      "effort": "high",
+      "enable_thinking": true,
       "provider": "zed.dev",
-      "model": "claude-opus-4-5-thinking"
+      "model": "claude-sonnet-4-6"
     },
     "model_parameters": []
   },
@@ -35,7 +46,7 @@
   },
   "relative_line_numbers": "enabled",
   "outline_panel": {
-
+    "dock": "left"
   },
   "restore_on_file_reopen": false,
   "when_closing_with_no_tabs": "platform_default",
@@ -63,6 +74,7 @@
     "show_user_picture": false
   },
   "project_panel": {
+    "dock": "left",
     "default_width": 200.0
   },
   "disable_ai": false,
@@ -89,9 +101,14 @@
   "ui_font_size": 18.0,
   "buffer_font_size": 16.0,
   "theme": {
-    "mode": "dark",
-    "light": "Kanagawa Lotus",
-    "dark": "Kanagawa"
+    "mode": "light",
+    "light": "Bluloco Light",
+    "dark": "Bluloco Dark"
+  },
+  "theme_overrides": {
+    "Bluloco Light": {
+      "editor.background": "#f7f7f7"
+    }
   },
   "cursor_blink": false,
   "restore_on_startup": "launchpad",

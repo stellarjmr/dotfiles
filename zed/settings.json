@@ -7,15 +7,26 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "ui_font_weight": 500.0,
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "agent": {
+    "default_width": 450.0,
+    "flexible": false,
+    "default_height": 320.0,
+    "dock": "right",
     "tool_permissions": {
       "default": "allow"
     },
     "default_model": {
-      "effort": "high",
+      "effort": "medium",
       "enable_thinking": true,
       "provider": "zed.dev",
-      "model": "claude-sonnet-4-6"
+      "model": "gpt-5.5"
     },
     "model_parameters": []
   },
@@ -39,7 +50,7 @@
   },
   "relative_line_numbers": "enabled",
   "outline_panel": {
-
+    "dock": "left"
   },
   "restore_on_file_reopen": false,
   "when_closing_with_no_tabs": "platform_default",
@@ -47,6 +58,8 @@
     "experimental.auto_speaker_volume": true
   },
   "terminal": {
+    "font_size": 16.0,
+    "font_weight": 500.0,
     "option_as_meta": false,
     "max_scroll_history_lines": 10000,
     "default_height": 200.0
@@ -59,7 +72,7 @@
     "show": true
   },
   "title_bar": {
-    "show_branch_icon": true,
+    "show_branch_status_icon": true,
     "show_branch_name": true,
     "show_onboarding_banner": true,
     "show_menus": false,
@@ -67,7 +80,8 @@
     "show_user_picture": false
   },
   "project_panel": {
-    "default_width": 200.0
+    "dock": "left",
+    "default_width": 250.0
   },
   "disable_ai": false,
   "buffer_font_features": {
@@ -93,9 +107,9 @@
   "ui_font_size": 18.0,
   "buffer_font_size": 16.0,
   "theme": {
-    "mode": "light",
+    "mode": "dark",
     "light": "Bluloco Light",
-    "dark": "Bluloco Dark"
+    "dark": "Everforest Dark Medium (blur)"
   },
   "theme_overrides": {
     "Bluloco Light": {

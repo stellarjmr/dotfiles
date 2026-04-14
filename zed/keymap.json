@@ -32,7 +32,9 @@
       "cmd-c": "editor::Copy",
       "cmd-v": "editor::Paste",
       "cmd-a": "editor::SelectAll",
-      "cmd-d": "editor::SelectNext",
+      "cmd-shift-d": "editor::SelectNext",
+      "cmd-d": "workspace::NewTerminal",
+      "cmd-shift-t": "workspace::NewCenterTerminal",
       "cmd-/": "editor::ToggleComments",
       "cmd-[": "editor::Outdent",
       "cmd-]": "editor::Indent",
@@ -53,7 +55,8 @@
       "cmd-g": "search::SelectNextMatch",
       "cmd-shift-g": "search::SelectPreviousMatch",
       "cmd-shift-o": "outline::Toggle",
-      "alt-d": "workspace::NewTerminal",
+      "cmd-d": "workspace::NewTerminal",
+      "cmd-shift-t": "workspace::NewCenterTerminal",
       "cmd-l": "go_to_line::Toggle",
       "escape": "workspace::CloseAllDocks",
       "alt-r": "repl::Run",
@@ -65,6 +68,8 @@
   {
     "context": "Workspace",
     "bindings": {
+      "alt-1": "project_panel::ToggleFocus",
+      "alt-2": "git_panel::ToggleFocus",
       "alt-e": "workspace::ToggleLeftDock",
       "alt-=": "workspace::IncreaseActiveDockSize",
       "alt--": "workspace::DecreaseActiveDockSize"

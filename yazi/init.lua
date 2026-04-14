@@ -18,3 +18,5 @@ if os.getenv("YAZI_MAX_CURRENT") == "1" then
 		toggle:entry("max-current")
 	end
 end
+
+require("osc7"):setup()
