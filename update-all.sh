@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-shot updater for frequently-used tools.
-# Usage: update-all.sh [--skip brew|cask|amp|yazi|nvim|mason|cleanup] ...
+# Usage: update-all.sh [--skip brew|cask|amp|yazi|nvim|mason|npm|cleanup] ...
 
 set -u
 
@@ -17,7 +17,7 @@ NC='\033[0m'
 
 WORKDIR_TMP=""
 SKIP=()
-TOTAL_STEPS=7
+TOTAL_STEPS=8
 STEP_INDEX=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -53,27 +53,25 @@ progress_bar() {
   local done="$1"
   local total="$2"
   local width=24
-  local filled empty filled_bar empty_bar
-  local left_cap=""
-  local right_cap=""
-  local left_color="$BAR_GRAY"
-  local right_color="$BAR_GRAY"
+  local filled empty percent filled_bar empty_bar
 
   ((total > 0)) || total=1
   filled=$((done * width / total))
   empty=$((width - filled))
-  ((filled > 0)) && left_color="$BAR_GREEN"
-  ((empty == 0)) && right_color="$BAR_GREEN"
+  percent=$((done * 100 / total))
 
   printf -v filled_bar '%*s' "$filled" ''
   printf -v empty_bar '%*s' "$empty" ''
+  filled_bar=${filled_bar// /━}
+  empty_bar=${empty_bar// /─}
+  if ((filled > 0 && filled < width)); then
+    filled_bar="${filled_bar%?}╸"
+  fi
 
-  printf '%b%s%b%b%s%b%b%s%b%b%s%b %d/%d' \
-    "$left_color" "$left_cap" "$NC" \
-    "$BG_BAR_GREEN" "$filled_bar" "$NC" \
-    "$BG_BAR_GRAY" "$empty_bar" "$NC" \
-    "$right_color" "$right_cap" "$NC" \
-    "$done" "$total"
+  printf '[%b%s%b%b%s%b] %3d%%' \
+    "$BAR_GREEN" "$filled_bar" "$NC" \
+    "$BAR_GRAY" "$empty_bar" "$NC" \
+    "$percent"
 }
 
 render_progress() {
@@ -118,7 +116,8 @@ collect_step_summary() {
     /^installed yazi plugin / ||
     /^updated nvim plugin / ||
     /^installed nvim plugin / ||
-    /^updated mason package / {
+    /^updated mason package / ||
+    /^updated npm package / {
       print
     }
   ' "$log")
@@ -191,7 +190,7 @@ brew_cask() {
   local casks=()
   local cask
 
-  if ! brew outdated --quiet --cask 2>/dev/null >"$casks_file"; then
+  if ! brew outdated --quiet --cask --greedy 2>/dev/null >"$casks_file"; then
     return 1
   fi
   while IFS= read -r cask; do
@@ -200,7 +199,7 @@ brew_cask() {
 
   [[ ${#casks[@]} -eq 0 ]] && return 0
 
-  brew upgrade --cask "${casks[@]}"
+  brew upgrade --cask --greedy "${casks[@]}"
 
   for cask in "${casks[@]}"; do
     printf 'updated brew cask %s\n' "$cask"
@@ -277,21 +276,20 @@ yazi_update() {
   [[ $printed -eq 1 ]] || true
 }
 
-parse_nvim_pack_lock() {
+parse_nvim_lazy_lock() {
   local file="$1"
   [[ -f "$file" ]] || return 0
   awk '
-    /^    ".*": \{$/ {
+    /^[[:space:]]+".*": / {
       name = $0
-      sub(/^    "/, "", name)
-      sub(/": \{$/, "", name)
-      next
+      sub(/^[[:space:]]+"/, "", name)
+      sub(/": .*$/, "", name)
     }
-    /^[[:space:]]+"rev": "/ && name != "" {
-      rev = $0
-      sub(/^[[:space:]]+"rev": "/, "", rev)
-      sub(/",?$/, "", rev)
-      print name "\t" rev
+    /"commit": "/ && name != "" {
+      commit = $0
+      sub(/^.*"commit": "/, "", commit)
+      sub(/".*$/, "", commit)
+      print name "\t" commit
       name = ""
     }
   ' "$file" | sort
@@ -303,23 +301,24 @@ nvim_update() {
     return 0
   }
 
-  local lock="$HOME/.config/nvim/nvim-pack-lock.json"
-  local before="$WORKDIR_TMP/nvim-pack-lock.before.json"
-  local after="$WORKDIR_TMP/nvim-pack-lock.after.json"
-  local before_revs="$WORKDIR_TMP/nvim-pack-lock.before.tsv"
-  local after_revs="$WORKDIR_TMP/nvim-pack-lock.after.tsv"
+  local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+  local lock="$config_home/nvim/lazy-lock.json"
+  local before="$WORKDIR_TMP/lazy-lock.before.json"
+  local after="$WORKDIR_TMP/lazy-lock.after.json"
+  local before_revs="$WORKDIR_TMP/lazy-lock.before.tsv"
+  local after_revs="$WORKDIR_TMP/lazy-lock.after.tsv"
 
   [[ -f "$lock" ]] && cp "$lock" "$before" || : >"$before"
 
   local log="$WORKDIR_TMP/nvim-update.log"
-  if ! nvim --headless -i NONE "+lua vim.pack.update(nil, { force = true })" +qa >"$log" 2>&1; then
+  if ! nvim --headless -i NONE "+Lazy! sync" +qa >"$log" 2>&1; then
     cat "$log"
     return 1
   fi
 
   [[ -f "$lock" ]] && cp "$lock" "$after" || : >"$after"
-  parse_nvim_pack_lock "$before" >"$before_revs"
-  parse_nvim_pack_lock "$after" >"$after_revs"
+  parse_nvim_lazy_lock "$before" >"$before_revs"
+  parse_nvim_lazy_lock "$after" >"$after_revs"
 
   local name old_rev new_rev printed=0
   while IFS=$'\t' read -r name old_rev; do
@@ -357,8 +356,17 @@ if proxy then
   pip_args = { '--proxy', proxy }
 end
 
-vim.pack.add({ 'https://github.com/williamboman/mason.nvim' })
-require('mason').setup({
+local ok_lazy, lazy = pcall(require, 'lazy')
+if ok_lazy then
+  lazy.load({ plugins = { 'mason.nvim' } })
+end
+
+local ok_mason, mason = pcall(require, 'mason')
+if not ok_mason then
+  error(('mason.nvim is not available: %s'):format(mason))
+end
+
+mason.setup({
   pip = {
     upgrade_pip = false,
     install_args = pip_args,
@@ -429,6 +437,58 @@ EOF
   [[ $printed -eq 1 ]] || true
 }
 
+load_npm_globals() {
+  local file="$1"
+  npm list -g --depth=0 --json 2>/dev/null | node -e '
+let input = "";
+process.stdin.on("data", chunk => {
+  input += chunk;
+});
+process.stdin.on("end", () => {
+  let data;
+  try {
+    data = JSON.parse(input);
+  } catch (err) {
+    process.exit(0);
+  }
+
+  const deps = data.dependencies || {};
+  for (const name of Object.keys(deps).sort()) {
+    const version = deps[name] && deps[name].version;
+    if (version) {
+      process.stdout.write(`${name}\t${version}\n`);
+    }
+  }
+});
+' >"$file"
+}
+
+npm_update() {
+  command -v npm >/dev/null 2>&1 || {
+    echo "npm not found"
+    return 0
+  }
+
+  local before_revs="$WORKDIR_TMP/npm.before.tsv"
+  local after_revs="$WORKDIR_TMP/npm.after.tsv"
+
+  load_npm_globals "$before_revs"
+  npm update -g
+  load_npm_globals "$after_revs"
+
+  local name old_version new_version printed=0
+  while IFS=$'\t' read -r name old_version; do
+    [[ -n "$name" ]] || continue
+    new_version=$(awk -F $'\t' -v package="$name" '$1 == package { print $2; exit }' "$after_revs")
+    if [[ -n "$new_version" && "$new_version" != "$old_version" ]]; then
+      printf 'updated npm package %s\n' "$name"
+      printed=1
+    fi
+  done <"$before_revs"
+
+  [[ $printed -eq 1 ]] || true
+}
+
 brew_cleanup() { brew cleanup; }
 
 setup_tmpdir
@@ -438,6 +498,7 @@ step amp amp_update
 step yazi yazi_update
 step nvim nvim_update
 step mason mason_update
+step npm npm_update
 step cleanup brew_cleanup
 
 if [[ ${#FAILED[@]} -eq 0 ]]; then

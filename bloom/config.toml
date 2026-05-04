@@ -1,0 +1,41 @@
+# bm config
+
+[settings]
+progress_width = 24
+color = true
+
+[tasks]
+order = ["brew", "cask", "amp", "yazi", "nvim", "mason", "npm"]
+
+[tasks.brew]
+enabled = true
+include = []
+exclude = []
+
+[tasks.cask]
+enabled = true
+include = []
+exclude = []
+
+[tasks.amp]
+enabled = true
+
+[tasks.yazi]
+enabled = true
+include = []
+exclude = []
+
+[tasks.nvim]
+enabled = true
+include = []
+exclude = []
+
+[tasks.mason]
+enabled = true
+include = []
+exclude = []
+
+[tasks.npm]
+enabled = true
+include = []
+exclude = []

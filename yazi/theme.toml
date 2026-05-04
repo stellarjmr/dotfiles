@@ -1,3 +1,5 @@
 [flavor]
+# dark = "bluloco-dark"
+# light = "bluloco-light"
 dark = "everforest-dark"
 light = "everforest-light"

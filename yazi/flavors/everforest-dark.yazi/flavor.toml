@@ -215,8 +215,8 @@ rules = [
 	{ url = "archive://*", fg = "#e67e80" },
 
 	# Special files
-	{ name = "*", is = "orphan", bg = "#e67e80" },
-	{ name = "*", is = "exec",   fg = "#a7c080" },
+	{ url = "*", is = "orphan", bg = "#e67e80" },
+	{ url = "*", is = "exec",   fg = "#a7c080" },
 
 	# Images
 	{ mime = "image/*", fg = "#7fbbb3" },

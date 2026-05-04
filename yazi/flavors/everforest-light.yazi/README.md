@@ -8,6 +8,12 @@ This flavor brings the warm, forest-inspired colors of Everforest to Yazi's file
 
 ## Installation
 
+### Yazi Package Manager
+
+```sh
+ya pkg add stellarjmr/everforest-light
+```
+
 ### Manual Installation
 
 Copy the `everforest-light.yazi` directory to:

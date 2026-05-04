@@ -1,8 +1,0 @@
-{
-  "plugins": {
-    "mason.nvim": {
-      "rev": "cb8445f8ce85d957416c106b780efd51c6298f89",
-      "src": "https://github.com/williamboman/mason.nvim"
-    }
-  }
-}

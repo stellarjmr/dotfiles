@@ -14,7 +14,7 @@ swiftbar/
 mpv/
 iterm2/
 configstore/
-nvim/lazy-lock.json
+# nvim/lazy-lock.json
 StardewValley/
 .zshrc
 zed/prompts/

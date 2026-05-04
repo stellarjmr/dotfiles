@@ -1,8 +1,12 @@
 return {
   "stellarjmr/notebook_style.nvim",
+  build = function(plugin)
+    local install = loadfile(plugin.dir .. "/lua/notebook_style/install.lua")()
+    install.run(plugin)
+  end,
   ft = "python", -- Load only when opening Python files
   opts = {
-    manual_render = true,
+    manual_render = false,
     filetypes = { "python" },
     -- Choose border style: 'solid', 'dashed', or 'double'
     border_style = "solid",
