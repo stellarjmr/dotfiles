@@ -23,7 +23,7 @@
       "default": "allow"
     },
     "default_model": {
-      "effort": "medium",
+      "effort": "high",
       "enable_thinking": true,
       "provider": "zed.dev",
       "model": "gpt-5.5"
@@ -108,8 +108,8 @@
   "buffer_font_size": 16.0,
   "theme": {
     "mode": "dark",
-    "light": "Bluloco Light",
-    "dark": "Everforest Dark Medium (blur)"
+    "light": "Ayu Light",
+    "dark": "Kanagawa Dragon"
   },
   "theme_overrides": {
     "Bluloco Light": {

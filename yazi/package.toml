@@ -1,11 +1,11 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "4ffa48f"
-hash = "eff8ff12fa4e5f035a10d8aeeb4c258d"
+rev = "5d5c480"
+hash = "7b625412411be411153886894d9acaf"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-enter"
-rev = "4ffa48f"
+rev = "5d5c480"
 hash = "187cc58ba7ac3befd49c342129e6f1b6"
 
 [[plugin.deps]]
@@ -15,7 +15,7 @@ hash = "6ea5f37c7f219671ec504cb8311f889d"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:toggle-pane"
-rev = "4ffa48f"
+rev = "5d5c480"
 hash = "9c7987da2d2a2120dac33abb64132004"
 
 [[plugin.deps]]
@@ -25,8 +25,8 @@ hash = "46c7e24f252c2fcce44b67cf79c1c3e2"
 
 [[plugin.deps]]
 use = "stellarjmr/ai-opener"
-rev = "182d923"
-hash = "12cdaec8f180982f5a1b8238c5d618d5"
+rev = "5fce34c"
+hash = "fa5125cb867c78900178d9d24d4517e5"
 
 [[plugin.deps]]
 use = "stellarjmr/osc7"

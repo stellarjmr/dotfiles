@@ -4,7 +4,6 @@
 local M = {}
 
 local state = {
-	default_tool = "claude",
 	tools = {
 		claude = { cmd = "claude" },
 		codex  = { cmd = "codex" },
@@ -58,9 +57,9 @@ local function find_kitty_socket()
 		local output = child:wait_with_output()
 		if output and output.status and output.status.success and output.stdout then
 			for path in string.gmatch(output.stdout, "[^\n]+") do
-				path = string.gsub(path, "%s+$", "")
-				if #path > 0 then
-					local sock = "unix:" .. path
+				local trimmed_path = string.gsub(path, "%s+$", "")
+				if #trimmed_path > 0 then
+					local sock = "unix:" .. trimmed_path
 					if verify_kitty_socket(sock) then
 						return sock
 					end
@@ -174,6 +173,10 @@ local function open_kitty(dir, cmd)
 	end
 
 	-- Step 2: Send the command to the newly created tab
+	if not cmd then
+		return true
+	end
+
 	local child2, err2 = Command("kitty")
 		:arg({ "@", "--to", cached_kitty_listen, "send-text", "--match", "recent:0", cmd .. "; exit\r" })
 		:stdout(Command.PIPED)
@@ -187,8 +190,13 @@ local function open_kitty(dir, cmd)
 end
 
 local function open_wezterm(dir, cmd)
+	local args = { "cli", "spawn", "--cwd", dir }
+	if cmd then
+		args = { "cli", "spawn", "--cwd", dir, "--", "sh", "-c", cmd }
+	end
+
 	local child, err = Command("wezterm")
-		:arg({ "cli", "spawn", "--cwd", dir, "--", "sh", "-c", cmd })
+		:arg(args)
 		:stdout(Command.PIPED)
 		:stderr(Command.PIPED)
 		:spawn()
@@ -200,8 +208,13 @@ local function open_wezterm(dir, cmd)
 end
 
 local function open_tmux(dir, cmd)
+	local args = { "new-window", "-c", dir }
+	if cmd then
+		args = { "new-window", "-c", dir, "sh", "-c", "sleep 0.2 && exec " .. cmd }
+	end
+
 	local child, err = Command("tmux")
-		:arg({ "new-window", "-c", dir, "sh", "-c", "sleep 0.2 && exec " .. cmd })
+		:arg(args)
 		:stdout(Command.PIPED)
 		:stderr(Command.PIPED)
 		:spawn()
@@ -213,16 +226,24 @@ local function open_tmux(dir, cmd)
 end
 
 local function open_ghostty(dir, cmd)
+	local input_line = ""
+	if cmd then
+		input_line = string.format(
+			"\n\tset initial input of cfg to %s & \"; exit\\n\"",
+			applescript_escape(cmd)
+		)
+	end
+
 	local script = string.format(
 		[[tell application "Ghostty"
 	activate
 	set cfg to new surface configuration
 	set initial working directory of cfg to %s
-	set initial input of cfg to %s & "; exit\n"
+	%s
 	new tab with configuration cfg
 end tell]],
 		applescript_escape(dir),
-		applescript_escape(cmd)
+		input_line
 	)
 	local child, err = Command("osascript")
 		:arg({ "-e", script })
@@ -237,7 +258,11 @@ end tell]],
 end
 
 local function open_iterm(dir, cmd)
-	local full_cmd = "cd " .. shell_escape(dir) .. " && " .. cmd
+	local full_cmd = "cd " .. shell_escape(dir)
+	if cmd then
+		full_cmd = full_cmd .. " && " .. cmd
+	end
+
 	local script = string.format(
 		[[tell application "iTerm2"
 	tell current window
@@ -273,9 +298,6 @@ function M:setup(opts)
 	if not opts then
 		return
 	end
-	if opts.default_tool then
-		state.default_tool = opts.default_tool
-	end
 	if opts.terminal then
 		state.terminal = opts.terminal
 	end
@@ -294,9 +316,15 @@ function M:entry(job)
 	if type(job) == "string" then
 		job = { args = { job } }
 	end
-	local tool_name = (job.args and job.args[1]) or state.default_tool
-	local tool = state.tools[tool_name]
-	if not tool then
+	local tool_name = job.args and job.args[1]
+	if tool_name == "" then
+		tool_name = nil
+	end
+	local tool = nil
+	if tool_name then
+		tool = state.tools[tool_name]
+	end
+	if tool_name and not tool then
 		ya.notify({
 			title = "ai-opener",
 			content = "Unknown tool: " .. tool_name,
@@ -339,18 +367,22 @@ function M:entry(job)
 		return
 	end
 
-	local ok, err = opener(dir, tool.cmd)
+	local ok, err = opener(dir, tool and tool.cmd)
 	if ok then
+		local content = "Terminal opened via " .. terminal
+		if tool_name then
+			content = tool_name .. " opened via " .. terminal
+		end
 		ya.notify({
 			title = "ai-opener",
-			content = tool_name .. " opened via " .. terminal,
+			content = content,
 			level = "info",
 			timeout = 2,
 		})
 	else
 		ya.notify({
 			title = "ai-opener",
-			content = err or "Failed to open " .. tool_name,
+			content = err or "Failed to open terminal",
 			level = "error",
 			timeout = 5,
 		})

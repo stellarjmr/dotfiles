@@ -16,17 +16,15 @@ return {
       border = "#a7c080", -- Dracula comment color
       delimiter = "#e69875", -- Dracula green
     },
-
+    image = {
+      rows = 10, -- Height reserved for image/png outputs
+      -- cols = 60, -- Width reserved for image/png outputs
+    },
     -- Behavior options
     hide_delimiter = true,
     hide_border_in_insert = true,
 
     -- Cell marker (requires Nerd Font)
     cell_marker = " Cell", --  is Python nerd font icon
-
-    -- Cell width configuration
-    cell_width_percentage = 80, -- Use 80% of window width
-    min_cell_width = 40,
-    max_cell_width = 150,
   },
 }

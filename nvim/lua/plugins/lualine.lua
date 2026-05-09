@@ -11,7 +11,7 @@ return {
       { "mode", separator = { left = "\u{e0b6}", right = "\u{e0b4}" }, padding = 1 }
     }
     opts.sections.lualine_z = {
-      { "location", separator = { left = "\u{e0b6}", right = "\u{e0b4}" }, padding = 1 }
+      { function() return os.date("%H:%M") end, separator = { left = "\u{e0b6}", right = "\u{e0b4}" }, padding = 1 }
     }
   end,
 }

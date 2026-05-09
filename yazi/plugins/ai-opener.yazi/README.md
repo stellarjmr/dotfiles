@@ -25,11 +25,20 @@ ya pkg add stellarjmr/ai-opener
 
 Add keybindings to `~/.config/yazi/keymap.toml`:
 
+Use `plugin ai-opener` without an argument to open a plain terminal in the
+target directory. Pass a tool name, such as `codex`, only when you want to run
+that AI CLI in the new tab.
+
 ```toml
 [[mgr.prepend_keymap]]
 on   = "A"
-run  = "plugin ai-opener claude"
-desc = "Open AI CLI in new tab"
+run  = "plugin ai-opener"
+desc = "Open terminal in new tab"
+
+[[mgr.prepend_keymap]]
+on   = ["a", "o"]
+run  = "plugin ai-opener"
+desc = "Open terminal only in new tab"
 
 [[mgr.prepend_keymap]]
 on   = ["a", "c"]
@@ -58,9 +67,6 @@ Optionally configure the plugin in `~/.config/yazi/init.lua`:
 
 ```lua
 require("ai-opener"):setup({
-    -- Default tool when no argument is provided
-    default_tool = "claude",
-
     -- Override auto-detected terminal
     -- terminal = "kitty",
 
@@ -76,6 +82,9 @@ require("ai-opener"):setup({
 
 ### Built-in Tools
 
+Tool arguments are optional. No argument opens a terminal only; a known tool
+argument runs that command in the new tab/window.
+
 | Name     | Command  |
 |----------|----------|
 | `claude` | `claude` |
@@ -87,11 +96,12 @@ require("ai-opener"):setup({
 ## How It Works
 
 1. Resolves the working directory from the hovered item (directory → use it;
-   file → use its parent directory)
+   file → use the current directory)
 2. Detects the terminal emulator automatically
-3. Opens a new tab in that terminal with the AI tool running in the resolved
-   directory
-4. The tab closes automatically when the AI tool exits
+3. Opens a new tab in that terminal in the resolved directory
+4. When a tool argument is provided, runs that AI tool and closes the tab when
+   the tool exits; without an argument, leaves the shell open without running an
+   AI CLI
 
 ## Terminal-Specific Notes
 
