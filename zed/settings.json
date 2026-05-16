@@ -65,6 +65,7 @@
     "default_height": 200.0
   },
   "tabs": {
+    "close_position": "right",
     "git_status": true,
     "file_icons": true
   },
